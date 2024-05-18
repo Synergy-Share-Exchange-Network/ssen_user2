@@ -21,10 +21,14 @@ class NewsWidget extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
+              // AnnouncementModel announcementModel =
+              //     AnnouncementModel(content: 'content');
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: ((context) => AnnouncementDetail())));
+                      builder: ((context) => AnnouncementDetail(
+                            announcement: announcement,
+                          ))));
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -33,13 +37,23 @@ class NewsWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      height: 135,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage(announcement.images[0]))),
-                    ),
+                    child: (announcement.images[0] != "")
+                        ? Container(
+                            height: 135,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        NetworkImage(announcement.images[0]))),
+                          )
+                        : Container(
+                            height: 135,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'asset/default avatar.jpg'))),
+                          ),
                   ),
                   Expanded(
                     flex: 2,
@@ -84,7 +98,7 @@ class NewsWidget extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: Color.fromARGB(109, 33, 149, 243),
                                     borderRadius: BorderRadius.circular(3)),
-                                child: Text("Habesha Breweries S.C",
+                                child: Text(announcement.companyID,
                                     style: TextStyle(color: Colors.white)),
                               ),
                             ],

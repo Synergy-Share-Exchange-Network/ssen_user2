@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
+import 'package:ssen_user/Models/user_model.dart';
 import 'package:ssen_user/Screens/edit_profile.dart';
+import 'package:ssen_user/provider/user_provider.dart';
 import 'package:ssen_user/screens/assets.dart';
 import 'package:ssen_user/screens/history.dart';
+import 'package:ssen_user/screens/login.dart';
 import 'package:ssen_user/screens/setting.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants.dart';
@@ -12,6 +17,7 @@ import 'package:ssen_user/utils/constants/text_string.dart';
 
 import '../utils/constants/navbar.dart';
 import '../utils/helper_function.dart';
+import '../utils/utils.dart';
 
 class UserProfile extends StatelessWidget {
   const UserProfile({super.key});
@@ -19,6 +25,8 @@ class UserProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark = SHelperFunction.isDarkMode(context);
+    UserModel user = Provider.of<UserProvider>(context).getUser;
+
     return Scaffold(
       drawer: NavBar(),
       appBar: (MediaQuery.of(context).size.width > phoneSize)
@@ -50,11 +58,18 @@ class UserProfile extends StatelessWidget {
                   SizedBox(
                     width: 120,
                     height: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: const Image(
-                          image: AssetImage('asset/logo_image/goat.JPG')),
-                    ),
+                    child: (user.profilePicture[0] != "")
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image(
+                                image: NetworkImage(
+                                    getImage(user.profilePicture[0]))),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: const Image(
+                                image: AssetImage('asset/default avatar.jpg')),
+                          ),
                   ),
                   Positioned(
                     bottom: 0,
@@ -77,7 +92,7 @@ class UserProfile extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  '${SText.firstName}: Dawit Nigus ',
+                  '${SText.firstName}: ${user.firstName} ${user.lastName}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
@@ -120,11 +135,11 @@ class UserProfile extends StatelessWidget {
                     endicon: true,
                     icon: Iconsax.data,
                     onpress: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: ((context) => History())));
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: ((context) => History())));
                     },
                     textcolor: Colors.blue,
-                    title: 'Hisory'),
+                    title: 'History'),
                 const SizedBox(
                   height: SSizes.spaceBtwItems,
                 ),
@@ -155,7 +170,45 @@ class UserProfile extends StatelessWidget {
                 ProfileMenuWidget(
                     endicon: false,
                     icon: Iconsax.logout,
-                    onpress: () {},
+                    onpress: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: const Text("Log out"),
+                          content:
+                              const Text("Are You sure you want to log out?"),
+                          actions: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop();
+                                  },
+                                  child: Container(
+                                    // color: Colors.green,
+                                    padding: const EdgeInsets.all(14),
+                                    child: const Text("Cancel"),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    FirebaseAuth.instance.signOut();
+                                    Navigator.pushReplacementNamed(
+                                        context, Login.route);
+                                  },
+                                  child: Container(
+                                    // color: Colors.green,
+                                    padding: const EdgeInsets.all(14),
+                                    child: const Text("Okay"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                     textcolor: Colors.red,
                     title: 'Sign Out')
               ],

@@ -3,6 +3,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Models/share_model.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 
@@ -14,7 +16,10 @@ import 'analytics/graph1.dart';
 import 'analytics/graph_share_widget.dart';
 
 class ShareWidget extends StatelessWidget {
-  const ShareWidget({Key? key}) : super(key: key);
+  const ShareWidget({Key? key, required this.company, required this.share})
+      : super(key: key);
+  final CompanyProfileModel company;
+  final ShareModel share;
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +48,19 @@ class ShareWidget extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: ((context) => Companyprofile())));
+                          builder: ((context) => Companyprofile(
+                                company: company,
+                              ))));
                 },
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage('asset/logo_image/goat.jpg'),
-                ),
+                child: (company.logoImage[0] != '')
+                    ? CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(company.logoImage[0]),
+                      )
+                    : CircleAvatar(
+                        radius: 40,
+                        backgroundImage: AssetImage('asset/default avatar.jpg'),
+                      ),
               ),
             ),
             SizedBox(
@@ -56,8 +68,13 @@ class ShareWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => ShareDetail())));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: ((context) => ShareDetail(
+                              company: company,
+                              share: share,
+                            ))));
               },
               child: Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -66,7 +83,7 @@ class ShareWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text("Habesha Breweries ",
+                        Text(company.name,
                             style: isDark
                                 ? STextTheme.darkTextTheme.headlineSmall
                                 : STextTheme.lightTextTheme.headlineSmall),
@@ -98,7 +115,7 @@ class ShareWidget extends StatelessWidget {
                           width: 3,
                         ),
                         Text(
-                          "Addis Ababa, Ethiopia",
+                          company.locationDescription,
                           // style: STextTheme.lightTextTheme.bodySmall
                           //     ?.copyWith(color: Colors.blue),
                           style: isDark
@@ -137,7 +154,7 @@ class ShareWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 151, 213, 242),
                           borderRadius: BorderRadius.circular(3)),
-                      child: Text("latest price: Br 500",
+                      child: Text("latest price: Br ${share.unitSharePrice}",
                           style: TextStyle(color: Colors.white, fontSize: 12)),
                     ),
                   ],

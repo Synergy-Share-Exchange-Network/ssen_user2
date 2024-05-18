@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 
+import '../utils/utils.dart';
 import 'analytics/graph_share_widget.dart';
 
 class DonationWidget extends StatelessWidget {
-  const DonationWidget({Key? key}) : super(key: key);
+  const DonationWidget({Key? key, required this.company}) : super(key: key);
+  final CompanyProfileModel company;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +34,20 @@ class DonationWidget extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Container(
-              child: CircleAvatar(
-                radius: 40,
-                backgroundImage: AssetImage('asset/logo_image/goat.jpg'),
-              ),
-            ),
+            (company.logoImage[0] != "")
+                ? Container(
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage:
+                          NetworkImage(getImage(company.logoImage[0])),
+                    ),
+                  )
+                : Container(
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage('asset/default avatar.jpg'),
+                    ),
+                  ),
             SizedBox(
               width: 15,
             ),
@@ -50,7 +61,7 @@ class DonationWidget extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Mekedoniya  A. ",
+                          company.name,
                           style: STextTheme.lightTextTheme.headlineSmall,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 5,
@@ -73,7 +84,7 @@ class DonationWidget extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Text("home for the elderly and mentally disabeld",
+                        Text(company.motto,
                             style: TextStyle(color: Colors.grey, fontSize: 12)),
                       ],
                     ),
@@ -91,7 +102,7 @@ class DonationWidget extends StatelessWidget {
                           width: 3,
                         ),
                         Text(
-                          "Addis Ababa, Ethiopia",
+                          company.locationDescription,
                           // style: STextTheme.lightTextTheme.bodySmall
                           //     ?.copyWith(color: Colors.blue),
                           style: TextStyle(fontSize: 11),

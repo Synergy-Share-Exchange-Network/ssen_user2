@@ -15,7 +15,6 @@ class CompanyProfileModel {
   String value;
   String target;
   String goal;
-  String whyInvestID;
   String history;
   String mileStone;
   String locationDescription;
@@ -24,6 +23,7 @@ class CompanyProfileModel {
   String poBox;
   String tinNumber;
 
+  List<String> whyInvestID;
   List<String> subscribersID;
   List<String> brandImage;
   List<String> logoImage;
@@ -40,12 +40,14 @@ class CompanyProfileModel {
   List<String> termconditionID;
   List<String> longLat;
   List<String> socialMediaLink;
+  List<String> secondaryMarket;
 
   double capital;
   double aimedCapital;
-  bool delete;
-  bool hide;
-  bool ban;
+  bool isDeleted;
+  bool isHidden;
+  bool isVerified;
+  bool isBanned;
   CompanyProfileModel({
     required this.name,
     required this.businessSector,
@@ -85,11 +87,13 @@ class CompanyProfileModel {
     termconditionID,
     longLat,
     socialMediaLink,
+    secondaryMarket,
     capital,
     aimedCapital,
-    delete,
-    hide,
-    ban,
+    isDeleted,
+    isHidden,
+    isVerified,
+    isBanned,
   })  : identification = identification ?? '',
         motto = motto ?? '',
         shareID = shareID ?? '',
@@ -99,7 +103,7 @@ class CompanyProfileModel {
         value = value ?? '',
         target = target ?? '',
         goal = goal ?? '',
-        whyInvestID = whyInvestID ?? '',
+        whyInvestID = whyInvestID ?? [''],
         history = history ?? '',
         mileStone = mileStone ?? '',
         locationDescription = locationDescription ?? '',
@@ -123,11 +127,13 @@ class CompanyProfileModel {
         termconditionID = termconditionID ?? [''],
         longLat = longLat ?? [''],
         socialMediaLink = socialMediaLink ?? [''],
+        secondaryMarket = secondaryMarket ?? [''],
         capital = capital ?? 0.0,
         aimedCapital = aimedCapital ?? 0.0,
-        delete = delete ?? false,
-        hide = hide ?? false,
-        ban = ban ?? false;
+        isDeleted = isDeleted ?? false,
+        isHidden = isHidden ?? false,
+        isVerified = isVerified ?? false,
+        isBanned = isBanned ?? false;
 
   CompanyProfileModel copyWith({
     String? identification,
@@ -144,7 +150,7 @@ class CompanyProfileModel {
     String? value,
     String? target,
     String? goal,
-    String? whyInvestID,
+    List<String>? whyInvestID,
     String? history,
     String? mileStone,
     String? locationDescription,
@@ -168,11 +174,13 @@ class CompanyProfileModel {
     List<String>? termconditionID,
     List<String>? longLat,
     List<String>? socialMediaLink,
+    List<String>? secondaryMarket,
     double? capital,
     double? aimedCapital,
-    bool? delete,
-    bool? hide,
-    bool? ban,
+    bool? isDeleted,
+    bool? isHidden,
+    bool? isVerified,
+    bool? isBanned,
   }) {
     return CompanyProfileModel(
       identification: identification ?? this.identification,
@@ -213,11 +221,13 @@ class CompanyProfileModel {
       termconditionID: termconditionID ?? this.termconditionID,
       longLat: longLat ?? this.longLat,
       socialMediaLink: socialMediaLink ?? this.socialMediaLink,
+      secondaryMarket: secondaryMarket ?? this.secondaryMarket,
       capital: capital ?? this.capital,
       aimedCapital: aimedCapital ?? this.aimedCapital,
-      delete: delete ?? this.delete,
-      hide: hide ?? this.hide,
-      ban: ban ?? this.ban,
+      isDeleted: isDeleted ?? this.isDeleted,
+      isHidden: isHidden ?? this.isHidden,
+      isVerified: isVerified ?? this.isVerified,
+      isBanned: isBanned ?? this.isBanned,
     );
   }
 
@@ -262,11 +272,13 @@ class CompanyProfileModel {
     result.addAll({'termconditionID': termconditionID});
     result.addAll({'longLat': longLat});
     result.addAll({'socialMediaLink': socialMediaLink});
+    result.addAll({'secondaryMarket': secondaryMarket});
     result.addAll({'capital': capital});
     result.addAll({'aimedCapital': aimedCapital});
-    result.addAll({'delete': delete});
-    result.addAll({'hide': hide});
-    result.addAll({'ban': ban});
+    result.addAll({'isDeleted': isDeleted});
+    result.addAll({'isHidden': isHidden});
+    result.addAll({'isVerified': isVerified});
+    result.addAll({'isBanned': isBanned});
 
     return result;
   }
@@ -287,7 +299,6 @@ class CompanyProfileModel {
       value: map['value'] ?? '',
       target: map['target'] ?? '',
       goal: map['goal'] ?? '',
-      whyInvestID: map['whyInvestID'] ?? '',
       history: map['history'] ?? '',
       mileStone: map['mileStone'] ?? '',
       locationDescription: map['locationDescription'] ?? '',
@@ -299,6 +310,7 @@ class CompanyProfileModel {
       brandImage: List<String>.from(map['brandImage']),
       logoImage: List<String>.from(map['logoImage']),
       productID: List<String>.from(map['productID']),
+      whyInvestID: List<String>.from(map['whyInvestID']),
       serviceID: List<String>.from(map['serviceID']),
       employee: List<String>.from(map['employee']),
       keyFigureID: List<String>.from(map['keyFigureID']),
@@ -311,11 +323,13 @@ class CompanyProfileModel {
       termconditionID: List<String>.from(map['termconditionID']),
       longLat: List<String>.from(map['longLat']),
       socialMediaLink: List<String>.from(map['socialMediaLink']),
+      secondaryMarket: List<String>.from(map['secondaryMarket']),
       capital: map['capital']?.toDouble() ?? 0.0,
       aimedCapital: map['aimedCapital']?.toDouble() ?? 0.0,
-      delete: map['delete'] ?? false,
-      hide: map['hide'] ?? false,
-      ban: map['ban'] ?? false,
+      isDeleted: map['isDeleted'] ?? false,
+      isHidden: map['isHidden'] ?? false,
+      isVerified: map['isVerified'] ?? false,
+      isBanned: map['isBanned'] ?? false,
     );
   }
 
@@ -326,57 +340,57 @@ class CompanyProfileModel {
 
   @override
   String toString() {
-    return 'CompanyProfileModel(identification: $identification, name: $name, businessSector: $businessSector, lineOfBusiness: $lineOfBusiness, yearOfEstablishment: $yearOfEstablishment, email: $email, motto: $motto, shareID: $shareID, description: $description, mission: $mission, vision: $vision, value: $value, target: $target, goal: $goal, whyInvestID: $whyInvestID, history: $history, mileStone: $mileStone, locationDescription: $locationDescription, userRequirment: $userRequirment, phoneNumber: $phoneNumber, poBox: $poBox, tinNumber: $tinNumber, subscribersID: $subscribersID, brandImage: $brandImage, logoImage: $logoImage, productID: $productID, serviceID: $serviceID, employee: $employee, keyFigureID: $keyFigureID, testimonialID: $testimonialID, partners: $partners, awardAndRecognition: $awardAndRecognition, bankAccount: $bankAccount, announcementID: $announcementID, faqID: $faqID, termconditionID: $termconditionID, longLat: $longLat, socialMediaLink: $socialMediaLink, capital: $capital, aimedCapital: $aimedCapital, delete: $delete, hide: $hide, ban: $ban)';
+    return 'CompanyProfileModel(identification: $identification, name: $name, businessSector: $businessSector, lineOfBusiness: $lineOfBusiness, yearOfEstablishment: $yearOfEstablishment, email: $email, motto: $motto, shareID: $shareID, description: $description, mission: $mission, vision: $vision, value: $value, target: $target, goal: $goal, whyInvestID: $whyInvestID, history: $history, mileStone: $mileStone, locationDescription: $locationDescription, userRequirment: $userRequirment, phoneNumber: $phoneNumber, poBox: $poBox, tinNumber: $tinNumber, subscribersID: $subscribersID, brandImage: $brandImage, logoImage: $logoImage, productID: $productID, serviceID: $serviceID, employee: $employee, keyFigureID: $keyFigureID, testimonialID: $testimonialID, partners: $partners, awardAndRecognition: $awardAndRecognition, bankAccount: $bankAccount, announcementID: $announcementID, faqID: $faqID, termconditionID: $termconditionID, longLat: $longLat, socialMediaLink: $socialMediaLink,secondaryMarket: $secondaryMarket, capital: $capital, aimedCapital: $aimedCapital, isDeleted: $isDeleted, isHidden: $isHidden,isVerified: $isVerified, isBanned: $isBanned)';
   }
 }
 
-void main(List<String> args) {
-  Map<String, dynamic> companyMap = {
-    'identification': 'hello',
-    'name': "wubet the greate",
-    'businessSector': null,
-    'lineOfBusiness': null,
-    'yearOfEstablishment': null,
-    'email': null,
-    'motto': null,
-    'shareID': null,
-    'description': null,
-    'mission': null,
-    'vision': null,
-    'value': null,
-    'target': null,
-    'goal': null,
-    'whynvestID': null,
-    'history': null,
-    'mileStone': null,
-    'locationDescription': null,
-    'userRequirment': null,
-    'phoneNumber': null,
-    'poBox': null,
-    'tinNumber': null,
-    'subscribersID': [],
-    'brandImage': [],
-    'logoImage': [],
-    'productID': [],
-    'serviceID': [],
-    'employee': [],
-    'keyFigureID': [],
-    'testimonialID': [],
-    'partners': [],
-    'awardAndRecognition': [],
-    'bankAccount': [],
-    'announcementID': [],
-    'faqID': [],
-    'termconditionID': [],
-    'longLat': [],
-    'socialMediaLink': [],
-    'capital': 0.0,
-    'aimedCapital': 0.0,
-    'delete': false,
-    'hide': false,
-    'ban': false,
-  };
+// void main(List<String> args) {
+//   Map<String, dynamic> companyMap = {
+//     'identification': '',
+//     'name': "",
+//     'businessSector': null,
+//     'lineOfBusiness': null,
+//     'yearOfEstablishment': null,
+//     'email': null,
+//     'motto': null,
+//     'shareID': null,
+//     'description': null,
+//     'mission': null,
+//     'vision': null,
+//     'value': null,
+//     'target': null,
+//     'goal': null,
+//     'whynvestID': null,
+//     'history': null,
+//     'mileStone': null,
+//     'locationDescription': null,
+//     'userRequirment': null,
+//     'phoneNumber': null,
+//     'poBox': null,
+//     'tinNumber': null,
+//     'subscribersID': [],
+//     'brandImage': [],
+//     'logoImage': [],
+//     'productID': [],
+//     'serviceID': [],
+//     'employee': [],
+//     'keyFigureID': [],
+//     'testimonialID': [],
+//     'partners': [],
+//     'awardAndRecognition': [],
+//     'bankAccount': [],
+//     'announcementID': [],
+//     'faqID': [],
+//     'termconditionID': [],
+//     'longLat': [],
+//     'socialMediaLink': [],
+//     'capital': 0.0,
+//     'aimedCapital': 0.0,
+//     'isDeleted': false,
+//     'isHidden': false,
+//     'isBanned': false,
+//   };
 
-  CompanyProfileModel y = CompanyProfileModel.fromMap(companyMap);
-  print(y.toMap());
-}
+//   CompanyProfileModel y = CompanyProfileModel.fromMap(companyMap);
+//   print(y.toMap());
+// }

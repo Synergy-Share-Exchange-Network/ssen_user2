@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
+import 'package:ssen_user/Models/log_model.dart';
 import 'package:ssen_user/Models/user_model.dart';
+import 'package:ssen_user/provider/user_provider.dart';
 import 'package:ssen_user/utils/constants.dart';
 
 import '../utils/constants/colors.dart';
@@ -12,17 +15,20 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserModel user = UserModel(
-      identification: "99",
-      firstName: "dawit",
-      lastName: "nigus",
-      phoneNumber: "0942378653",
-      email: "dawitnigus55@gmail.com",
-      region: "oromia",
-      woreda: "02",
-      profilePicture: ["asset/demo_image/demo1.JPG"],
-      address: ["bishoftu"],
-    );
+    // UserModel user = UserModel(
+    //   identification: "99",
+    //   firstName: "dawit",
+    //   lastName: "nigus",
+    //   phoneNumber: "0942378653",
+    //   email: "dawitnigus55@gmail.com",
+    //   region: "oromia",
+    //   woreda: "02",
+    //   profilePicture: ["asset/demo_image/demo1.JPG"],
+    //   address: ["bishoftu"],
+    //   role: UserRole.user,
+    // );
+    UserModel user = Provider.of<UserProvider>(context).getUser;
+
     return Scaffold(
         appBar: (MediaQuery.of(context).size.width < phoneSize)
             ? AppBar(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ssen_user/Models/user_model.dart';
+import 'package:ssen_user/provider/user_provider.dart';
 import 'package:ssen_user/screens/components/analysis.dart';
 import 'package:ssen_user/screens/components/announcement.dart';
 import 'package:ssen_user/screens/components/home.dart';
@@ -10,6 +13,7 @@ import 'package:ssen_user/screens/terms%20and%20condition.dart';
 import 'package:ssen_user/utils/constants.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 import 'package:ssen_user/utils/constants/image_Strings.dart';
+import 'package:ssen_user/utils/utils.dart';
 
 import 'about.dart';
 
@@ -24,8 +28,11 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
   int index = 0;
   bool drawer = true;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
+    UserModel user = Provider.of<UserProvider>(context).getUser;
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: Drawer(
@@ -422,18 +429,33 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                   index = 5;
                                 });
                               },
-                              child: Container(
-                                width: 130,
-                                height: 130,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.blue, width: 3),
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                            SImages.lightAppLogo))),
-                              ),
+                              child: (user.profilePicture[0] != "")
+                                  ? Container(
+                                      width: 130,
+                                      height: 130,
+                                      padding: const EdgeInsets.only(left: 15),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.blue, width: 3),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(getImage(
+                                                  user.profilePicture[0])))),
+                                    )
+                                  : Container(
+                                      width: 130,
+                                      height: 130,
+                                      padding: const EdgeInsets.only(left: 15),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors.blue, width: 3),
+                                          image: const DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  'asset/default avatar.jpg'))),
+                                    ),
                             ),
                           ),
                           const SizedBox(
@@ -441,22 +463,23 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                           ),
                           Center(
                             child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    index = 5;
-                                  });
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      'Wubet ayalew',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text("wubetayalew@gmail.com")
-                                  ],
-                                )),
+                              onTap: () {
+                                setState(() {
+                                  index = 5;
+                                });
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '${user.firstName} ${user.lastName}',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(user.email)
+                                ],
+                              ),
+                            ),
                           ),
                           const Divider(),
                           index != 0

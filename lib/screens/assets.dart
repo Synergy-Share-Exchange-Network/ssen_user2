@@ -32,13 +32,13 @@ class Assets extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ShareInfoWidget(),
-            ShareInfoWidget(),
-            ShareInfoWidget(),
-            ShareInfoWidget(),
-            ShareInfoWidget(),
-            ShareInfoWidget(),
-            ShareInfoWidget(),
+            // ShareInfoWidget(),
+            // ShareInfoWidget(),
+            // ShareInfoWidget(),
+            // ShareInfoWidget(),
+            // ShareInfoWidget(),
+            // ShareInfoWidget(),
+            // ShareInfoWidget(),
           ],
         ),
       ),

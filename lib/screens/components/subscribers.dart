@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
 import 'package:ssen_user/utils/constants.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 import 'package:ssen_user/utils/constants/image_Strings.dart';
 import 'package:ssen_user/utils/constants/navbar.dart';
 import 'package:ssen_user/utils/helper_function.dart';
+import 'package:ssen_user/utils/utils.dart';
 import 'package:ssen_user/widget/subscription_widget.dart';
 
 class Subscribers extends StatefulWidget {
@@ -51,16 +53,16 @@ class _SubscribersState extends State<Subscribers> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
-                  MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
+                  // MiniCompanySub(),
                   TextButton(onPressed: () {}, child: const Text("View all"))
                 ],
               ),
@@ -138,31 +140,31 @@ class _SubscribersState extends State<Subscribers> {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  InkWell(
-                      onTap: () {
-                        print("hello");
-                        print(isDonationSelected);
-                        isAllSelected = false;
-                        isPublicSelected = false;
-                        isDonationSelected = true;
-                        print(isDonationSelected);
+                  // InkWell(
+                  //     onTap: () {
+                  //       print("hello");
+                  //       print(isDonationSelected);
+                  //       isAllSelected = false;
+                  //       isPublicSelected = false;
+                  //       isDonationSelected = true;
+                  //       print(isDonationSelected);
 
-                        setState(() {});
-                        print(isDonationSelected);
-                      },
-                      child: SubscriptionWidget()),
-                  InkWell(
-                      onTap: () {
-                        print(isDonationSelected);
-                      },
-                      child: SubscriptionWidget()),
-                  SubscriptionWidget(),
-                  SubscriptionWidget(),
-                  SubscriptionWidget(),
-                  SubscriptionWidget(),
-                  SubscriptionWidget(),
-                  SubscriptionWidget(),
-                  SubscriptionWidget(),
+                  //       setState(() {});
+                  //       print(isDonationSelected);
+                  //     },
+                  //     child: SubscriptionWidget()),
+                  // InkWell(
+                  //     onTap: () {
+                  //       print(isDonationSelected);
+                  //     },
+                  //     child: SubscriptionWidget()),
+                  // SubscriptionWidget(),
+                  // SubscriptionWidget(),
+                  // SubscriptionWidget(),
+                  // SubscriptionWidget(),
+                  // SubscriptionWidget(),
+                  // SubscriptionWidget(),
+                  // SubscriptionWidget(),
                 ],
               ),
             )
@@ -276,7 +278,9 @@ class _CustomChipState extends State<CustomChip> {
 class MiniCompanySub extends StatelessWidget {
   const MiniCompanySub({
     Key? key,
+    required this.company,
   }) : super(key: key);
+  final CompanyProfileModel company;
 
   @override
   Widget build(BuildContext context) {
@@ -285,22 +289,34 @@ class MiniCompanySub extends StatelessWidget {
       width: 60,
       // height: 80,
       child: Column(children: [
-        Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: SColors.primary, width: 2.0),
-              image: const DecorationImage(
-                  fit: BoxFit.cover, image: AssetImage(SImages.lightAppLogo))),
-        ),
+        (company.logoImage[0] != "")
+            ? Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: SColors.primary, width: 2.0),
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(getImage(company.logoImage[0])))),
+              )
+            : Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: SColors.primary, width: 2.0),
+                    image: const DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(SImages.lightAppLogo))),
+              ),
         // const Expanded(flex: 1, child: SizedBox()),
         const SizedBox(
           width: 10,
         ),
 
-        const Text(
-          "Absinnia Bank",
+        Text(
+          company.name,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(fontWeight: FontWeight.normal),
         ),

@@ -46,7 +46,6 @@ class _PurchaseState extends State<Purchase> {
       nationality: "ethiopian",
       region: "oromia",
       subCity: "bishoftu",
-      wereda: "15",
       phoneNumber: "0967547632",
       sharePerPrice: 500,
       numberOfShare: 40,
@@ -222,7 +221,7 @@ class _PurchaseState extends State<Purchase> {
                                         decoration: InputDecoration(
                                             prefixIcon:
                                                 Icon(Iconsax.location_tick),
-                                            labelText: purchase.wereda),
+                                            labelText: purchase.email),
                                       ),
                                     ],
                                   ),

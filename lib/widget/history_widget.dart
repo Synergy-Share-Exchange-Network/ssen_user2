@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
 import 'package:ssen_user/Models/history_model.dart';
+import 'package:ssen_user/Models/purchase_model.dart';
 import 'package:ssen_user/screens/history_detail.dart';
 import 'package:ssen_user/utils/constants/custom_text_style.dart';
 
 class HistoryWidget extends StatelessWidget {
   const HistoryWidget({
     Key? key,
-    required this.history,
+    required this.purchase,
+    required this.company,
   }) : super(key: key);
-  final HistoryModel history;
+  // final HistoryModel history;
+  final PurchaseModel purchase;
+  final CompanyProfileModel company;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class HistoryWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    history.title,
+                    company.name,
                     style: CustomTextStyle.titleBold,
                   ),
                   SizedBox(
@@ -40,7 +45,8 @@ class HistoryWidget extends StatelessWidget {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: Text(history.description,
+                    child: Text(
+                        '${purchase.numberOfShare.toString()} Number Of Share',
                         style: Theme.of(context).textTheme.bodyMedium
 
                         // overflow: TextOverflow.ellipsis,

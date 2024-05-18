@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 import 'package:ssen_user/utils/constants/image_Strings.dart';
@@ -13,7 +14,8 @@ import '../../widget/company detail/testimonial_widget.dart';
 import '../../widget/company detail/why_do_you_invest_widget.dart';
 
 class CompanyHome extends StatefulWidget {
-  const CompanyHome({super.key});
+  const CompanyHome({super.key, required this.company});
+  final CompanyProfileModel company;
 
   @override
   State<CompanyHome> createState() => _CompanyHomeState();
@@ -66,7 +68,7 @@ class _CompanyHomeState extends State<CompanyHome> {
               height: 20,
             ),
             Text(
-              "Habesha Beer",
+              widget.company.name,
               style: dark
                   ? STextTheme.darkTextTheme.headlineMedium
                   : STextTheme.lightTextTheme.headlineLarge,
@@ -74,7 +76,7 @@ class _CompanyHomeState extends State<CompanyHome> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Text(
-                "Clutter is nothing more than postponed ",
+                widget.company.motto,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: Colors.blue, // Set the desired text color
                     ),
@@ -89,11 +91,13 @@ class _CompanyHomeState extends State<CompanyHome> {
         const SizedBox(
           height: 10,
         ),
-        ExpandableAboutUsText(
-            text:
-                "Whipple's disease is a rare bacterial infection that primarily affects the small intestine. It can also involve other parts of the body, such as the joints, heart, and central nervous system. Symptoms may include weight loss, joint pain, diarrhea, and abdominal cramping. The causative agent is Tropheryma whipplei. Diagnosis often involves a combination of clinical evaluation, imaging studies, and biopsy. Treatment typically involves antibiotics, such as ceftriaxone or trimethoprim-sulfamethoxazole, for an extended period. If you suspect Whipple's disease, consult a healthcare professional for proper evaluation and management."),
-        HorizontalScrollableWhyInvest(),
-        HorizontalScrollableEmployeeList(),
+        ExpandableAboutUsText(text: widget.company.description),
+        HorizontalScrollableWhyInvest(
+          whyinvests: [],
+        ),
+        HorizontalScrollableKeyFigure(
+          keyfigure: [],
+        ),
         HorizontalScrollableTestimonial(),
         SizedBox(
           height: 20,

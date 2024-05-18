@@ -15,11 +15,16 @@ class ShareModel {
   final double minimumNumberOfSharesToBuy;
   final double maximumNumberOfSharesToBuy;
   String requirement;
+  String identification;
+  String companyID;
   String description;
   List<String> searchKeyWords;
-  int returnDividentTimeInDays;
+  List<String> returnDividentDescription;
   int timeToReturnRemainPayment;
-  String currancy;
+  String currency;
+  String dateAdded;
+  bool isDeleted;
+  bool isHidden;
   ShareModel({
     required this.savingAccountPercentage,
     required this.proclamationNumber,
@@ -34,17 +39,27 @@ class ShareModel {
     required this.minimumNumberOfSharesToBuy,
     required this.maximumNumberOfSharesToBuy,
     requirement,
+    identification,
+    companyID,
     description,
     searchKeyWords,
-    returnDividentTimeInDays,
+    returnDividentDescription,
     timeToReturnRemainPayment,
-    currancy,
+    currency,
+    dateAdded,
+    isDeleted,
+    isHidden,
   })  : requirement = requirement ?? [''],
+        identification = identification ?? [''],
+        companyID = companyID ?? [''],
         description = description ?? [''],
         searchKeyWords = searchKeyWords ?? [''],
-        returnDividentTimeInDays = returnDividentTimeInDays ?? [''],
+        returnDividentDescription = returnDividentDescription ?? [''],
         timeToReturnRemainPayment = timeToReturnRemainPayment ?? [''],
-        currancy = currancy ?? [''];
+        currency = currency ?? [''],
+        dateAdded = dateAdded ?? [''],
+        isDeleted = isDeleted ?? false,
+        isHidden = isHidden ?? false;
 
   ShareModel copyWith({
     double? savingAccountPercentage,
@@ -60,11 +75,16 @@ class ShareModel {
     double? minimumNumberOfSharesToBuy,
     double? maximumNumberOfSharesToBuy,
     String? requirement,
+    String? identification,
+    String? companyID,
     String? description,
     List<String>? searchKeyWords,
-    int? returnDividentTimeInDays,
+    List<String>? returnDividentDescription,
     int? timeToReturnRemainPayment,
-    String? currancy,
+    String? currency,
+    String? dateAdded,
+    bool? isDeleted,
+    bool? isHidden,
   }) {
     return ShareModel(
       savingAccountPercentage:
@@ -84,13 +104,18 @@ class ShareModel {
       maximumNumberOfSharesToBuy:
           maximumNumberOfSharesToBuy ?? this.maximumNumberOfSharesToBuy,
       requirement: requirement ?? this.requirement,
+      identification: identification ?? this.identification,
+      companyID: companyID ?? this.companyID,
       description: description ?? this.description,
       searchKeyWords: searchKeyWords ?? this.searchKeyWords,
-      returnDividentTimeInDays:
-          returnDividentTimeInDays ?? this.returnDividentTimeInDays,
+      returnDividentDescription:
+          returnDividentDescription ?? this.returnDividentDescription,
       timeToReturnRemainPayment:
           timeToReturnRemainPayment ?? this.timeToReturnRemainPayment,
-      currancy: currancy ?? this.currancy,
+      currency: currency ?? this.currency,
+      dateAdded: dateAdded ?? this.dateAdded,
+      isDeleted: isDeleted ?? this.isDeleted,
+      isHidden: isHidden ?? this.isHidden,
     );
   }
 
@@ -109,11 +134,16 @@ class ShareModel {
       'minimumNumberOfSharesToBuy': minimumNumberOfSharesToBuy,
       'maximumNumberOfSharesToBuy': maximumNumberOfSharesToBuy,
       'requirement': requirement,
+      'identification': identification,
+      'companyID': companyID,
       'description': description,
       'searchKeyWords': searchKeyWords,
-      'returnDividentTimeInDays': returnDividentTimeInDays,
+      'returnDividentDescription': returnDividentDescription,
       'timeToReturnRemainPayment': timeToReturnRemainPayment,
-      'currancy': currancy,
+      'currency': currency,
+      'dateAdded': dateAdded,
+      'isDeleted': isDeleted,
+      'isHidden': isHidden,
     };
   }
 
@@ -133,11 +163,17 @@ class ShareModel {
       minimumNumberOfSharesToBuy: map['minimumNumberOfSharesToBuy'] as double,
       maximumNumberOfSharesToBuy: map['maximumNumberOfSharesToBuy'] as double,
       requirement: map['requirement'] as String,
+      identification: map['identification'] as String,
+      companyID: map['companyID'] as String,
       description: map['description'] as String,
       searchKeyWords: List<String>.from(map['searchKeyWords'] as List<String>),
-      returnDividentTimeInDays: map['returnDividentTimeInDays'] as int,
+      returnDividentDescription:
+          map['returnDividentDescription'] as List<String>,
       timeToReturnRemainPayment: map['timeToReturnRemainPayment'] as int,
-      currancy: map['currancy'] as String,
+      currency: map['currency'] as String,
+      dateAdded: map['dateAdded'] as String,
+      isDeleted: map['isDeleted'] ?? false,
+      isHidden: map['isHidden'] ?? false,
     );
   }
   String toJson() => json.encode(toMap());
@@ -147,31 +183,32 @@ class ShareModel {
 
   @override
   String toString() {
-    return 'ShareModel(savingAccountPercentage: $savingAccountPercentage, proclamationNumber: $proclamationNumber, minimumNumberOfBuyer: $minimumNumberOfBuyer, maximumNumberOfBuyer: $maximumNumberOfBuyer, bankInformation: $bankInformation, shareImage: $shareImage, unitSharePrice: $unitSharePrice, noOfShares: $noOfShares, divident: $divident, minimumPaymentInPercent: $minimumPaymentInPercent, minimumNumberOfSharesToBuy: $minimumNumberOfSharesToBuy, maximumNumberOfSharesToBuy: $maximumNumberOfSharesToBuy, requirement: $requirement, description: $description, searchKeyWords: $searchKeyWords, returnDividentTimeInDays: $returnDividentTimeInDays, timeToReturnRemainPayment: $timeToReturnRemainPayment, currancy: $currancy)';
+    return 'ShareModel(savingAccountPercentage: $savingAccountPercentage, proclamationNumber: $proclamationNumber, minimumNumberOfBuyer: $minimumNumberOfBuyer, maximumNumberOfBuyer: $maximumNumberOfBuyer, bankInformation: $bankInformation, shareImage: $shareImage, unitSharePrice: $unitSharePrice, noOfShares: $noOfShares, divident: $divident, minimumPaymentInPercent: $minimumPaymentInPercent, minimumNumberOfSharesToBuy: $minimumNumberOfSharesToBuy, maximumNumberOfSharesToBuy: $maximumNumberOfSharesToBuy, requirement: $requirement, identification: $identification, companyID: $companyID, description: $description, searchKeyWords: $searchKeyWords, returnDividentDescription: $returnDividentDescription, timeToReturnRemainPayment: $timeToReturnRemainPayment, currency: $currency, dateAdded: $dateAdded, isDeleted: $isDeleted,isHidden: $isHidden)';
   }
 }
 
-void main(List<String> args) {
-  ShareModel M = ShareModel(
-    savingAccountPercentage: 12,
-    proclamationNumber: "proclamationNumber",
-    minimumNumberOfBuyer: 12,
-    maximumNumberOfBuyer: 12,
-    bankInformation: ['bankInfo1', 'bankInfo2'], // Provide a list of strings
-    shareImage: ['image1', 'image2'], // Provide a list of strings
-    unitSharePrice: 10.0, // Replace with the actual value
-    noOfShares: 100.0, // Replace with the actual value
-    divident: 5.0, // Replace with the actual value
-    minimumPaymentInPercent: 10.0, // Replace with the actual value
-    minimumNumberOfSharesToBuy: 1.0, // Replace with the actual value
-    maximumNumberOfSharesToBuy: 10.0, // Replace with the actual value
-    requirement: "Requirements", // Replace with the actual value
-    description: "Description", // Replace with the actual value
-    searchKeyWords: ['keyword1', 'keyword2'], // Provide a list of strings
-    returnDividentTimeInDays: 30, // Replace with the actual value
-    timeToReturnRemainPayment: 60, // Replace with the actual value
-    currancy: "USD", // Replace with the actual value
-  );
+// void main(List<String> args) {
+//   ShareModel M = ShareModel(
+//     savingAccountPercentage: 12,
+//     proclamationNumber: "proclamationNumber",
+//     minimumNumberOfBuyer: 12,
+//     maximumNumberOfBuyer: 12,
+//     bankInformation: ['bankInfo1', 'bankInfo2'], // Provide a list of strings
+//     shareImage: ['image1', 'image2'], // Provide a list of strings
+//     unitSharePrice: 10.0, // Replace with the actual value
+//     noOfShares: 100.0, // Replace with the actual value
+//     divident: 5.0, // Replace with the actual value
+//     minimumPaymentInPercent: 10.0, // Replace with the actual value
+//     minimumNumberOfSharesToBuy: 1.0, // Replace with the actual value
+//     maximumNumberOfSharesToBuy: 10.0, // Replace with the actual value
+//     requirement: "Requirements", // Replace with the actual value
+//     description: "Description", // Replace with the actual value
+//     searchKeyWords: ['keyword1', 'keyword2'], // Provide a list of strings
+//     returnDividentDescription: ["1", "10"], // Replace with the actual value
+//     timeToReturnRemainPayment: 60, // Replace with the actual value
+//     currency: "USD", // Replace with the actual value
+//     dateAdded: "121212", // Replace with the actual value
+//   );
 
-  print(M.toString());
-}
+//   print(M.toString());
+// }

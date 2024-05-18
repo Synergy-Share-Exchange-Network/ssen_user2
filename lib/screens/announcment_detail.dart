@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ssen_user/utils/constants.dart';
+import 'package:ssen_user/utils/utils.dart';
+
+import '../Models/announcement_model.dart';
 
 class AnnouncementDetail extends StatelessWidget {
-  const AnnouncementDetail({Key? key}) : super(key: key);
-
+  const AnnouncementDetail({Key? key, required this.announcement})
+      : super(key: key);
+  final AnnouncementModel announcement;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +40,8 @@ class AnnouncementDetail extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Dow jones nasdaq s and p 500 weekly preview: january cpi report takes the central stage u.s stock muted ",
+                        Text(
+                          announcement.title,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                           overflow: TextOverflow.ellipsis,
@@ -47,8 +51,8 @@ class AnnouncementDetail extends StatelessWidget {
                           height: 10,
                         ),
                         Container(
-                          child: const Text(
-                            "Dec02/2023,   06:30 AM ",
+                          child: Text(
+                            announcement.publishDate,
                             style: TextStyle(color: Colors.grey, fontSize: 14),
                           ),
                         ),
@@ -56,22 +60,34 @@ class AnnouncementDetail extends StatelessWidget {
                           height: 8,
                         ),
                         Container(
-                          child: const Text(
-                            "Posted By Mr. james R. ",
+                          child: Text(
+                            announcement.postedBy,
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 250,
-                          decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image:
-                                      AssetImage("asset/logo_image/goat.jpg"))),
-                        ),
+                        (announcement.images[0] != "")
+                            ? Container(
+                                height: 250,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                            getImage(announcement.images[0])))),
+                              )
+                            : Container(
+                                height: 250,
+                                decoration: BoxDecoration(
+                                    // shape: BoxShape.circle,
+                                    // border: Border.all(
+                                    //     color: Colors.blue, width: 3),
+                                    image: const DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: AssetImage(
+                                            'asset/default avatar.jpg'))),
+                              ),
                       ],
                     ),
                   ),
@@ -85,19 +101,8 @@ class AnnouncementDetail extends StatelessWidget {
                           height: 70,
                         ),
                         Container(
-                          child: const Text(
-                            "As of my last update in January 2022, I can't provide real-time information. However, I can give you some general information about the stock market in America up to that point"
-                            "The stock market is influenced by various factors, including economic indicators, geopolitical events, company performance, and investor sentiment. ",
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          child: const Text(
-                            "As of my last update in January 2022, I can't provide real-time information. However, I can give you some general information about the stock market in America up to that point"
-                            "The stock market is influenced by various factors, including economic indicators, geopolitical events, company performance, and investor sentiment. Major indices such as the S&P 500, Dow Jones Industrial Average, and NASDAQ Composite Index are often used to gauge the overall performance of the stock market.",
+                          child: Text(
+                            announcement.content,
                             style: TextStyle(fontSize: 14),
                           ),
                         ),
@@ -113,8 +118,8 @@ class AnnouncementDetail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Dow jones nasdaq s and p 500 weekly preview: january cpi report takes the central stage u.s stock muted ",
+                    Text(
+                      announcement.title,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       overflow: TextOverflow.ellipsis,
@@ -124,8 +129,8 @@ class AnnouncementDetail extends StatelessWidget {
                       height: 10,
                     ),
                     Container(
-                      child: const Text(
-                        "Dec02/2023,   06:30 AM ",
+                      child: Text(
+                        announcement.publishDate,
                         style: TextStyle(color: Colors.grey, fontSize: 14),
                       ),
                     ),
@@ -133,38 +138,37 @@ class AnnouncementDetail extends StatelessWidget {
                       height: 8,
                     ),
                     Container(
-                      child: const Text(
-                        "Posted By Mr. james R. ",
+                      child: Text(
+                        announcement.postedBy,
                         style: TextStyle(fontSize: 14),
                       ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Container(
-                      height: 250,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage("asset/logo_image/goat.jpg"))),
-                    ),
+                    (announcement.images[0] != "")
+                        ? Container(
+                            height: 250,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        getImage(announcement.images[0])))),
+                          )
+                        : Container(
+                            height: 250,
+                            decoration: BoxDecoration(
+                                image: const DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                        'asset/default avatar.jpg'))),
+                          ),
                     const SizedBox(
                       height: 10,
                     ),
                     Container(
-                      child: const Text(
-                        "As of my last update in January 2022, I can't provide real-time information. However, I can give you some general information about the stock market in America up to that point"
-                        "The stock market is influenced by various factors, including economic indicators, geopolitical events, company performance, and investor sentiment. ",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      child: const Text(
-                        "As of my last update in January 2022, I can't provide real-time information. However, I can give you some general information about the stock market in America up to that point"
-                        "The stock market is influenced by various factors, including economic indicators, geopolitical events, company performance, and investor sentiment. Major indices such as the S&P 500, Dow Jones Industrial Average, and NASDAQ Composite Index are often used to gauge the overall performance of the stock market.",
+                      child: Text(
+                        announcement.content,
                         style: TextStyle(fontSize: 14),
                       ),
                     ),

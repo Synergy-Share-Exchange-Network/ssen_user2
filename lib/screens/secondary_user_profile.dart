@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/secondry_post_share.dart';
+import 'package:ssen_user/Models/user_model.dart';
+import 'package:ssen_user/utils/utils.dart';
 
 class SecondaryUserProfile extends StatelessWidget {
-  const SecondaryUserProfile({Key? key}) : super(key: key);
+  const SecondaryUserProfile(
+      {Key? key, required this.user, required this.secondaryShare})
+      : super(key: key);
+  final UserModel user;
+  final SecondryPostShareModel secondaryShare;
 
   @override
   Widget build(BuildContext context) {
@@ -37,23 +44,31 @@ class SecondaryUserProfile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 15),
-              Container(
-                child: const CircleAvatar(
-                  radius: 85,
-                  backgroundImage: AssetImage('asset/logo_image/goat.jpg'),
-                ),
-              ),
+              (user.profilePicture[0] != "")
+                  ? Container(
+                      child: CircleAvatar(
+                        radius: 85,
+                        backgroundImage:
+                            NetworkImage(getImage(user.profilePicture[0])),
+                      ),
+                    )
+                  : Container(
+                      child: const CircleAvatar(
+                        radius: 85,
+                        backgroundImage: AssetImage('asset/default avatar.jpg'),
+                      ),
+                    ),
               const SizedBox(height: 14),
               Container(
-                child: const Text(
-                  "Dawit nigus ",
+                child: Text(
+                  "${user.firstName} ${user.lastName}",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27),
                 ),
               ),
               const SizedBox(height: 5),
               Container(
-                child: const Text(
-                  "Hawassa, Ethiopia ",
+                child: Text(
+                  user.address[0],
                   style: TextStyle(fontSize: 20, color: Colors.grey),
                 ),
               ),
@@ -70,8 +85,8 @@ class SecondaryUserProfile extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    child: const Text(
-                      "habesha breweries",
+                    child: Text(
+                      secondaryShare.companyID,
                       style: TextStyle(color: Colors.blue, fontSize: 15),
                     ),
                   ),
@@ -94,9 +109,9 @@ class SecondaryUserProfile extends StatelessWidget {
                     width: 15,
                   ),
                   Container(
-                    child: const Text(
-                      "400 shares",
-                      style: TextStyle(
+                    child: Text(
+                      "${secondaryShare.numberOfShare} shares",
+                      style: const TextStyle(
                         color: Colors.blue,
                         fontSize: 15,
                       ),
@@ -121,8 +136,8 @@ class SecondaryUserProfile extends StatelessWidget {
                     width: 15,
                   ),
                   Container(
-                    child: const Text(
-                      "100 birr",
+                    child: Text(
+                      "${secondaryShare.pricePerShare} birr",
                       style: TextStyle(color: Colors.blue, fontSize: 15),
                     ),
                   ),
@@ -144,9 +159,9 @@ class SecondaryUserProfile extends StatelessWidget {
                     width: 15,
                   ),
                   Container(
-                    child: const Text(
-                      "400 shares",
-                      style: TextStyle(
+                    child: Text(
+                      "${secondaryShare.numberOfShare} shares",
+                      style: const TextStyle(
                         color: Colors.blue,
                         fontSize: 15,
                       ),
@@ -184,9 +199,9 @@ class SecondaryUserProfile extends StatelessWidget {
                     width: 15,
                   ),
                   Container(
-                    child: const Text(
-                      "+2519-4203-0866",
-                      style: TextStyle(color: Colors.grey, fontSize: 18),
+                    child: Text(
+                      user.phoneNumber,
+                      style: const TextStyle(color: Colors.grey, fontSize: 18),
                     ),
                   ),
                 ],
@@ -206,8 +221,8 @@ class SecondaryUserProfile extends StatelessWidget {
                     width: 15,
                   ),
                   Container(
-                    child: const Text(
-                      "dawitnigus45@gmail.com",
+                    child: Text(
+                      user.email,
                       style: TextStyle(color: Colors.grey, fontSize: 18),
                     ),
                   ),

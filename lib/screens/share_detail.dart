@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
 import 'package:ssen_user/Models/share_model.dart';
 import 'package:ssen_user/screens/partial%20screen/purchase.dart';
 import 'package:ssen_user/utils/constants.dart';
@@ -11,7 +12,10 @@ import 'package:ssen_user/widget/share_detail_element_widget.dart';
 import '../widget/analytics/graph1.dart';
 
 class ShareDetail extends StatelessWidget {
-  const ShareDetail({Key? key}) : super(key: key);
+  const ShareDetail({Key? key, required this.company, required this.share})
+      : super(key: key);
+  final CompanyProfileModel company;
+  final ShareModel share;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +36,7 @@ class ShareDetail extends StatelessWidget {
       description:
           "Habesha Breweries S.C Founded by 8,000 proud Ethiopian shareholders who were moved by the vision of reaching and connecting with Ethiopians, Habesha Breweries.",
       searchKeyWords: ['bankInfo1', 'bankInfo2'],
-      returnDividentTimeInDays: 56,
       timeToReturnRemainPayment: 20,
-      currancy: "currancy",
     );
     return Scaffold(
       appBar: AppBar(
@@ -78,8 +80,8 @@ class ShareDetail extends StatelessWidget {
                           height: 14,
                         ),
                         Container(
-                          child: const Text(
-                            "Habesha Breweries S.C",
+                          child: Text(
+                            company.name,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
@@ -98,8 +100,8 @@ class ShareDetail extends StatelessWidget {
                             const SizedBox(
                               width: 3,
                             ),
-                            const Text(
-                              "addis ababa",
+                            Text(
+                              company.locationDescription,
                               // style: STextTheme.lightTextTheme.bodySmall
                               //     ?.copyWith(color: Colors.blue),
                               style:
@@ -116,8 +118,8 @@ class ShareDetail extends StatelessWidget {
                             const SizedBox(
                               width: 3,
                             ),
-                            const Text(
-                              "brewery",
+                            Text(
+                              company.lineOfBusiness,
                               // style: STextTheme.lightTextTheme.bodySmall
                               //     ?.copyWith(color: Colors.blue),
                               style:
@@ -139,13 +141,23 @@ class ShareDetail extends StatelessWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Container(
-                          height: 250,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(share.shareImage[0]))),
-                        ),
+                        (share.shareImage[0] != '')
+                            ? Container(
+                                height: 250,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image:
+                                            AssetImage(share.shareImage[0]))),
+                              )
+                            : Container(
+                                height: 250,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image:
+                                            AssetImage(share.shareImage[0]))),
+                              ),
                       ],
                     )),
                     const SizedBox(
@@ -175,8 +187,7 @@ class ShareDetail extends StatelessWidget {
                               contentPrice: '200 units',
                               title2: 'Divident  ',
                               content2: '${share.divident}',
-                              contentPrice2:
-                                  '${share.returnDividentTimeInDays}',
+                              contentPrice2: '${share.bankInformation}',
                             ),
                             ShareDetailElementWidget(
                               title1: 'minimum payment ',
@@ -333,8 +344,8 @@ class ShareDetail extends StatelessWidget {
                       height: 14,
                     ),
                     Container(
-                      child: const Text(
-                        "Habesha Breweries S.C",
+                      child: Text(
+                        company.name,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
@@ -353,8 +364,8 @@ class ShareDetail extends StatelessWidget {
                         const SizedBox(
                           width: 3,
                         ),
-                        const Text(
-                          "addis ababa",
+                        Text(
+                          company.locationDescription,
                           // style: STextTheme.lightTextTheme.bodySmall
                           //     ?.copyWith(color: Colors.blue),
                           style: TextStyle(fontSize: 13, color: Colors.grey),
@@ -370,8 +381,8 @@ class ShareDetail extends StatelessWidget {
                         const SizedBox(
                           width: 3,
                         ),
-                        const Text(
-                          "brewery",
+                        Text(
+                          company.lineOfBusiness,
                           // style: STextTheme.lightTextTheme.bodySmall
                           //     ?.copyWith(color: Colors.blue),
                           style: TextStyle(fontSize: 13, color: Colors.grey),
@@ -420,7 +431,7 @@ class ShareDetail extends StatelessWidget {
                           contentPrice: '200 units',
                           title2: 'Divident  ',
                           content2: '${share.divident}',
-                          contentPrice2: '${share.returnDividentTimeInDays}',
+                          contentPrice2: '${share.bankInformation}',
                         ),
                         ShareDetailElementWidget(
                           title1: 'minimum payment ',

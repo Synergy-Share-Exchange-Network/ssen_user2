@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/purchase_model.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 
 class ShareInfoWidget extends StatelessWidget {
-  const ShareInfoWidget({Key? key}) : super(key: key);
+  const ShareInfoWidget({Key? key, required this.purchase}) : super(key: key);
+  final PurchaseModel purchase;
 
   @override
   Widget build(BuildContext context) {

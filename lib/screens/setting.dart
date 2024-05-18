@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:ssen_user/screens/FAQ.dart';
 import 'package:ssen_user/screens/about.dart';
+import 'package:ssen_user/screens/login.dart';
 import 'package:ssen_user/screens/terms%20and%20condition.dart';
 import 'package:ssen_user/widget/setting_elements_widget.dart';
 
@@ -41,8 +43,8 @@ class Setting extends StatelessWidget {
               icon: Icons.question_mark_outlined,
               name: 'FAQs',
               onpress: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: ((context) => Faq())));
+                // Navigator.push(
+                //     context, MaterialPageRoute(builder: ((context) => Faq())));
               },
               // function: () {
               //   print("go to faq");
@@ -53,10 +55,10 @@ class Setting extends StatelessWidget {
               icon: Icons.format_align_justify,
               name: 'Term And Condition',
               onpress: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: ((context) => TermAndCondition())));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: ((context) => TermAndCondition())));
               },
               // function: () {
               //   print("go to term and condition");
@@ -97,7 +99,44 @@ class Setting extends StatelessWidget {
               description: 'terminating the users current session ',
               icon: Icons.logout,
               name: 'Log out',
-              onpress: () {},
+              onpress: () {
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text("Log out"),
+                    content: const Text("Are You sure you want to log out?"),
+                    actions: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(ctx).pop();
+                            },
+                            child: Container(
+                              // color: Colors.green,
+                              padding: const EdgeInsets.all(14),
+                              child: const Text("Cancel"),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              FirebaseAuth.instance.signOut();
+                              Navigator.pushReplacementNamed(
+                                  context, Login.route);
+                            },
+                            child: Container(
+                              // color: Colors.green,
+                              padding: const EdgeInsets.all(14),
+                              child: const Text("Okay"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
               // function: () {
               //   print("go to faq");
               // },

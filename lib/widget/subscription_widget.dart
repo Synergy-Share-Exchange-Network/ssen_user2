@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
 
 class SubscriptionWidget extends StatelessWidget {
   const SubscriptionWidget({
     Key? key,
+    required this.comany,
   }) : super(key: key);
-
+  final CompanyProfileModel comany;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +40,7 @@ class SubscriptionWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Habesha Breweries S.c",
+                    comany.name,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                   const SizedBox(
@@ -51,7 +53,7 @@ class SubscriptionWidget extends StatelessWidget {
                         // color: Colors.black,
                         size: 12,
                       ),
-                      Text("Addis Ababa, Ethiopia",
+                      Text(comany.locationDescription,
                           style: Theme.of(context).textTheme.bodyMedium),
                     ],
                   ),

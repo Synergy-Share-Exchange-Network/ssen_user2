@@ -22,7 +22,11 @@ class Announcment extends StatelessWidget {
             "bitcoin is blomming the social and nural netork before someoe else fount it it is coing  my name is birhan I'm writing this from bottm of my heart.",
         companyID: "companyID",
         title: "cripto is reaching 1Billion people",
-        images: ["asset/logo_image/goat.jpg"]);
+        images: [""],
+        postedBy: "wubet ayalew",
+        publishDate: "dec 26 -2025"
+        // images: ["asset/logo_image/goat.jpg"]
+        );
 
     return Scaffold(
       drawer: NavBar(),

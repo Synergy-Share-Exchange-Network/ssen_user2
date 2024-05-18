@@ -1,70 +1,98 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ssen_user/firebase_options.dart';
+import 'package:ssen_user/intermediate.dart';
+import 'package:ssen_user/provider/user_provider.dart';
+
 import 'package:ssen_user/responsive.dart';
-import 'package:ssen_user/screens/partial%20screen/purchase.dart';
-import 'package:ssen_user/screens/post_share_secondary.dart';
-import 'package:ssen_user/screens/setting.dart';
+import 'package:ssen_user/screens/components/announcement.dart';
+
+import 'package:ssen_user/screens/login.dart';
+
+import 'package:ssen_user/services/app_routes.dart';
 import 'package:ssen_user/services/theme/app_theme.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp(
+    appRouter: AppRouter(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key, required this.appRouter}) : super(key: key);
+
+  final AppRouter appRouter;
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Synergy Share Exchange Network',
-      debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
-      theme: SappTheme.lightTheme,
-      darkTheme: SappTheme.darkTheme,
+    return MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => UserProvider())],
+      child: MaterialApp(
+        title: 'Synergy Share Exchange Network',
+        debugShowCheckedModeBanner: false,
+        themeMode: ThemeMode.system,
+        theme: SappTheme.lightTheme,
+        darkTheme: SappTheme.darkTheme,
 
-      // home: const About(),
-      // home: const Announcment(),
+        // home: const About(),
+        home: const Announcment(),
+        // home: EnterNewPassword(),
+        // home: Intermediate(),
 
-      // home: const TermAndCondition(),
-      // home: MainPage(),
+        // home: const TermAndCondition(),
+        // home: MainPage(),
 
-      // home: SignUp(),
+        // home: SignUp(),
 
-      // home: Responsive(),
-      // home: PostShareSecondary(),
-      // home: Purchase(),
-      // home: const TermAndCondition(),
+        // home: HomePage(),
+        // home: Companyprofile(),
+        // home: Purchase(),
+        // home: const TermAndCondition(),
+        // home: Responsive(),
+        // home: CompanyDetail(),
+        // home: DesktopResponsive(),
+        // home: Intermediate(),
+        // home: SearchScreen(),
 
-      // home: DesktopResponsive(),
-      // home: PostShareSecondary(),
-      // home: Purchase(),
-      // home: Intermediate(),
-      // home: SearchScreen(),
+        // home: PostShareSecondary(),
+        // home: const Subscribers(),
+        // home: UserProfile(),
 
-      // home: PostShareSecondary(),
-      // home: const Subscribers(),
-      // home: UserProfile(),
+        // home: LoginScreen(),
 
-      // home: LoginScreen(),
+        // home: HistoryWidget(),
+        // home: Subscribers(),
+        // home: CompanyProfileWidget(),
+        // home: LogOutScreen()
+        // home: StreamBuilder<User?>(
+        //     stream: FirebaseAuth.instance.authStateChanges(),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.active) {
+        //         if (snapshot.hasData) {
+        //           return const Responsive();
+        //         } else if (snapshot.hasError) {
+        //           return Center(
+        //             child: Text('${snapshot.error}'),
+        //           );
+        //         }
+        //       }
+        //       if (snapshot.connectionState == ConnectionState.waiting) {
+        //         return const Center(
+        //           child: CircularProgressIndicator(color: Colors.blue),
+        //         );
+        //       }
+        //       return const Login();
+        //     }),
 
-      // home: HistoryWidget(),
-      // home: History(),
-      // home: Subscribers(),
-      // home: CompanyProfileWidget(),
-      home: Responsive(),
-
-      // home: Responsive(),
-      // home: AnnouncementDetail(),
-      // home: SecondaryProfileWidget(),
-      // home: Faq(),
-      // home: HistoryDetail(),
-      // home: FaqElementWidget(),
-      // home: ShareDetail(),
-      // home: SecondaryUserProfile(),
-      // home: Payment_preview(),
-      // home: DonationDetail(),
-      // home: LoginScreen(),
-      // home: SignUp(),
+        // onGenerateRoute: appRouter.onGenerateRoute,
+      ),
     );
   }
 }

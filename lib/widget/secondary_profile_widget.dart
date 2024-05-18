@@ -3,20 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Models/secondry_post_share.dart';
+import 'package:ssen_user/Models/user_model.dart';
 import 'package:ssen_user/screens/secondary_user_profile.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
+import 'package:ssen_user/utils/utils.dart';
 
 import '../../services/theme/text_theme.dart';
 
 class SecondaryProfileWidget extends StatelessWidget {
-  const SecondaryProfileWidget({Key? key}) : super(key: key);
+  const SecondaryProfileWidget(
+      {Key? key,
+      required this.secondary,
+      required this.company,
+      required this.user})
+      : super(key: key);
+  final SecondryPostShareModel secondary;
+  final CompanyProfileModel company;
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: ((context) => SecondaryUserProfile())));
+        // Navigator.push(context,
+        //     MaterialPageRoute(builder: ((context) => SecondaryUserProfile())));
       },
       child: Card(
         elevation: 0.5,
@@ -32,15 +44,22 @@ class SecondaryProfileWidget extends StatelessWidget {
               ),
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 18,
-                    backgroundImage: AssetImage('asset/logo_image/goat.jpg'),
-                  ),
+                  (user.profilePicture[0] != "")
+                      ? CircleAvatar(
+                          radius: 18,
+                          backgroundImage:
+                              NetworkImage(getImage(user.profilePicture[0])),
+                        )
+                      : CircleAvatar(
+                          radius: 18,
+                          backgroundImage:
+                              AssetImage('asset/default avatar.jpg'),
+                        ),
                   const SizedBox(
                     width: 3,
                   ),
                   Text(
-                    "Dawit Negus",
+                    '${user.firstName} ${user.lastName}',
                     style: TextStyle(fontSize: 14),
                   ),
                 ],
@@ -57,7 +76,7 @@ class SecondaryProfileWidget extends StatelessWidget {
                       height: 2,
                     ),
                     Text(
-                      "ashewa technology",
+                      company.name,
                       // style: STextTheme.lightTextTheme.bodySmall
                       //     ?.copyWith(color: Colors.blue),
                       style: TextStyle(
@@ -81,7 +100,7 @@ class SecondaryProfileWidget extends StatelessWidget {
                               width: 3,
                             ),
                             Text(
-                              "10k+ shares to sell ",
+                              "${secondary.numberOfShare} shares to sell ",
                               style: STextTheme.lightTextTheme.bodySmall!
                                   .copyWith(color: Colors.blue),
                             ),
@@ -101,7 +120,7 @@ class SecondaryProfileWidget extends StatelessWidget {
                               width: 3,
                             ),
                             Text(
-                              "200 birr unit price",
+                              "${secondary.pricePerShare} birr unit price",
                               style: STextTheme.lightTextTheme.bodySmall!
                                   .copyWith(color: Colors.blue),
                             ),

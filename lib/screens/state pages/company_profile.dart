@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:ssen_user/utils/constants/colors.dart';
 
+import '../../Models/company_profile_model.dart';
 import '../../utils/helper_function.dart';
 import '../components/company_profile_home.dart';
 import '../components/company_profile_news.dart';
 import '../components/company_profile_overview.dart';
 
 class Companyprofile extends StatelessWidget {
-  const Companyprofile({super.key});
+  const Companyprofile({super.key, required this.company});
+  final CompanyProfileModel company;
+
   @override
   Widget build(BuildContext context) {
     final dark = SHelperFunction.isDarkMode(context);
@@ -19,7 +22,7 @@ class Companyprofile extends StatelessWidget {
           backgroundColor: dark ? Colors.black : Colors.white,
           elevation: 0,
           title: Text(
-            'Habesha Beer',
+            company.name,
             style: Theme.of(context).textTheme.headlineMedium,
           ),
           actions: [Icon(Icons.search)],
@@ -35,10 +38,16 @@ class Companyprofile extends StatelessWidget {
             ),
           ]),
         ),
-        body: (const TabBarView(children: [
-          CompanyHome(),
-          CompanyOverview(),
-          CompanyNews(),
+        body: (TabBarView(children: [
+          CompanyHome(
+            company: company,
+          ),
+          CompanyOverview(
+            company: company,
+          ),
+          CompanyNews(
+            company: company,
+          ),
         ])),
       ),
     );
