@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> {
     Anlaytics(),
     Announcment(),
     // Center(child: Text("5")),
-    UserProfile()
+    // UserProfile()
   ];
 
   @override

@@ -7,9 +7,13 @@ import 'package:ssen_user/intermediate.dart';
 import 'package:ssen_user/provider/user_provider.dart';
 
 import 'package:ssen_user/responsive.dart';
+import 'package:ssen_user/screens/about.dart';
 import 'package:ssen_user/screens/components/announcement.dart';
+import 'package:ssen_user/screens/components/home.dart';
+import 'package:ssen_user/screens/components/subscribers.dart';
 
 import 'package:ssen_user/screens/login.dart';
+import 'package:ssen_user/screens/profile.dart';
 
 import 'package:ssen_user/services/app_routes.dart';
 import 'package:ssen_user/services/theme/app_theme.dart';
@@ -42,9 +46,9 @@ class MyApp extends StatelessWidget {
         darkTheme: SappTheme.darkTheme,
 
         // home: const About(),
-        home: const Announcment(),
+        // home: const Responsive(),
         // home: EnterNewPassword(),
-        // home: Intermediate(),
+        // home: Announcment(),
 
         // home: const TermAndCondition(),
         // home: MainPage(),
@@ -55,10 +59,10 @@ class MyApp extends StatelessWidget {
         // home: Companyprofile(),
         // home: Purchase(),
         // home: const TermAndCondition(),
-        // home: Responsive(),
+        // home: Responsive(),``
         // home: CompanyDetail(),
         // home: DesktopResponsive(),
-        // home: Intermediate(),
+        // home: Login(),
         // home: SearchScreen(),
 
         // home: PostShareSecondary(),
@@ -71,27 +75,27 @@ class MyApp extends StatelessWidget {
         // home: Subscribers(),
         // home: CompanyProfileWidget(),
         // home: LogOutScreen()
-        // home: StreamBuilder<User?>(
-        //     stream: FirebaseAuth.instance.authStateChanges(),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.active) {
-        //         if (snapshot.hasData) {
-        //           return const Responsive();
-        //         } else if (snapshot.hasError) {
-        //           return Center(
-        //             child: Text('${snapshot.error}'),
-        //           );
-        //         }
-        //       }
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return const Center(
-        //           child: CircularProgressIndicator(color: Colors.blue),
-        //         );
-        //       }
-        //       return const Login();
-        //     }),
+        home: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot?.connectionState == ConnectionState.active) {
+                if (snapshot.hasData) {
+                  return const Responsive();
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('${snapshot.error}'),
+                  );
+                }
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(color: Colors.blue),
+                );
+              }
+              return const Login();
+            }),
 
-        // onGenerateRoute: appRouter.onGenerateRoute,
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }
