@@ -31,7 +31,8 @@ class _HomeState extends State<Home> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        drawer: const NavBar(),
+        drawer:
+            (MediaQuery.of(context).size.width > phoneSize) ? null : NavBar(),
         appBar: (MediaQuery.of(context).size.width > phoneSize)
             ? AppBar(
                 bottom: PreferredSize(
@@ -61,7 +62,7 @@ class _HomeState extends State<Home> {
               )
             : AppBar(
                 actions: const [
-                  Icon(Iconsax.notification),
+                  Icon(Icons.notification_important),
                   SizedBox(
                     width: 10,
                   ),

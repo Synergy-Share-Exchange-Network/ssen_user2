@@ -30,7 +30,7 @@ class _SubscribersState extends State<Subscribers> {
     bool dark = SHelperFunction.isDarkMode(context);
 
     return Scaffold(
-      drawer: NavBar(),
+      drawer: (MediaQuery.of(context).size.width > phoneSize) ? null : NavBar(),
       appBar: (MediaQuery.of(context).size.width > phoneSize)
           ? PreferredSize(preferredSize: Size.zero, child: AppBar())
           : AppBar(
@@ -40,7 +40,8 @@ class _SubscribersState extends State<Subscribers> {
                 Icon(Iconsax.search_normal),
                 SizedBox(width: 20),
               ],
-              backgroundColor: dark ? SColors.lighGrey : SColors.homePageNavBar,
+              backgroundColor:
+                  dark ? SColors.darkContainer : SColors.lightContainer,
             ),
       body: Column(
         children: [
@@ -99,7 +100,7 @@ class _SubscribersState extends State<Subscribers> {
       children: [
         CustomChip(
           text: "All",
-          icon: Iconsax.global,
+          icon: Icons.all_inbox,
           isSelected: isAllSelected,
           onSelected: () {
             setState(() {
@@ -111,7 +112,7 @@ class _SubscribersState extends State<Subscribers> {
         ),
         CustomChip(
           text: "Public",
-          icon: Iconsax.people,
+          icon: Icons.people,
           isSelected: isPublicSelected,
           onSelected: () {
             setState(() {
@@ -123,7 +124,7 @@ class _SubscribersState extends State<Subscribers> {
         ),
         CustomChip(
           text: "Donation",
-          icon: Iconsax.folder_open,
+          icon: Icons.folder_open,
           isSelected: isDonationSelected,
           onSelected: () {
             setState(() {
@@ -218,7 +219,7 @@ class CustomChip extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: isSelected ? Colors.white : SColors.primary,
+                color: isSelected ? Colors.white : Colors.lightBlueAccent,
               ),
               const SizedBox(width: 5),
               Expanded(
@@ -226,7 +227,7 @@ class CustomChip extends StatelessWidget {
                   text,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: isSelected ? Colors.white : SColors.primary,
+                    color: isSelected ? Colors.white : Colors.lightBlueAccent,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -259,7 +260,7 @@ class MiniCompanySub extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: SColors.primary, width: 2.0),
+              // border: Border.all(color: SColors.primary, width: 2.0),
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: company.logoImage[0] != ""
@@ -289,27 +290,74 @@ class SubscriptionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     bool dark = SHelperFunction.isDarkMode(context);
     return Container(
-      height: 100,
+      height: 120,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: dark ? SColors.darkContainer : SColors.lightContainer,
-        border: Border.all(
-          width: 1,
-          color: dark ? Colors.black : Colors.white,
+        gradient: LinearGradient(
+          colors: dark
+              ? [Colors.black54, Colors.black87]
+              : [Colors.white, Colors.grey[200]!],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
+        borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: dark ? Colors.black45 : Colors.grey.withOpacity(0.3),
+            blurRadius: 10,
+            offset: Offset(0, 5),
+          ),
+        ],
       ),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: company.logoImage[0] != ""
-              ? NetworkImage(getImage(company.logoImage[0]))
-              : const AssetImage(SImages.lightAppLogo) as ImageProvider,
-        ),
-        title: Text(company.name,
-            style: dark
-                ? STextTheme.darkTextTheme.headlineSmall
-                : STextTheme.lightTextTheme.headlineSmall),
-        subtitle: Text(company.motto ?? 'No description available'),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 80.0, // Set the width of the image
+            height: 80.0, // Set the height of the image
+            child: CircleAvatar(
+              radius: 40,
+              backgroundImage: company.logoImage[0] != ""
+                  ? NetworkImage(getImage(company.logoImage[0]))
+                  : const AssetImage(SImages.lightAppLogo) as ImageProvider,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  company.name,
+                  style: dark
+                      ? STextTheme.darkTextTheme.headlineSmall
+                      : STextTheme.lightTextTheme.headlineSmall,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  company.motto ?? 'No description available',
+                  style: TextStyle(
+                    color: dark ? Colors.grey[400] : Colors.grey[800],
+                    fontSize: 14,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.favorite_border,
+              color: dark ? Colors.white : Colors.black54,
+            ),
+            onPressed: () {
+              // Add your favorite button action here
+            },
+          ),
+        ],
       ),
     );
   }

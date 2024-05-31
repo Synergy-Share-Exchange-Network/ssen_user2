@@ -115,7 +115,7 @@ class UserProfile extends StatelessWidget {
                 ),
                 ProfileMenuWidget(
                     endicon: true,
-                    icon: Iconsax.eye,
+                    icon: Icons.remove_red_eye_outlined,
                     onpress: () {},
                     textcolor: Colors.blue,
                     title: 'Preview'),
@@ -124,7 +124,7 @@ class UserProfile extends StatelessWidget {
                 ),
                 ProfileMenuWidget(
                     endicon: true,
-                    icon: Iconsax.people,
+                    icon: Icons.post_add,
                     onpress: () {},
                     textcolor: Colors.blue,
                     title: 'Posts'),
@@ -133,7 +133,7 @@ class UserProfile extends StatelessWidget {
                 ),
                 ProfileMenuWidget(
                     endicon: true,
-                    icon: Iconsax.data,
+                    icon: Icons.history,
                     onpress: () {
                       // Navigator.push(context,
                       //     MaterialPageRoute(builder: ((context) => History())));
@@ -145,19 +145,19 @@ class UserProfile extends StatelessWidget {
                 ),
                 ProfileMenuWidget(
                     endicon: true,
-                    icon: Iconsax.setting,
+                    icon: Icons.house,
                     onpress: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: ((context) => Assets())));
                     },
-                    textcolor: Colors.blue,
+                    textcolor: Colors.lightBlue,
                     title: 'Assets'),
                 const SizedBox(
                   height: SSizes.spaceBtwItems,
                 ),
                 ProfileMenuWidget(
                     endicon: true,
-                    icon: Iconsax.setting,
+                    icon: Icons.settings,
                     onpress: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: ((context) => Setting())));
@@ -169,7 +169,7 @@ class UserProfile extends StatelessWidget {
                 ),
                 ProfileMenuWidget(
                     endicon: false,
-                    icon: Iconsax.logout,
+                    icon: Icons.logout,
                     onpress: () {
                       showDialog(
                         context: context,

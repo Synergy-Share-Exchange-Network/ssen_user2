@@ -75,12 +75,12 @@ class Announcment extends StatelessWidget {
               }).toList();
 
               return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.vertical,
                 child: Row(
                   children: [
                     ...announcement.map((company) {
                       return NewsWidget(
-                        announcement: announcement[0],
+                        announcement: announcement[1],
                       );
                     }).toList(),
                     TextButton(

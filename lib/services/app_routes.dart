@@ -24,8 +24,12 @@ class AppRouter {
       // return MaterialPageRoute(builder: (_) => const TermAndCondition());
       case EnterNewEmail.route:
         return MaterialPageRoute(builder: (_) => const EnterNewEmail());
-      case About.route:
-        return MaterialPageRoute(builder: (_) => const About());
+      case TermsAndConditionsPage.route:
+        return MaterialPageRoute(builder: (_) => TermsAndConditionsPage());
+      // case EnterNewEmail.route:
+      //   return MaterialPageRoute(builder: (_) => const EnterNewEmail());
+      case AboutUs.route:
+        return MaterialPageRoute(builder: (_) => AboutUs());
       case Setting.route:
         return MaterialPageRoute(builder: (_) => const Setting());
       case ConfirmAccountChangeEmail.route:

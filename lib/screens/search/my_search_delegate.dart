@@ -20,7 +20,7 @@ class SearchItem extends StatelessWidget {
     return IconButton(
       onPressed: () =>
           showSearch(context: context, delegate: MySearchDelegate()),
-      icon: Icon(Iconsax.search_normal),
+      icon: Icon(Icons.search_rounded),
       color: SColors.black,
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ssen_user/Models/share_model.dart';
 
 import 'package:ssen_user/utils/constants/colors.dart';
 
@@ -9,7 +10,8 @@ import '../components/company_profile_news.dart';
 import '../components/company_profile_overview.dart';
 
 class Companyprofile extends StatelessWidget {
-  const Companyprofile({super.key, required this.company});
+  const Companyprofile(
+      {super.key, required this.company, required ShareModel share});
   final CompanyProfileModel company;
 
   @override

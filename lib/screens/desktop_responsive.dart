@@ -9,6 +9,7 @@ import 'package:ssen_user/screens/components/subscribers.dart';
 import 'package:ssen_user/screens/profile.dart';
 import 'package:ssen_user/screens/search/my_search_delegate.dart';
 import 'package:ssen_user/screens/setting.dart';
+import 'package:ssen_user/screens/state%20pages/process.dart';
 import 'package:ssen_user/screens/terms%20and%20condition.dart';
 import 'package:ssen_user/utils/constants.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
@@ -367,7 +368,8 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                           // });
 
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, TermAndCondition.route);
+                          Navigator.pushNamed(
+                              context, TermsAndConditionsPage.route);
                         },
                       )
                     : SelectedDrawerItem(
@@ -378,7 +380,8 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                           //   index = 11;
                           // });
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, TermAndCondition.route);
+                          Navigator.pushNamed(
+                              context, TermsAndConditionsPage.route);
                         },
                       ),
                 const Divider(),
@@ -580,8 +583,8 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                           const Divider(),
                           index != 5
                               ? DrawerItem(
-                                  icon: Icons.person,
-                                  title: "Edit Profile",
+                                  icon: Icons.payment_rounded,
+                                  title: "Process",
                                   callback: () {
                                     setState(() {
                                       index = 5;
@@ -589,33 +592,15 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                   },
                                 )
                               : SelectedDrawerItem(
-                                  icon: Icons.person,
-                                  title: "Edit Profile",
+                                  icon: Icons.payment_rounded,
+                                  title: "Process",
                                   callback: () {
                                     setState(() {
                                       index = 5;
                                     });
                                   },
                                 ),
-                          index != 6
-                              ? DrawerItem(
-                                  icon: Icons.location_on,
-                                  title: "My Address",
-                                  callback: () {
-                                    setState(() {
-                                      index = 6;
-                                    });
-                                  },
-                                )
-                              : SelectedDrawerItem(
-                                  icon: Icons.location_on,
-                                  title: "My Address",
-                                  callback: () {
-                                    setState(() {
-                                      index = 6;
-                                    });
-                                  },
-                                ),
+
                           index != 7
                               ? DrawerItem(
                                   icon: Icons.info,
@@ -624,7 +609,7 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                     setState(() {
                                       index = 7;
                                     });
-                                    Navigator.pushNamed(context, About.route);
+                                    Navigator.pushNamed(context, AboutUs.route);
                                   },
                                 )
                               : SelectedDrawerItem(
@@ -634,7 +619,7 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                     setState(() {
                                       index = 7;
                                     });
-                                    Navigator.pushNamed(context, About.route);
+                                    Navigator.pushNamed(context, AboutUs.route);
                                   },
                                 ),
                           index != 8
@@ -736,7 +721,7 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                     //   index = 11;
                                     // });
                                     Navigator.pushNamed(
-                                        context, TermAndCondition.route);
+                                        context, TermsAndConditionsPage.route);
                                   },
                                 )
                               : SelectedDrawerItem(
@@ -747,7 +732,7 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                     //   index = 11;
                                     // });
                                     Navigator.pushNamed(
-                                        context, TermAndCondition.route);
+                                        context, TermsAndConditionsPage.route);
                                   },
                                 ),
                           const Divider(),
@@ -839,7 +824,7 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                       //     ?
                       Container(
                         width: (drawer)
-                            ? 690
+                            ? (MediaQuery.of(context).size.width - 550)
                             : MediaQuery.of(context).size.width - 225,
                         height: MediaQuery.of(context).size.height,
                         child: IndexedStack(
@@ -858,7 +843,8 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                             Anlaytics(),
                             Announcment(),
                             // Center(child: Text("5")),
-                            UserProfile()
+                            UserProfile(),
+                            ProcessPage()
                             // TermAndCondition(),
 
                             // Container(),

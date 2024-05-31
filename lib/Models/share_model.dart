@@ -154,8 +154,8 @@ class ShareModel {
       minimumNumberOfBuyer: map['minimumNumberOfBuyer'] as int,
       maximumNumberOfBuyer: map['maximumNumberOfBuyer'] as int,
       bankInformation:
-          List<String>.from(map['bankInformation'] as List<String>),
-      shareImage: List<String>.from(map['shareImage'] as List<String>),
+          List<String>.from(map['bankInformation'] as List<dynamic>),
+      shareImage: List<String>.from(map['shareImage'] as List<dynamic>),
       unitSharePrice: map['unitSharePrice'] as double,
       noOfShares: map['noOfShares'] as double,
       divident: map['divident'] as double,
@@ -166,9 +166,9 @@ class ShareModel {
       identification: map['identification'] as String,
       companyID: map['companyID'] as String,
       description: map['description'] as String,
-      searchKeyWords: List<String>.from(map['searchKeyWords'] as List<String>),
+      searchKeyWords: List<String>.from(map['searchKeyWords'] as List<dynamic>),
       returnDividentDescription:
-          map['returnDividentDescription'] as List<String>,
+          List<String>.from(map['returnDividentDescription'] as List<dynamic>),
       timeToReturnRemainPayment: map['timeToReturnRemainPayment'] as int,
       currency: map['currency'] as String,
       dateAdded: map['dateAdded'] as String,
@@ -176,6 +176,7 @@ class ShareModel {
       isHidden: map['isHidden'] ?? false,
     );
   }
+
   String toJson() => json.encode(toMap());
 
   factory ShareModel.fromJson(String source) =>
@@ -186,6 +187,7 @@ class ShareModel {
     return 'ShareModel(savingAccountPercentage: $savingAccountPercentage, proclamationNumber: $proclamationNumber, minimumNumberOfBuyer: $minimumNumberOfBuyer, maximumNumberOfBuyer: $maximumNumberOfBuyer, bankInformation: $bankInformation, shareImage: $shareImage, unitSharePrice: $unitSharePrice, noOfShares: $noOfShares, divident: $divident, minimumPaymentInPercent: $minimumPaymentInPercent, minimumNumberOfSharesToBuy: $minimumNumberOfSharesToBuy, maximumNumberOfSharesToBuy: $maximumNumberOfSharesToBuy, requirement: $requirement, identification: $identification, companyID: $companyID, description: $description, searchKeyWords: $searchKeyWords, returnDividentDescription: $returnDividentDescription, timeToReturnRemainPayment: $timeToReturnRemainPayment, currency: $currency, dateAdded: $dateAdded, isDeleted: $isDeleted,isHidden: $isHidden)';
   }
 }
+
 
 // void main(List<String> args) {
 //   ShareModel M = ShareModel(

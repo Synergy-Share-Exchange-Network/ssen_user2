@@ -101,7 +101,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int currentIndex = 0;
+  int currentIndex = 1;
   // final screens = [Home(), Subscription(), Favorite(), Cart(), Order()];
   final screens = [
     Home(),
@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> {
     Anlaytics(),
     Announcment(),
     // Center(child: Text("5")),
-    // UserProfile()
+    UserProfile()
   ];
 
   @override

@@ -70,7 +70,7 @@ class Setting extends StatelessWidget {
               name: 'About',
               onpress: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: ((context) => About())));
+                    MaterialPageRoute(builder: ((context) => AboutUs())));
               },
               // function: () {
               //   print("go to faq");
