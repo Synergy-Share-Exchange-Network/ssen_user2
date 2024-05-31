@@ -858,7 +858,7 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                             Anlaytics(),
                             Announcment(),
                             // Center(child: Text("5")),
-                            // UserProfile()
+                            UserProfile()
                             // TermAndCondition(),
 
                             // Container(),

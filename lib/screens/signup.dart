@@ -540,7 +540,7 @@ class _SignupState extends State<Signup> {
                         'Sign Up',
                         style: TextStyle(
                             decoration: TextDecoration.none,
-                            color: Colors.orange,
+                            color: Colors.blue,
                             fontSize: 27,
                             fontWeight: FontWeight.bold),
                       )
@@ -673,7 +673,7 @@ class _SignupState extends State<Signup> {
                               alignment: Alignment.centerRight,
                               child: Text(
                                 "Forget Password?",
-                                style: TextStyle(color: Colors.orange),
+                                style: TextStyle(color: Colors.blue),
                               )),
                           const SizedBox(
                             height: 20,
@@ -751,20 +751,20 @@ class _SignupState extends State<Signup> {
                             IconButton(
                               onPressed: () {},
                               icon: const Icon(Icons.facebook),
-                              color: Colors.orange,
+                              color: Colors.blue,
                             ),
                             IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.facebook),
-                                color: Colors.orange),
+                                color: Colors.blue),
                             IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.facebook),
-                                color: Colors.orange),
+                                color: Colors.blue),
                             IconButton(
                                 onPressed: () {},
                                 icon: const Icon(Icons.facebook),
-                                color: Colors.orange),
+                                color: Colors.blue),
                           ],
                         ),
                         const SizedBox(
@@ -779,7 +779,7 @@ class _SignupState extends State<Signup> {
                               context, Login.route),
                           child: const Text(
                             "Sign In",
-                            style: TextStyle(color: Colors.orange),
+                            style: TextStyle(color: Colors.blue),
                           ),
                         ),
                         const SizedBox(

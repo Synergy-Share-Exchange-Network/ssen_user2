@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Repository/firebase/key%20words/collection_name.dart';
 import 'package:ssen_user/utils/constants.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 import 'package:ssen_user/utils/constants/image_Strings.dart';
@@ -8,6 +10,8 @@ import 'package:ssen_user/utils/constants/navbar.dart';
 import 'package:ssen_user/utils/helper_function.dart';
 import 'package:ssen_user/utils/utils.dart';
 import 'package:ssen_user/widget/subscription_widget.dart';
+
+import '../../services/theme/text_theme.dart';
 
 class Subscribers extends StatefulWidget {
   const Subscribers({super.key});
@@ -20,10 +24,10 @@ class _SubscribersState extends State<Subscribers> {
   bool isAllSelected = true;
   bool isPublicSelected = false;
   bool isDonationSelected = false;
+
   @override
   Widget build(BuildContext context) {
-    bool isDark = SHelperFunction.isDarkMode(context);
-    setState(() {});
+    bool dark = SHelperFunction.isDarkMode(context);
 
     return Scaffold(
       drawer: NavBar(),
@@ -32,239 +36,199 @@ class _SubscribersState extends State<Subscribers> {
           : AppBar(
               actions: const [
                 Icon(Iconsax.notification),
-                SizedBox(
-                  width: 10,
-                ),
+                SizedBox(width: 10),
                 Icon(Iconsax.search_normal),
-                SizedBox(
-                  width: 20,
-                )
+                SizedBox(width: 20),
               ],
-              backgroundColor:
-                  (!isDark) ? SColors.lighGrey : SColors.homePageNavBar,
-
-              // elevation: 1,
+              backgroundColor: dark ? SColors.lighGrey : SColors.homePageNavBar,
             ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  // MiniCompanySub(),
-                  TextButton(onPressed: () {}, child: const Text("View all"))
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                // width: MediaQuery.of(context).size.width,
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      child: CustomChip(
-                        icon: Iconsax.align_horizontally,
-                        text: 'All',
-                        isSelected: isAllSelected,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          isAllSelected = true;
-                          isPublicSelected = false;
-                          isDonationSelected = false;
-                        });
-                      },
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    InkWell(
-                      child: CustomChip(
-                        icon: Iconsax.people,
-                        text: 'Public',
-                        isSelected: isPublicSelected,
-                      ),
-                      onTap: () {
-                        print("hello");
-                        isAllSelected = false;
-                        isPublicSelected = true;
-                        isDonationSelected = false;
-                        setState(() {});
-                      },
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    InkWell(
-                      child: CustomChip(
-                        icon: Iconsax.document1,
-                        text: 'Dontaion',
-                        isSelected: isDonationSelected,
-                      ),
-                      onTap: () {
-                        setState(() {
-                          isAllSelected = false;
-                          isPublicSelected = false;
-                          isDonationSelected = true;
-                        });
-                      },
-                    ),
-
-                    // CustomChip(title: "All"),
-                    // CustomChip(title: "T-shert"),
-                    // CustomChip(title: "Pants"),
-                    // CustomChip(title: "Human Hair"),
-                    // CustomChip(title: "Foods"),
-                    // CustomChip(title: "Book"),
-                    // CustomChip(title: "More"),
-                  ],
-                ),
-              ),
-            ),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  // InkWell(
-                  //     onTap: () {
-                  //       print("hello");
-                  //       print(isDonationSelected);
-                  //       isAllSelected = false;
-                  //       isPublicSelected = false;
-                  //       isDonationSelected = true;
-                  //       print(isDonationSelected);
-
-                  //       setState(() {});
-                  //       print(isDonationSelected);
-                  //     },
-                  //     child: SubscriptionWidget()),
-                  // InkWell(
-                  //     onTap: () {
-                  //       print(isDonationSelected);
-                  //     },
-                  //     child: SubscriptionWidget()),
-                  // SubscriptionWidget(),
-                  // SubscriptionWidget(),
-                  // SubscriptionWidget(),
-                  // SubscriptionWidget(),
-                  // SubscriptionWidget(),
-                  // SubscriptionWidget(),
-                  // SubscriptionWidget(),
-                ],
-              ),
-            )
-            // Column(
-            //   children: [
-            //     // Product(
-            //     //   product: car,
-            //     //   shopOwner: seller,
-            //     // ),
-            //     // Product(
-            //     //   product: car,
-            //     //   shopOwner: seller,
-            //     // ),
-            //     // Product(
-            //     //   product: car,
-            //     //   shopOwner: seller,
-            //     // ),
-            //     // Product(
-            //     //   product: car,
-            //     //   shopOwner: seller,
-            //     // ),
-            //     // Product(
-            //     //   product: car,
-            //     //   shopOwner: seller,
-            //     // ),
-            //   ],
-            // )
-          ],
-        ),
+      body: Column(
+        children: [
+          _buildSubscriberList(),
+          _buildFilterButtons(),
+          Expanded(child: _buildSubscriptionList()),
+        ],
       ),
+    );
+  }
+
+  Widget _buildSubscriberList() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection(CollectionName.organization)
+          .orderBy('createdDay', descending: true)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        List<CompanyProfileModel> companies =
+            snapshot.data!.docs.map((document) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+          return CompanyProfileModel.fromMap(data);
+        }).toList();
+
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              ...companies.map((company) {
+                return MiniCompanySub(company: company);
+              }).toList(),
+              TextButton(
+                onPressed: () {
+                  // Add your onPressed code here
+                },
+                child: const Text("View all"),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFilterButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CustomChip(
+          text: "All",
+          icon: Iconsax.global,
+          isSelected: isAllSelected,
+          onSelected: () {
+            setState(() {
+              isAllSelected = true;
+              isPublicSelected = false;
+              isDonationSelected = false;
+            });
+          },
+        ),
+        CustomChip(
+          text: "Public",
+          icon: Iconsax.people,
+          isSelected: isPublicSelected,
+          onSelected: () {
+            setState(() {
+              isAllSelected = false;
+              isPublicSelected = true;
+              isDonationSelected = false;
+            });
+          },
+        ),
+        CustomChip(
+          text: "Donation",
+          icon: Iconsax.folder_open,
+          isSelected: isDonationSelected,
+          onSelected: () {
+            setState(() {
+              isAllSelected = false;
+              isPublicSelected = false;
+              isDonationSelected = true;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSubscriptionList() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection(CollectionName.organization)
+          .orderBy('createdDay', descending: true)
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        List<CompanyProfileModel> companies =
+            snapshot.data!.docs.map((document) {
+          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+          return CompanyProfileModel.fromMap(data);
+        }).toList();
+
+        // Apply filter based on selection
+        List<CompanyProfileModel> filteredCompanies;
+        if (isAllSelected) {
+          filteredCompanies = companies;
+        } else if (isPublicSelected) {
+          // filteredCompanies = companies.where((company) => company.isPublic).toList();
+          filteredCompanies = companies;
+        } else if (isDonationSelected) {
+          // filteredCompanies = companies.where((company) => company.isDonation).toList();
+          filteredCompanies = companies;
+        } else {
+          filteredCompanies = companies;
+        }
+
+        return ListView.builder(
+          itemCount: filteredCompanies.length,
+          itemBuilder: (context, index) {
+            return SubscriptionWidget(company: filteredCompanies[index]);
+          },
+        );
+      },
     );
   }
 }
 
-class CustomChip extends StatefulWidget {
+class CustomChip extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final bool isSelected;
+  final VoidCallback onSelected;
+
   const CustomChip({
     Key? key,
     required this.text,
     required this.icon,
     required this.isSelected,
+    required this.onSelected,
   }) : super(key: key);
-  final String text;
-  final IconData icon;
-  final bool isSelected;
-
-  @override
-  State<CustomChip> createState() => _CustomChipState();
-}
-
-class _CustomChipState extends State<CustomChip> {
-  late bool _isSelect;
-  void initState() {
-    super.initState();
-    _isSelect = widget.isSelected;
-  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isSelect = true; // Change color to blue
-          // Navigate to another page
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => SecondPage()), // Replace SecondPage with your desired page
-          // );
-        });
-      },
+      onTap: onSelected,
       child: Container(
         width: 110,
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onSelected,
           style: ElevatedButton.styleFrom(
-            primary: (_isSelect) ? SColors.primary : Colors.white,
+            primary: isSelected ? SColors.primary : Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                side: BorderSide(
-                    color: SColors.primaryColor) // Adjust the value as needed
-                ),
-            padding: EdgeInsets.all(
-                16.0), // Adjust the padding to increase the height and width
+              borderRadius: BorderRadius.circular(20.0),
+              side: BorderSide(color: SColors.primary),
+            ),
+            padding: const EdgeInsets.all(16.0),
           ),
           child: Row(
             children: [
               Icon(
-                widget.icon,
-                color: (_isSelect) ? Colors.white : SColors.primary,
+                icon,
+                color: isSelected ? Colors.white : SColors.primary,
               ),
-              SizedBox(
-                width: 5,
-              ),
-              Container(
-                width: 48,
+              const SizedBox(width: 5),
+              Expanded(
                 child: Text(
-                  widget.text,
+                  text,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      color: (_isSelect) ? Colors.white : SColors.primary,
-                      fontWeight: FontWeight.bold),
+                    color: isSelected ? Colors.white : SColors.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -276,51 +240,77 @@ class _CustomChipState extends State<CustomChip> {
 }
 
 class MiniCompanySub extends StatelessWidget {
+  final CompanyProfileModel company;
+
   const MiniCompanySub({
     Key? key,
     required this.company,
   }) : super(key: key);
-  final CompanyProfileModel company;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(5, 10, 5, 0),
       width: 60,
-      // height: 80,
-      child: Column(children: [
-        (company.logoImage[0] != "")
-            ? Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: SColors.primary, width: 2.0),
-                    image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(getImage(company.logoImage[0])))),
-              )
-            : Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: SColors.primary, width: 2.0),
-                    image: const DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(SImages.lightAppLogo))),
+      child: Column(
+        children: [
+          Container(
+            width: 70,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: SColors.primary, width: 2.0),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: company.logoImage[0] != ""
+                    ? NetworkImage(getImage(company.logoImage[0]))
+                    : const AssetImage(SImages.lightAppLogo) as ImageProvider,
               ),
-        // const Expanded(flex: 1, child: SizedBox()),
-        const SizedBox(
-          width: 10,
-        ),
+            ),
+          ),
+          const SizedBox(height: 5),
+          Text(
+            company.name,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontWeight: FontWeight.normal),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-        Text(
-          company.name,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontWeight: FontWeight.normal),
+class SubscriptionWidget extends StatelessWidget {
+  final CompanyProfileModel company;
+
+  const SubscriptionWidget({Key? key, required this.company}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool dark = SHelperFunction.isDarkMode(context);
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: dark ? SColors.darkContainer : SColors.lightContainer,
+        border: Border.all(
+          width: 1,
+          color: dark ? Colors.black : Colors.white,
         ),
-      ]),
+      ),
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundImage: company.logoImage[0] != ""
+              ? NetworkImage(getImage(company.logoImage[0]))
+              : const AssetImage(SImages.lightAppLogo) as ImageProvider,
+        ),
+        title: Text(company.name,
+            style: dark
+                ? STextTheme.darkTextTheme.headlineSmall
+                : STextTheme.lightTextTheme.headlineSmall),
+        subtitle: Text(company.motto ?? 'No description available'),
+      ),
     );
   }
 }

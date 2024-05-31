@@ -12,6 +12,7 @@ class Public extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark = SHelperFunction.isDarkMode(context);
     ScrollController publicScrollController = ScrollController();
+
     return Scaffold(
       body: SingleChildScrollView(
         controller: publicScrollController,
