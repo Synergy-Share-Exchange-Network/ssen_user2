@@ -38,7 +38,8 @@ class Anlaytics extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            LineChartgraph(),
+            // LineChartgraph(),
+            Text("data")
           ],
         ),
       ),

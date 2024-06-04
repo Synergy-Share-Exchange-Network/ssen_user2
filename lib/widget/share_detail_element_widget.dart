@@ -44,8 +44,8 @@ class ShareDetailElementWidget extends StatelessWidget {
                           // ignore: prefer_const_literals_to_create_immutables
                           children: [
                             const Icon(
-                              Iconsax.dollar_circle,
-                              // color: Colors.black,
+                              Icons.widgets,
+                              color: Colors.grey,
                               size: 17,
                             ),
                             const SizedBox(
@@ -98,8 +98,8 @@ class ShareDetailElementWidget extends StatelessWidget {
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           const Icon(
-                            Iconsax.dollar_circle,
-                            // color: Colors.black,
+                            Icons.widgets,
+                            color: Colors.grey,
                             size: 17,
                           ),
                           const SizedBox(
@@ -208,8 +208,8 @@ class ShareDetailElementWidget extends StatelessWidget {
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           const Icon(
-                            Iconsax.dollar_circle,
-                            // color: Colors.black,
+                            Icons.widgets,
+                            color: Colors.grey,
                             size: 17,
                           ),
                           const SizedBox(

@@ -28,12 +28,7 @@ class ProcessPage extends StatelessWidget {
           backgroundColor:
               dark ? SColors.darkContainer : SColors.lightContainer,
           elevation: 0,
-          title: Text(
-            'Request',
-            style: dark
-                ? STextTheme.darkTextTheme.headlineSmall
-                : STextTheme.lightTextTheme.headlineSmall,
-          ),
+        
           centerTitle: true,
           bottom: TabBar(
             labelColor: dark ? SColors.white : SColors.black,

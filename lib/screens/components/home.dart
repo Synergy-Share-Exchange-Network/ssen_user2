@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ssen_user/screens/FAQ.dart';
 import 'package:ssen_user/screens/about.dart';
+import 'package:ssen_user/screens/components/announcement.dart';
 import 'package:ssen_user/screens/components/donation.dart';
 import 'package:ssen_user/screens/components/public.dart';
 import 'package:ssen_user/screens/components/secondary.dart';
+import 'package:ssen_user/screens/components/subscribers.dart';
 import 'package:ssen_user/screens/setting.dart';
+import 'package:ssen_user/screens/share_detail.dart';
 import 'package:ssen_user/screens/terms%20and%20condition.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants.dart';
@@ -29,7 +34,7 @@ class _HomeState extends State<Home> {
     bool dark = SHelperFunction.isDarkMode(context);
 
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         drawer:
             (MediaQuery.of(context).size.width > phoneSize) ? null : NavBar(),
@@ -39,9 +44,6 @@ class _HomeState extends State<Home> {
                   preferredSize: Size.fromHeight(0),
                   child: TabBar(
                     tabs: const [
-                      Tab(
-                        text: "All",
-                      ),
                       Tab(
                         text: "Public",
                       ),
@@ -61,8 +63,16 @@ class _HomeState extends State<Home> {
                 ),
               )
             : AppBar(
-                actions: const [
-                  Icon(Icons.notification_important),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Subscribers()));
+                    },
+                    icon: Icon(Icons.notification_important),
+                  ),
                   SizedBox(
                     width: 10,
                   ),
@@ -76,9 +86,6 @@ class _HomeState extends State<Home> {
 
                 bottom: TabBar(
                   tabs: const [
-                    Tab(
-                      text: "All",
-                    ),
                     Tab(
                       text: "Public",
                     ),
@@ -98,7 +105,6 @@ class _HomeState extends State<Home> {
                 // elevation: 1,
               ),
         body: (const TabBarView(children: [
-          Public(),
           Public(),
           Donation(),
           Secondary(),

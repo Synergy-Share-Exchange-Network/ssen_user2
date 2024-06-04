@@ -489,22 +489,20 @@ import '../../Repository/firebase/model methods/firebase_ML_methods/ML_general_d
 import '../../provider/user_provider.dart';
 import '../../repository/api/ML prediction/ML_prediction_pre_procceing_methods.dart';
 import '../../repository/api/api_call_prediction.dart';
-import 'graph_generator.dart';
+import '../../utils/constants.dart';
+import 'graph_mini_gen.dart';
 
-class LineChartgraph extends StatefulWidget {
-  const LineChartgraph({
-    Key? key,
-    required this.id,
-  }) : super(key: key);
+class graph1mini extends StatefulWidget {
+  graph1mini({Key? key, required this.id}) : super(key: key);
   final String id;
   @override
-  _LineChartgraphState createState() => _LineChartgraphState();
+  _graph1miniState createState() => _graph1miniState();
 }
 
-class _LineChartgraphState extends State<LineChartgraph> {
+class _graph1miniState extends State<graph1mini> {
   late List<String> _xLabelsDay;
-  late List<String> _xLabelsMonth;
-  late List<String> _xLabelsYear;
+  // late List<String> _xLabelsMonth;
+  // late List<String> _xLabelsYear;
   // late List<List<int>> _monthIndexes;
   Timer? _dataFetchTimer;
   // lateString? id=widget.company.identification;
@@ -519,12 +517,12 @@ class _LineChartgraphState extends State<LineChartgraph> {
   void initState() {
     super.initState();
     // fetchData('NKkRUGqVFDUYi6qTMWrhOlctHmT2');
-    _xLabelsDay = _generateXLabelsDay();
-    _xLabelsMonth = _generateXLabelsMonth();
-    _xLabelsYear = _generateXLabelsYear(2);
+    // _xLabelsDay = _generateXLabelsDay();
+    // _xLabelsMonth = _generateXLabelsMonth();
+    // _xLabelsYear = _generateXLabelsYear(2);
 
     // fetchData('NKkRUGqVFDUYi6qTMWrhOlctHmT2');
-    _dataFetchTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+    _dataFetchTimer = Timer.periodic(const Duration(seconds: 4), (_) async {
       fetchData(widget.id);
     });
   }
@@ -737,130 +735,129 @@ class _LineChartgraphState extends State<LineChartgraph> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          const SizedBox(height: 10),
-          FadeInUp(
-            duration: const Duration(milliseconds: 1000),
-            from: 30,
-            child: const Text(
-              '+1.5%',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 50),
+          // FadeInUp(
+          //   duration: const Duration(milliseconds: 1000),
+          //   from: 30,
+          //   child: const Text(
+          //     '+1.5%',
+          //     style: TextStyle(
+          //       fontSize: 18,
+          //       color: Colors.blue,
+          //       fontWeight: FontWeight.bold,
+          //     ),
+          //   ),
+          // ),
+
           FadeInUp(
             duration: const Duration(milliseconds: 1000),
             from: 60,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: (MediaQuery.of(context).size.width > phoneSize) ? 30 : 15,
               child: LineChart(
                 mainData(
                   currentIndex: _currentIndex,
                   dailySpots: _dailySpots,
-                  monthlySpots: _monthlySpots,
-                  yearlySpots: _yearlySpots,
-                  xLabelsDay: _xLabelsDay,
-                  xLabelsMonth: _xLabelsMonth,
-                  xLabelsYear: _xLabelsYear,
+                  // monthlySpots: _monthlySpots,
+                  // yearlySpots: _yearlySpots,
+                  // xLabelsDay: _xLabelsDay,
+                  // xLabelsMonth: _xLabelsMonth,
+                  // xLabelsYear: _xLabelsYear,
                 ),
                 swapAnimationCurve: Curves.easeInOutCubic,
                 swapAnimationDuration: const Duration(milliseconds: 1000),
               ),
             ),
           ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            height: MediaQuery.of(context).size.height * 0.3,
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _currentIndex = 0;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 15.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: _currentIndex == 0
-                          ? const Color(0xff161b22)
-                          : const Color(0xff161b22).withOpacity(0.0),
-                    ),
-                    child: Text(
-                      "D",
-                      style: TextStyle(
-                        color: _currentIndex == 0
-                            ? Colors.blueGrey.shade200
-                            : Colors.blueGrey,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _currentIndex = 1;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 15.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: _currentIndex == 1
-                          ? const Color(0xff161b22)
-                          : const Color(0xff161b22).withOpacity(0.0),
-                    ),
-                    child: Text(
-                      "M",
-                      style: TextStyle(
-                        color: _currentIndex == 1
-                            ? Colors.blueGrey.shade200
-                            : Colors.blueGrey,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _currentIndex = 2;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 15.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: _currentIndex == 2
-                          ? const Color(0xff161b22)
-                          : const Color(0xff161b22).withOpacity(0.0),
-                    ),
-                    child: Text(
-                      "Y",
-                      style: TextStyle(
-                        color: _currentIndex == 2
-                            ? Colors.blueGrey.shade200
-                            : Colors.blueGrey,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // AnimatedContainer(
+          //   duration: const Duration(milliseconds: 500),
+          //   height: MediaQuery.of(context).size.height * 0.3,
+          //   padding: const EdgeInsets.all(20),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //     children: [
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             _currentIndex = 0;
+          //           });
+          //         },
+          //         child: Container(
+          //           padding: const EdgeInsets.symmetric(
+          //               horizontal: 20.0, vertical: 15.0),
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(10),
+          //             color: _currentIndex == 0
+          //                 ? const Color(0xff161b22)
+          //                 : const Color(0xff161b22).withOpacity(0.0),
+          //           ),
+          //           child: Text(
+          //             "D",
+          //             style: TextStyle(
+          //               color: _currentIndex == 0
+          //                   ? Colors.blueGrey.shade200
+          //                   : Colors.blueGrey,
+          //               fontSize: 20,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             _currentIndex = 1;
+          //           });
+          //         },
+          //         child: AnimatedContainer(
+          //           duration: const Duration(milliseconds: 500),
+          //           padding: const EdgeInsets.symmetric(
+          //               horizontal: 20.0, vertical: 15.0),
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(10),
+          //             color: _currentIndex == 1
+          //                 ? const Color(0xff161b22)
+          //                 : const Color(0xff161b22).withOpacity(0.0),
+          //           ),
+          //           child: Text(
+          //             "M",
+          //             style: TextStyle(
+          //               color: _currentIndex == 1
+          //                   ? Colors.blueGrey.shade200
+          //                   : Colors.blueGrey,
+          //               fontSize: 20,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             _currentIndex = 2;
+          //           });
+          //         },
+          //         child: AnimatedContainer(
+          //           duration: const Duration(milliseconds: 500),
+          //           padding: const EdgeInsets.symmetric(
+          //               horizontal: 20.0, vertical: 15.0),
+          //           decoration: BoxDecoration(
+          //             borderRadius: BorderRadius.circular(10),
+          //             color: _currentIndex == 2
+          //                 ? const Color(0xff161b22)
+          //                 : const Color(0xff161b22).withOpacity(0.0),
+          //           ),
+          //           child: Text(
+          //             "Y",
+          //             style: TextStyle(
+          //               color: _currentIndex == 2
+          //                   ? Colors.blueGrey.shade200
+          //                   : Colors.blueGrey,
+          //               fontSize: 20,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

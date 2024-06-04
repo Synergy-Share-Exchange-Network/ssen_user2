@@ -75,7 +75,7 @@ class _LineChartgraphShareState extends State<LineChartgraphShare> {
           duration: Duration(milliseconds: 1000),
           from: 60,
           child: Container(
-              height: (MediaQuery.of(context).size.width > phoneSize) ? 30 : 30,
+              height: (MediaQuery.of(context).size.width > phoneSize) ? 30 : 15,
               child: LineChart(
                 mainData(),
                 swapAnimationCurve: Curves.easeInOutCubic,
