@@ -13,6 +13,7 @@ import 'package:ssen_user/screens/components/home.dart';
 import 'package:ssen_user/screens/components/subscribers.dart';
 
 import 'package:ssen_user/screens/login.dart';
+import 'package:ssen_user/screens/partial%20screen/purchase.dart';
 import 'package:ssen_user/screens/profile.dart';
 
 import 'package:ssen_user/services/app_routes.dart';
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
 
         // home: PostShareSecondary(),
         // home: const Subscribers(),
+        // home: Purchase(),
         // home: UserProfile(),
 
         // home: LoginScreen(),

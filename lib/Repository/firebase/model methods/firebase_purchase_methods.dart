@@ -14,22 +14,21 @@ class FirebasePurchaseMethods implements FirebasePurchaseAbstract {
     String res = "";
     try {
       print("in");
-      purchase.identification = const Uuid().v8();
       purchase.companyID = share.companyID;
       purchase.userID = user.identification;
-      purchase.firstName = user.firstName;
-      purchase.lastName = user.lastName;
+      // purchase.firstName = user.firstName;
+      // purchase.lastName = user.lastName;
       purchase.bankAccount = share.bankInformation[0];
-      purchase.houseNumber = user.houseNumber;
-      purchase.kebeleIDPhoto = user.kebeleIDPhoto;
-      purchase.kebele = user.kebele;
-      purchase.nationality = user.nationality;
-      purchase.email = user.email;
+      // purchase.houseNumber = user.houseNumber;
+      // purchase.kebeleIDPhoto = user.kebeleIDPhoto;
+      // purchase.kebele = user.kebele;
+      // purchase.nationality = user.nationality;
+      // purchase.email = user.email;
       purchase.shareID = share.identification;
-      purchase.subCity = user.subCity;
-      purchase.woreda = user.woreda;
-      purchase.phoneNumber = user.phoneNumber;
-      purchase.region = user.region;
+      // purchase.subCity = user.subCity;
+      // purchase.woreda = user.woreda;
+      // purchase.phoneNumber = user.phoneNumber;
+      // purchase.region = user.region;
       // purchase.
       // purchase.deadlineForUnpayedMoney =
       //     share.timeToReturnRemainPayment.toString();

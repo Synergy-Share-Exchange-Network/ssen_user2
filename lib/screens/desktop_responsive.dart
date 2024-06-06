@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssen_user/Models/user_model.dart';
@@ -17,6 +18,7 @@ import 'package:ssen_user/utils/constants/image_Strings.dart';
 import 'package:ssen_user/utils/utils.dart';
 
 import 'about.dart';
+import 'login.dart';
 
 class DesktopResponsive extends StatefulWidget {
   const DesktopResponsive({super.key});
@@ -297,9 +299,10 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        // FirebaseAuth.instance.signOut();
-                                        // Navigator.pushReplacementNamed(
-                                        //     context, Login.route);
+                                        print("logging out");
+                                        FirebaseAuth.instance.signOut();
+                                        Navigator.pushReplacementNamed(
+                                            context, Login.route);
                                       },
                                       child: Container(
                                         // color: Colors.green,
@@ -651,12 +654,11 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  // FirebaseAuth.instance
-                                                  //     .signOut();
-                                                  // Navigator
-                                                  //     .pushReplacementNamed(
-                                                  //         context,
-                                                  //         Login.route);
+                                                  FirebaseAuth.instance
+                                                      .signOut();
+                                                  Navigator
+                                                      .pushReplacementNamed(
+                                                          context, Login.route);
                                                 },
                                                 child: Container(
                                                   // color: Colors.green,

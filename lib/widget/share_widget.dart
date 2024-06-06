@@ -127,7 +127,7 @@ class ShareWidget extends StatelessWidget {
                             child: LinearPercentIndicator(
                               animation: true,
                               animationDuration: 2000,
-                              lineHeight: 6,
+                              lineHeight: 2,
                               percent: 0.8,
                               progressColor: Colors.green,
                               backgroundColor: Colors.green.shade200,

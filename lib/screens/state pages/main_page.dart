@@ -101,7 +101,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int currentIndex = 1;
+  int currentIndex = 0;
   // final screens = [Home(), Subscription(), Favorite(), Cart(), Order()];
   final screens = [
     Home(),

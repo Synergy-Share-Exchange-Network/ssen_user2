@@ -45,141 +45,143 @@ class _SubscribersState extends State<Subscribers> {
             ),
       body: Column(
         children: [
-          _buildSubscriberList(),
-          _buildFilterButtons(),
-          Expanded(child: _buildSubscriptionList()),
-        ],
-      ),
-    );
-  }
+          SizedBox(
+            height: 10,
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection(CollectionName.organization)
+                .orderBy('createdDay', descending: true)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
 
-  Widget _buildSubscriberList() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection(CollectionName.organization)
-          .orderBy('createdDay', descending: true)
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+              List<CompanyProfileModel> companies =
+                  snapshot.data!.docs.map((document) {
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+                return CompanyProfileModel.fromMap(data);
+              }).toList();
 
-        List<CompanyProfileModel> companies =
-            snapshot.data!.docs.map((document) {
-          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-          return CompanyProfileModel.fromMap(data);
-        }).toList();
-
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ...companies.map((company) {
+                      return MiniCompanySub(company: company);
+                    }).toList(),
+                    TextButton(
+                      onPressed: () {
+                        // Add your onPressed code here
+                      },
+                      child: const Text("View all"),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ...companies.map((company) {
-                return MiniCompanySub(company: company);
-              }).toList(),
-              TextButton(
-                onPressed: () {
-                  // Add your onPressed code here
+              CustomChip(
+                text: "All",
+                icon: Icons.all_inbox,
+                isSelected: isAllSelected,
+                onSelected: () {
+                  setState(() {
+                    isAllSelected = true;
+                    isPublicSelected = false;
+                    isDonationSelected = false;
+                  });
                 },
-                child: const Text("View all"),
+              ),
+              CustomChip(
+                text: "Public",
+                icon: Icons.people,
+                isSelected: isPublicSelected,
+                onSelected: () {
+                  setState(() {
+                    isAllSelected = false;
+                    isPublicSelected = true;
+                    isDonationSelected = false;
+                  });
+                },
+              ),
+              CustomChip(
+                text: "Donation",
+                icon: Icons.folder_open,
+                isSelected: isDonationSelected,
+                onSelected: () {
+                  setState(() {
+                    isAllSelected = false;
+                    isPublicSelected = false;
+                    isDonationSelected = true;
+                  });
+                },
               ),
             ],
           ),
-        );
-      },
-    );
-  }
+          SizedBox(
+            height: 15,
+          ),
+          Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection(CollectionName.organization)
+                .orderBy('createdDay', descending: true)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
 
-  Widget _buildFilterButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CustomChip(
-          text: "All",
-          icon: Icons.all_inbox,
-          isSelected: isAllSelected,
-          onSelected: () {
-            setState(() {
-              isAllSelected = true;
-              isPublicSelected = false;
-              isDonationSelected = false;
-            });
-          },
-        ),
-        CustomChip(
-          text: "Public",
-          icon: Icons.people,
-          isSelected: isPublicSelected,
-          onSelected: () {
-            setState(() {
-              isAllSelected = false;
-              isPublicSelected = true;
-              isDonationSelected = false;
-            });
-          },
-        ),
-        CustomChip(
-          text: "Donation",
-          icon: Icons.folder_open,
-          isSelected: isDonationSelected,
-          onSelected: () {
-            setState(() {
-              isAllSelected = false;
-              isPublicSelected = false;
-              isDonationSelected = true;
-            });
-          },
-        ),
-      ],
-    );
-  }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-  Widget _buildSubscriptionList() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection(CollectionName.organization)
-          .orderBy('createdDay', descending: true)
-          .snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        }
+              List<CompanyProfileModel> companies =
+                  snapshot.data!.docs.map((document) {
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+                return CompanyProfileModel.fromMap(data);
+              }).toList();
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+              // Apply filter based on selection
+              List<CompanyProfileModel> filteredCompanies;
+              if (isAllSelected) {
+                filteredCompanies = companies;
+              } else if (isPublicSelected) {
+                // filteredCompanies = companies.where((company) => company.isPublic).toList();
+                filteredCompanies = companies;
+              } else if (isDonationSelected) {
+                // filteredCompanies = companies.where((company) => company.isDonation).toList();
+                filteredCompanies = companies;
+              } else {
+                filteredCompanies = companies;
+              }
 
-        List<CompanyProfileModel> companies =
-            snapshot.data!.docs.map((document) {
-          Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-          return CompanyProfileModel.fromMap(data);
-        }).toList();
-
-        // Apply filter based on selection
-        List<CompanyProfileModel> filteredCompanies;
-        if (isAllSelected) {
-          filteredCompanies = companies;
-        } else if (isPublicSelected) {
-          // filteredCompanies = companies.where((company) => company.isPublic).toList();
-          filteredCompanies = companies;
-        } else if (isDonationSelected) {
-          // filteredCompanies = companies.where((company) => company.isDonation).toList();
-          filteredCompanies = companies;
-        } else {
-          filteredCompanies = companies;
-        }
-
-        return ListView.builder(
-          itemCount: filteredCompanies.length,
-          itemBuilder: (context, index) {
-            return SubscriptionWidget(company: filteredCompanies[index]);
-          },
-        );
-      },
+              return ListView.builder(
+                itemCount: filteredCompanies.length,
+                itemBuilder: (context, index) {
+                  return SubscriptionWidget(company: filteredCompanies[index]);
+                },
+              );
+            },
+          )),
+        ],
+      ),
     );
   }
 }

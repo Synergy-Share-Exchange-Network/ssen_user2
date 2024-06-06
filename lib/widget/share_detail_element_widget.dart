@@ -38,7 +38,7 @@ class ShareDetailElementWidget extends StatelessWidget {
                       child: Container(
                         height: 80,
                         width: MediaQuery.of(context).size.width - 30,
-                        margin: EdgeInsets.only(left: 5),
+                        margin: EdgeInsets.all(8),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           // ignore: prefer_const_literals_to_create_immutables
@@ -148,7 +148,7 @@ class ShareDetailElementWidget extends StatelessWidget {
                       child: Container(
                         height: 80,
                         width: 300,
-                        margin: EdgeInsets.only(left: 5),
+                        margin: EdgeInsets.all(8),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           // ignore: prefer_const_literals_to_create_immutables
@@ -202,7 +202,7 @@ class ShareDetailElementWidget extends StatelessWidget {
                     child: Container(
                       height: 80,
                       width: 300,
-                      margin: EdgeInsets.only(left: 5),
+                      margin: EdgeInsets.all(8),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         // ignore: prefer_const_literals_to_create_immutables

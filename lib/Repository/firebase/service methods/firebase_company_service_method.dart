@@ -137,4 +137,62 @@ class FirebaseCompanyServiceMethod {
 
     return res;
   }
+
+  Future<String> subscribeUser(
+      CompanyProfileModel company, UserModel user) async {
+    String res = "some error has occured";
+    try {
+      List<String> companyValue = company.subscribersID;
+      if (!companyValue.contains(user.identification)) {
+        companyValue.add(user.identification);
+        companyValue.removeWhere((value) => value == '');
+      }
+
+      List<String> userValue = user.companiesId;
+      if (!userValue.contains(company.identification)) {
+        userValue.add(company.identification);
+        userValue.removeWhere((value) => value == '');
+      }
+
+      await FirebaseUpdateMethodUser().update(user, company.identification,
+          'reason', 'subscribersID', companyValue, CompanyProfileModel);
+
+      await FirebaseUpdateMethodUser().update(user, user.identification,
+          'reason', 'companiesId', userValue, UserModel);
+
+      //notify verification througn push notification and email
+      res = "Success";
+    } catch (e) {
+      res = e.toString();
+    }
+
+    return res;
+  }
+
+  Future<String> unSubscribeUser(
+      CompanyProfileModel company, UserModel user) async {
+    String res = "some error has occured";
+    try {
+      List<String> companyValue = company.subscribersID;
+
+      companyValue.removeWhere((value) => value == user.identification);
+
+      List<String> userValue = user.companiesId;
+
+      userValue.removeWhere((value) => value == company.identification);
+
+      await FirebaseUpdateMethodUser().update(user, company.identification,
+          'reason', 'subscribersID', companyValue, CompanyProfileModel);
+
+      await FirebaseUpdateMethodUser().update(user, user.identification,
+          'reason', 'companiesId', userValue, UserModel);
+
+      //notify verification througn push notification and email
+      res = "Success";
+    } catch (e) {
+      res = e.toString();
+    }
+
+    return res;
+  }
 }

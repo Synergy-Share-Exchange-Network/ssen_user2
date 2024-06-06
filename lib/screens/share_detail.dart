@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:provider/provider.dart';
 import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Repository/firebase/model%20methods/firebase_company_profile_methods.dart';
+import 'package:ssen_user/Repository/firebase/service%20methods/firebase_company_service_method.dart';
+import 'package:ssen_user/screens/partial%20screen/purchase.dart';
 
 import '../Models/share_model.dart';
+import '../Models/user_model.dart';
+import '../provider/user_provider.dart';
 import '../utils/constants.dart';
 import '../widget/analytics/graph1.dart';
 import '../widget/analytics/graph2.dart';
@@ -76,6 +82,7 @@ class _ShareDetailState extends State<ShareDetail> {
     //   'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     //   'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
     // ];
+    UserModel user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       appBar: AppBar(),
@@ -145,24 +152,60 @@ class _ShareDetailState extends State<ShareDetail> {
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      width: 160,
-                                      height: 40,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Colors.blueAccent,
-                                        ),
-                                        onPressed: () {},
-                                        child: const Text(
-                                          "Subscribe",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 20,
+                                    (!widget.company.subscribersID
+                                            .contains(user.identification))
+                                        ? Container(
+                                            width: 160,
+                                            height: 40,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: Colors.blueAccent,
+                                              ),
+                                              onPressed: () async {
+                                                await FirebaseCompanyServiceMethod()
+                                                    .subscribeUser(
+                                                        widget.company, user);
+                                                await Provider.of<UserProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .refreshUser();
+                                              },
+                                              child: const Text(
+                                                "Subscribe",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            width: 160,
+                                            height: 40,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: Colors.blueAccent,
+                                              ),
+                                              onPressed: () async {
+                                                await FirebaseCompanyServiceMethod()
+                                                    .unSubscribeUser(
+                                                        widget.company, user);
+                                                await Provider.of<UserProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .refreshUser();
+                                              },
+                                              child: const Text(
+                                                "UnSubscribe",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -408,7 +451,16 @@ class _ShareDetailState extends State<ShareDetail> {
                               child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.white),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Purchase(
+                                                share: widget.share,
+                                                user: user,
+                                              )),
+                                    );
+                                  },
                                   child: const Text("Buy Now",
                                       style: TextStyle(
                                           color: Colors.blue,
@@ -479,19 +531,60 @@ class _ShareDetailState extends State<ShareDetail> {
                                   ],
                                 ),
                                 const Expanded(child: SizedBox()),
-                                Container(
-                                  width: 160,
-                                  height: 40,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.blueAccent),
-                                      onPressed: () {},
-                                      child: const Text("Subscribe",
-                                          style: TextStyle(
+                                (!widget.company.subscribersID
+                                        .contains(user.identification))
+                                    ? Container(
+                                        width: 160,
+                                        height: 40,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.blueAccent,
+                                          ),
+                                          onPressed: () async {
+                                            await FirebaseCompanyServiceMethod()
+                                                .subscribeUser(
+                                                    widget.company, user);
+                                            await Provider.of<UserProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .refreshUser();
+                                          },
+                                          child: const Text(
+                                            "Subscribe",
+                                            style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.normal,
-                                              fontSize: 20))),
-                                ),
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
+                                        width: 160,
+                                        height: 40,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.blueAccent,
+                                          ),
+                                          onPressed: () async {
+                                            await FirebaseCompanyServiceMethod()
+                                                .unSubscribeUser(
+                                                    widget.company, user);
+                                            await Provider.of<UserProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .refreshUser();
+                                          },
+                                          child: const Text(
+                                            "UnSubscribe",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                 // ElevatedButton(
                                 //     onPressed: () {},
                                 //     child: const Text(
@@ -764,7 +857,16 @@ class _ShareDetailState extends State<ShareDetail> {
                                     child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                             primary: Colors.white),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Purchase(
+                                                      share: widget.share,
+                                                      user: user,
+                                                    )),
+                                          );
+                                        },
                                         child: const Text("Buy Now",
                                             style: TextStyle(
                                                 color: Colors.blue,

@@ -521,10 +521,10 @@ class _graph1miniState extends State<graph1mini> {
     // _xLabelsMonth = _generateXLabelsMonth();
     // _xLabelsYear = _generateXLabelsYear(2);
 
-    // fetchData('NKkRUGqVFDUYi6qTMWrhOlctHmT2');
-    _dataFetchTimer = Timer.periodic(const Duration(seconds: 4), (_) async {
-      fetchData(widget.id);
-    });
+    fetchData(widget.id);
+    // _dataFetchTimer = Timer.periodic(const Duration(seconds: 4), (_) async {
+    //   fetchData(widget.id);
+    // });
   }
 
   List<FlSpot> calculateMonthValues(

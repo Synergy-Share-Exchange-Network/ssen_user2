@@ -523,10 +523,10 @@ class _LineChartgraphState extends State<LineChartgraph> {
     _xLabelsMonth = _generateXLabelsMonth();
     _xLabelsYear = _generateXLabelsYear(2);
 
-    // fetchData('NKkRUGqVFDUYi6qTMWrhOlctHmT2');
-    _dataFetchTimer = Timer.periodic(const Duration(seconds: 4), (_) {
-      fetchData(widget.id);
-    });
+    fetchData(widget.id);
+    // _dataFetchTimer = Timer.periodic(const Duration(seconds: 4), (_) {
+    //   fetchData(widget.id);
+    // });
   }
 
   List<FlSpot> calculateMonthValues(
@@ -773,8 +773,9 @@ class _LineChartgraphState extends State<LineChartgraph> {
           ),
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
-            height: MediaQuery.of(context).size.height * 0.3,
-            padding: const EdgeInsets.all(20),
+            // height: MediaQuery.of(context).size.height * 0.3,
+            height: 10,
+            // padding: const EdgeInsets.all(20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -786,7 +787,7 @@ class _LineChartgraphState extends State<LineChartgraph> {
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 15.0),
+                        horizontal: 20.0, vertical: 3.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: _currentIndex == 0
@@ -813,7 +814,7 @@ class _LineChartgraphState extends State<LineChartgraph> {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 15.0),
+                        horizontal: 20.0, vertical: 3.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: _currentIndex == 1
@@ -840,7 +841,7 @@ class _LineChartgraphState extends State<LineChartgraph> {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 15.0),
+                        horizontal: 20.0, vertical: 3.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: _currentIndex == 2

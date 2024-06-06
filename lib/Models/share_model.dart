@@ -147,28 +147,73 @@ class ShareModel {
     };
   }
 
+  // factory ShareModel.fromMap(Map<String, dynamic> map) {
+  //   return ShareModel(
+  //     savingAccountPercentage: map['savingAccountPercentage'] as double,
+  //     proclamationNumber: map['proclamationNumber'] as String,
+  //     minimumNumberOfBuyer: map['minimumNumberOfBuyer'] as int,
+  //     maximumNumberOfBuyer: map['maximumNumberOfBuyer'] as int,
+  //     bankInformation:
+  //         List<String>.from(map['bankInformation'] as List<dynamic>),
+  //     shareImage: List<String>.from(map['shareImage'] as List<dynamic>),
+  //     unitSharePrice: map['unitSharePrice'] as double,
+  //     noOfShares: map['noOfShares'] as double,
+  //     divident: map['divident'] as double,
+  //     minimumPaymentInPercent: map['minimumPaymentInPercent'] as double,
+  //     minimumNumberOfSharesToBuy: map['minimumNumberOfSharesToBuy'] as double,
+  //     maximumNumberOfSharesToBuy: map['maximumNumberOfSharesToBuy'] as double,
+  //     requirement: map['requirement'] as String,
+  //     identification: map['identification'] as String,
+  //     companyID: map['companyID'] as String,
+  //     description: map['description'] as String,
+  //     searchKeyWords: List<String>.from(map['searchKeyWords'] as List<dynamic>),
+  //     returnDividentDescription:
+  //         List<String>.from(map['returnDividentDescription'] as List<dynamic>),
+  //     timeToReturnRemainPayment: map['timeToReturnRemainPayment'] as int,
+  //     currency: map['currency'] as String,
+  //     dateAdded: map['dateAdded'] as String,
+  //     isDeleted: map['isDeleted'] ?? false,
+  //     isHidden: map['isHidden'] ?? false,
+  //   );
+  // }
   factory ShareModel.fromMap(Map<String, dynamic> map) {
     return ShareModel(
-      savingAccountPercentage: map['savingAccountPercentage'] as double,
+      savingAccountPercentage: (map['savingAccountPercentage'] is int)
+          ? (map['savingAccountPercentage'] as int).toDouble()
+          : map['savingAccountPercentage'] as double,
       proclamationNumber: map['proclamationNumber'] as String,
       minimumNumberOfBuyer: map['minimumNumberOfBuyer'] as int,
       maximumNumberOfBuyer: map['maximumNumberOfBuyer'] as int,
-      bankInformation:
-          List<String>.from(map['bankInformation'] as List<dynamic>),
-      shareImage: List<String>.from(map['shareImage'] as List<dynamic>),
-      unitSharePrice: map['unitSharePrice'] as double,
-      noOfShares: map['noOfShares'] as double,
-      divident: map['divident'] as double,
-      minimumPaymentInPercent: map['minimumPaymentInPercent'] as double,
-      minimumNumberOfSharesToBuy: map['minimumNumberOfSharesToBuy'] as double,
-      maximumNumberOfSharesToBuy: map['maximumNumberOfSharesToBuy'] as double,
+      bankInformation: List<String>.from(
+          map['bankInformation'].map((item) => item as String)),
+      shareImage:
+          List<String>.from(map['shareImage'].map((item) => item as String)),
+      unitSharePrice: (map['unitSharePrice'] is int)
+          ? (map['unitSharePrice'] as int).toDouble()
+          : map['unitSharePrice'] as double,
+      noOfShares: (map['noOfShares'] is int)
+          ? (map['noOfShares'] as int).toDouble()
+          : map['noOfShares'] as double,
+      divident: (map['divident'] is int)
+          ? (map['divident'] as int).toDouble()
+          : map['divident'] as double,
+      minimumPaymentInPercent: (map['minimumPaymentInPercent'] is int)
+          ? (map['minimumPaymentInPercent'] as int).toDouble()
+          : map['minimumPaymentInPercent'] as double,
+      minimumNumberOfSharesToBuy: (map['minimumNumberOfSharesToBuy'] is int)
+          ? (map['minimumNumberOfSharesToBuy'] as int).toDouble()
+          : map['minimumNumberOfSharesToBuy'] as double,
+      maximumNumberOfSharesToBuy: (map['maximumNumberOfSharesToBuy'] is int)
+          ? (map['maximumNumberOfSharesToBuy'] as int).toDouble()
+          : map['maximumNumberOfSharesToBuy'] as double,
       requirement: map['requirement'] as String,
       identification: map['identification'] as String,
       companyID: map['companyID'] as String,
       description: map['description'] as String,
-      searchKeyWords: List<String>.from(map['searchKeyWords'] as List<dynamic>),
-      returnDividentDescription:
-          List<String>.from(map['returnDividentDescription'] as List<dynamic>),
+      searchKeyWords: List<String>.from(
+          map['searchKeyWords'].map((item) => item as String)),
+      returnDividentDescription: List<String>.from(
+          map['returnDividentDescription'].map((item) => item as String)),
       timeToReturnRemainPayment: map['timeToReturnRemainPayment'] as int,
       currency: map['currency'] as String,
       dateAdded: map['dateAdded'] as String,
