@@ -35,14 +35,8 @@ class FirebaseAnnouncementMethods implements FirebaseAnnouncementAbstract {
           .doc(companyProfile.identification)
           .update({'announcementID': announcements});
 //logging the addition
-      FirebaseLogMethods().create(
-          user,
-          announcement.identification,
-          ModifiedEntity.announcement,
-          LogLevel.info,
-          LogAction.addition,
-          'reason',
-          ['']);
+      FirebaseLogMethods().create(user, announcement.identification,
+          'announcement', 'info', 'addition', 'reason', ['']);
       res = "success";
     } catch (err) {
       res = err.toString();
@@ -72,8 +66,8 @@ class FirebaseAnnouncementMethods implements FirebaseAnnouncementAbstract {
           'isDeleted': true,
         });
         //logging the deletion
-        FirebaseLogMethods().create(user, id, ModifiedEntity.announcement,
-            LogLevel.info, LogAction.deletion, reason, ['']);
+        FirebaseLogMethods()
+            .create(user, id, 'Announcement', 'Info', 'deletion', reason, ['']);
 
         res = "success";
       }

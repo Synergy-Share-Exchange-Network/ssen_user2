@@ -45,6 +45,7 @@ class CompanyProfileModel {
   double capital;
   double aimedCapital;
   bool isDeleted;
+  bool isPublic;
   bool isHidden;
   bool isVerified;
   bool isBanned;
@@ -91,6 +92,7 @@ class CompanyProfileModel {
     capital,
     aimedCapital,
     isDeleted,
+    isPublic,
     isHidden,
     isVerified,
     isBanned,
@@ -131,6 +133,7 @@ class CompanyProfileModel {
         capital = capital ?? 0.0,
         aimedCapital = aimedCapital ?? 0.0,
         isDeleted = isDeleted ?? false,
+        isPublic = isPublic ?? false,
         isHidden = isHidden ?? false,
         isVerified = isVerified ?? false,
         isBanned = isBanned ?? false;
@@ -178,6 +181,7 @@ class CompanyProfileModel {
     double? capital,
     double? aimedCapital,
     bool? isDeleted,
+    bool? isPublic,
     bool? isHidden,
     bool? isVerified,
     bool? isBanned,
@@ -225,6 +229,7 @@ class CompanyProfileModel {
       capital: capital ?? this.capital,
       aimedCapital: aimedCapital ?? this.aimedCapital,
       isDeleted: isDeleted ?? this.isDeleted,
+      isPublic: isPublic ?? this.isPublic,
       isHidden: isHidden ?? this.isHidden,
       isVerified: isVerified ?? this.isVerified,
       isBanned: isBanned ?? this.isBanned,
@@ -276,6 +281,7 @@ class CompanyProfileModel {
     result.addAll({'capital': capital});
     result.addAll({'aimedCapital': aimedCapital});
     result.addAll({'isDeleted': isDeleted});
+    result.addAll({'isPublic': isPublic});
     result.addAll({'isHidden': isHidden});
     result.addAll({'isVerified': isVerified});
     result.addAll({'isBanned': isBanned});
@@ -327,6 +333,7 @@ class CompanyProfileModel {
       capital: map['capital']?.toDouble() ?? 0.0,
       aimedCapital: map['aimedCapital']?.toDouble() ?? 0.0,
       isDeleted: map['isDeleted'] ?? false,
+      isPublic: map['isPublic'] ?? false,
       isHidden: map['isHidden'] ?? false,
       isVerified: map['isVerified'] ?? false,
       isBanned: map['isBanned'] ?? false,
@@ -340,7 +347,7 @@ class CompanyProfileModel {
 
   @override
   String toString() {
-    return 'CompanyProfileModel(identification: $identification, name: $name, businessSector: $businessSector, lineOfBusiness: $lineOfBusiness, yearOfEstablishment: $yearOfEstablishment, email: $email, motto: $motto, shareID: $shareID, description: $description, mission: $mission, vision: $vision, value: $value, target: $target, goal: $goal, whyInvestID: $whyInvestID, history: $history, mileStone: $mileStone, locationDescription: $locationDescription, userRequirment: $userRequirment, phoneNumber: $phoneNumber, poBox: $poBox, tinNumber: $tinNumber, subscribersID: $subscribersID, brandImage: $brandImage, logoImage: $logoImage, productID: $productID, serviceID: $serviceID, employee: $employee, keyFigureID: $keyFigureID, testimonialID: $testimonialID, partners: $partners, awardAndRecognition: $awardAndRecognition, bankAccount: $bankAccount, announcementID: $announcementID, faqID: $faqID, termconditionID: $termconditionID, longLat: $longLat, socialMediaLink: $socialMediaLink,secondaryMarket: $secondaryMarket, capital: $capital, aimedCapital: $aimedCapital, isDeleted: $isDeleted, isHidden: $isHidden,isVerified: $isVerified, isBanned: $isBanned)';
+    return 'CompanyProfileModel(identification: $identification, name: $name, businessSector: $businessSector, lineOfBusiness: $lineOfBusiness, yearOfEstablishment: $yearOfEstablishment, email: $email, motto: $motto, shareID: $shareID, description: $description, mission: $mission, vision: $vision, value: $value, target: $target, goal: $goal, whyInvestID: $whyInvestID, history: $history, mileStone: $mileStone, locationDescription: $locationDescription, userRequirment: $userRequirment, phoneNumber: $phoneNumber, poBox: $poBox, tinNumber: $tinNumber, subscribersID: $subscribersID, brandImage: $brandImage, logoImage: $logoImage, productID: $productID, serviceID: $serviceID, employee: $employee, keyFigureID: $keyFigureID, testimonialID: $testimonialID, partners: $partners, awardAndRecognition: $awardAndRecognition, bankAccount: $bankAccount, announcementID: $announcementID, faqID: $faqID, termconditionID: $termconditionID, longLat: $longLat, socialMediaLink: $socialMediaLink,secondaryMarket: $secondaryMarket, capital: $capital, aimedCapital: $aimedCapital, isDeleted: $isDeleted, isPublic: $isPublic, isHidden: $isHidden,isVerified: $isVerified, isBanned: $isBanned)';
   }
 }
 

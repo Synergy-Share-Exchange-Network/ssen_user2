@@ -26,14 +26,8 @@ class FirebaseUserMethods implements FirebaseUserAbstract {
       //     EmailTemplate.getWelcomeEmail(user.firstName, user.email));
 
 //logging the addition
-      FirebaseLogMethods().create(
-          user,
-          user.identification,
-          ModifiedEntity.user,
-          LogLevel.info,
-          LogAction.addition,
-          'reason',
-          ['']);
+      FirebaseLogMethods().create(user, user.identification, 'user', 'info',
+          'addition', 'reason', ['']);
       res = "success";
     } catch (err) {
       res = err.toString();

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:ssen_user/Models/log_model.dart';
-
 class UserModel {
   final String firstName;
   final String lastName;
@@ -22,6 +20,8 @@ class UserModel {
   List<String> profilePicture;
   List<String> secondaryMarket;
   List<String> companiesId;
+  List<String> secondarySub;
+  List<String> assets;
   List<String> address;
   List<String> kebeleIDPhoto;
   bool isEnabled;
@@ -47,6 +47,8 @@ class UserModel {
     profilePicture,
     secondaryMarket,
     companiesId,
+    secondarySub,
+    assets,
     address,
     kebeleIDPhoto,
     isEnabled,
@@ -68,6 +70,8 @@ class UserModel {
         profilePicture = profilePicture ?? [''],
         secondaryMarket = secondaryMarket ?? [''],
         companiesId = companiesId ?? [''],
+        secondarySub = secondarySub ?? [''],
+        assets = assets ?? [''],
         address = address ?? [''],
         kebeleIDPhoto = kebeleIDPhoto ?? [''],
         isEnabled = isEnabled ?? false,
@@ -94,6 +98,8 @@ class UserModel {
     List<String>? profilePicture,
     List<String>? secondaryMarket,
     List<String>? companiesId,
+    List<String>? secondarySub,
+    List<String>? assets,
     List<String>? address,
     List<String>? kebeleIDPhoto,
     bool? isEnabled,
@@ -120,6 +126,8 @@ class UserModel {
       profilePicture: profilePicture ?? this.profilePicture,
       secondaryMarket: secondaryMarket ?? this.secondaryMarket,
       companiesId: companiesId ?? this.companiesId,
+      secondarySub: secondarySub ?? this.secondarySub,
+      assets: assets ?? this.assets,
       address: address ?? this.address,
       kebeleIDPhoto: kebeleIDPhoto ?? this.kebeleIDPhoto,
       isEnabled: isEnabled ?? this.isEnabled,
@@ -150,6 +158,8 @@ class UserModel {
     result.addAll({'profilePicture': profilePicture});
     result.addAll({'secondaryMarket': secondaryMarket});
     result.addAll({'companiesId': companiesId});
+    result.addAll({'secondarySub': secondarySub});
+    result.addAll({'assets': assets});
     result.addAll({'address': address});
     result.addAll({'kebeleIDPhoto': kebeleIDPhoto});
     result.addAll({'isEnabled': isEnabled});
@@ -180,6 +190,8 @@ class UserModel {
       profilePicture: List<String>.from(map['profilePicture']),
       secondaryMarket: List<String>.from(map['secondaryMarket']),
       companiesId: List<String>.from(map['companiesId']),
+      secondarySub: List<String>.from(map['secondarySub']),
+      assets: List<String>.from(map['assets']),
       address: List<String>.from(map['address']),
       kebeleIDPhoto: List<String>.from(map['kebeleIDPhoto']),
       isEnabled: map['isEnabled'] ?? false,
@@ -195,7 +207,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, identification: $identification, userCreatedDate: $userCreatedDate, email: $email, role: $role, title: $title, gender: $gender, birthDate: $birthDate, nationality: $nationality, region: $region, woreda: $woreda,kebele: $kebele,subCity: $subCity, houseNumber: $houseNumber,profilePicture: $profilePicture,secondaryMarket: $secondaryMarket,companiesId, $companiesId, address: $address, kebeleIDPhoto: $kebeleIDPhoto, isEnabled: $isEnabled, isDeleted: $isDeleted, isBanned: $isBanned)';
+    return 'UserModel(firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, identification: $identification, userCreatedDate: $userCreatedDate, email: $email, role: $role, title: $title, gender: $gender, birthDate: $birthDate, nationality: $nationality, region: $region, woreda: $woreda,kebele: $kebele,subCity: $subCity, houseNumber: $houseNumber,profilePicture: $profilePicture,secondaryMarket: $secondaryMarket,companiesId, $companiesId, secondarySub: $secondarySub, assets: $assets,address: $address, kebeleIDPhoto: $kebeleIDPhoto, isEnabled: $isEnabled, isDeleted: $isDeleted, isBanned: $isBanned)';
   }
 }
 

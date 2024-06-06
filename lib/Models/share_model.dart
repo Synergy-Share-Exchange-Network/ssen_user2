@@ -23,6 +23,7 @@ class ShareModel {
   int timeToReturnRemainPayment;
   String currency;
   String dateAdded;
+  double totalSoldShares;
   bool isDeleted;
   bool isHidden;
   ShareModel({
@@ -47,17 +48,19 @@ class ShareModel {
     timeToReturnRemainPayment,
     currency,
     dateAdded,
+    totalSoldShares,
     isDeleted,
     isHidden,
-  })  : requirement = requirement ?? [''],
-        identification = identification ?? [''],
-        companyID = companyID ?? [''],
-        description = description ?? [''],
+  })  : requirement = requirement ?? '',
+        identification = identification ?? '',
+        companyID = companyID ?? '',
+        description = description ?? '',
         searchKeyWords = searchKeyWords ?? [''],
         returnDividentDescription = returnDividentDescription ?? [''],
-        timeToReturnRemainPayment = timeToReturnRemainPayment ?? [''],
-        currency = currency ?? [''],
-        dateAdded = dateAdded ?? [''],
+        timeToReturnRemainPayment = timeToReturnRemainPayment ?? 0,
+        currency = currency ?? '',
+        dateAdded = dateAdded ?? '',
+        totalSoldShares = totalSoldShares ?? 0.0,
         isDeleted = isDeleted ?? false,
         isHidden = isHidden ?? false;
 
@@ -83,6 +86,7 @@ class ShareModel {
     int? timeToReturnRemainPayment,
     String? currency,
     String? dateAdded,
+    double? totalSoldShares,
     bool? isDeleted,
     bool? isHidden,
   }) {
@@ -114,6 +118,7 @@ class ShareModel {
           timeToReturnRemainPayment ?? this.timeToReturnRemainPayment,
       currency: currency ?? this.currency,
       dateAdded: dateAdded ?? this.dateAdded,
+      totalSoldShares: totalSoldShares ?? this.totalSoldShares,
       isDeleted: isDeleted ?? this.isDeleted,
       isHidden: isHidden ?? this.isHidden,
     );
@@ -142,6 +147,7 @@ class ShareModel {
       'timeToReturnRemainPayment': timeToReturnRemainPayment,
       'currency': currency,
       'dateAdded': dateAdded,
+      'totalSoldShares': totalSoldShares,
       'isDeleted': isDeleted,
       'isHidden': isHidden,
     };
@@ -217,6 +223,9 @@ class ShareModel {
       timeToReturnRemainPayment: map['timeToReturnRemainPayment'] as int,
       currency: map['currency'] as String,
       dateAdded: map['dateAdded'] as String,
+      totalSoldShares: (map['totalSoldShares'] is int)
+          ? (map['totalSoldShares'] as int).toDouble()
+          : map['totalSoldShares'] as double,
       isDeleted: map['isDeleted'] ?? false,
       isHidden: map['isHidden'] ?? false,
     );
@@ -229,7 +238,7 @@ class ShareModel {
 
   @override
   String toString() {
-    return 'ShareModel(savingAccountPercentage: $savingAccountPercentage, proclamationNumber: $proclamationNumber, minimumNumberOfBuyer: $minimumNumberOfBuyer, maximumNumberOfBuyer: $maximumNumberOfBuyer, bankInformation: $bankInformation, shareImage: $shareImage, unitSharePrice: $unitSharePrice, noOfShares: $noOfShares, divident: $divident, minimumPaymentInPercent: $minimumPaymentInPercent, minimumNumberOfSharesToBuy: $minimumNumberOfSharesToBuy, maximumNumberOfSharesToBuy: $maximumNumberOfSharesToBuy, requirement: $requirement, identification: $identification, companyID: $companyID, description: $description, searchKeyWords: $searchKeyWords, returnDividentDescription: $returnDividentDescription, timeToReturnRemainPayment: $timeToReturnRemainPayment, currency: $currency, dateAdded: $dateAdded, isDeleted: $isDeleted,isHidden: $isHidden)';
+    return 'ShareModel(savingAccountPercentage: $savingAccountPercentage, proclamationNumber: $proclamationNumber, minimumNumberOfBuyer: $minimumNumberOfBuyer, maximumNumberOfBuyer: $maximumNumberOfBuyer, bankInformation: $bankInformation, shareImage: $shareImage, unitSharePrice: $unitSharePrice, noOfShares: $noOfShares, divident: $divident, minimumPaymentInPercent: $minimumPaymentInPercent, minimumNumberOfSharesToBuy: $minimumNumberOfSharesToBuy, maximumNumberOfSharesToBuy: $maximumNumberOfSharesToBuy, requirement: $requirement, identification: $identification, companyID: $companyID, description: $description, searchKeyWords: $searchKeyWords, returnDividentDescription: $returnDividentDescription, timeToReturnRemainPayment: $timeToReturnRemainPayment, currency: $currency, dateAdded: $dateAdded, totalSoldShares: $totalSoldShares, isDeleted: $isDeleted,isHidden: $isHidden)';
   }
 }
 

@@ -31,14 +31,8 @@ class FirebaseKeyFigureMethods implements FirebaseKeyFigureAbstract {
           .collection(CollectionName.organization)
           .doc(companyProfile.identification)
           .update({'keyFigureID': keyFigures});
-      FirebaseLogMethods().create(
-          user,
-          keyFigure.identification,
-          ModifiedEntity.product,
-          LogLevel.info,
-          LogAction.addition,
-          "reason",
-          ['']);
+      FirebaseLogMethods().create(user, keyFigure.identification, 'product',
+          'info', 'addition', "reason", ['']);
       res = "success";
     } catch (err) {
       res = err.toString();
