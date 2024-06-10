@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ssen_user/Models/user_model.dart';
 import 'package:ssen_user/provider/user_provider.dart';
+import 'package:ssen_user/screens/assets.dart';
 import 'package:ssen_user/screens/components/analysis.dart';
 import 'package:ssen_user/screens/components/announcement.dart';
 import 'package:ssen_user/screens/components/home.dart';
@@ -253,9 +254,9 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                         icon: Icons.info,
                         title: "About Us",
                         callback: () {
-                          // setState(() {
-                          //   index = 7;
-                          // });
+                          setState(() {
+                            index = 1;
+                          });
                           Navigator.pop(context);
                           // Navigator.pushNamed(context, AboutUs.route);
                         },
@@ -264,9 +265,9 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                         icon: Icons.info,
                         title: "About Us",
                         callback: () {
-                          // setState(() {
-                          //   index = 7;
-                          // });
+                          setState(() {
+                            index = 1;
+                          });
                           Navigator.pop(context);
                           // Navigator.pushNamed(context, AboutUs.route);
                         },
@@ -325,22 +326,22 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                 index != 9
                     ? DrawerItem(
                         icon: Icons.exit_to_app,
-                        title: "Exit",
+                        title: "Asset",
                         callback: () {
                           setState(() {
                             index = 9;
                           });
-                          Navigator.pop(context);
+                          Navigator.pushNamed(context, Assets.route);
                         },
                       )
                     : SelectedDrawerItem(
                         icon: Icons.exit_to_app,
-                        title: "Exit",
+                        title: "Asset",
                         callback: () {
                           setState(() {
                             index = 9;
                           });
-                          Navigator.pop(context);
+                          Navigator.pushNamed(context, Assets.route);
                         },
                       ),
                 const Divider(),
@@ -607,22 +608,22 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                           index != 7
                               ? DrawerItem(
                                   icon: Icons.info,
-                                  title: "About Us",
+                                  title: "Assets",
                                   callback: () {
                                     setState(() {
-                                      index = 7;
+                                      index = 6;
                                     });
-                                    Navigator.pushNamed(context, AboutUs.route);
+                                    // Navigator.pushNamed(context, AboutUs.route);
                                   },
                                 )
                               : SelectedDrawerItem(
                                   icon: Icons.info,
-                                  title: "About Us",
+                                  title: "Assets",
                                   callback: () {
                                     setState(() {
-                                      index = 7;
+                                      index = 6;
                                     });
-                                    Navigator.pushNamed(context, AboutUs.route);
+                                    // Navigator.pushNamed(context, AboutUs.route);
                                   },
                                 ),
                           index != 8
@@ -682,20 +683,22 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                           index != 9
                               ? DrawerItem(
                                   icon: Icons.exit_to_app,
-                                  title: "Exit",
+                                  title: "About Us",
                                   callback: () {
                                     setState(() {
-                                      index = 9;
+                                      index = 0;
                                     });
+                                    Navigator.pushNamed(context, AboutUs.route);
                                   },
                                 )
                               : SelectedDrawerItem(
                                   icon: Icons.exit_to_app,
-                                  title: "Exit",
+                                  title: "About Us",
                                   callback: () {
                                     setState(() {
-                                      index = 9;
+                                      index = 0;
                                     });
+                                    Navigator.pushNamed(context, Assets.route);
                                   },
                                 ),
                           const Divider(),
@@ -811,7 +814,7 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                           border: Border.all(color: Colors.blue, width: 2),
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(SImages.lightAppLogo))),
+                              image: NetworkImage(user.profilePicture[0]))),
                     ),
                     const SizedBox(
                       width: 10,
@@ -846,7 +849,8 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                             Announcment(),
                             // Center(child: Text("5")),
                             UserProfile(),
-                            ProcessPage()
+                            ProcessPage(),
+                            Assets()
                             // TermAndCondition(),
 
                             // Container(),
@@ -898,41 +902,46 @@ class _DesktopResponsiveState extends State<DesktopResponsive> {
                                                   color: Colors.blue),
                                             )),
                                         Container(
-                                          margin: const EdgeInsets.symmetric(
-                                              horizontal: 15),
-                                          child: Column(
-                                            children: [
-                                              const ExploreElement(
-                                                icon: Icons.trending_up,
-                                                title: "Trending Product ",
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            child: Container(
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 5),
+                                              child: Column(
+                                                children: [
+                                                  const ExploreElement(
+                                                    icon: Icons.share,
+                                                    title: "Share with Friends",
+                                                  ),
+                                                  const ExploreElement(
+                                                    icon: Icons.group,
+                                                    title: "Share in Community",
+                                                  ),
+                                                  const ExploreElement(
+                                                    icon: Icons.feedback,
+                                                    title: "Share Feedback",
+                                                  ),
+                                                  const ExploreElement(
+                                                    icon: Icons.star,
+                                                    title: "Share Reviews",
+                                                  ),
+                                                  const ExploreElement(
+                                                    icon: Icons.link,
+                                                    title: "Share Links",
+                                                  ),
+                                                  const ExploreElement(
+                                                    icon: Icons.photo_camera,
+                                                    title: "Share Photos",
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {},
+                                                    child:
+                                                        const Text('See More'),
+                                                  )
+                                                ],
                                               ),
-                                              const ExploreElement(
-                                                icon: Icons.sports_baseball,
-                                                title: "Sport Product",
-                                              ),
-                                              const ExploreElement(
-                                                icon: Icons.construction,
-                                                title: "Constraction",
-                                              ),
-                                              const ExploreElement(
-                                                icon: Icons.smartphone_sharp,
-                                                title: "Smart Phone",
-                                              ),
-                                              const ExploreElement(
-                                                icon: Icons.laptop,
-                                                title: "Laptop",
-                                              ),
-                                              const ExploreElement(
-                                                icon: Icons
-                                                    .account_balance_rounded,
-                                                title: "House",
-                                              ),
-                                              TextButton(
-                                                  onPressed: () {},
-                                                  child: const Text('See More'))
-                                            ],
-                                          ),
-                                        )
+                                            ))
                                       ],
                                     ),
                                   ),

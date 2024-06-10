@@ -11,6 +11,7 @@ import 'package:ssen_user/screens/components/secondary.dart';
 import 'package:ssen_user/screens/components/subscribers.dart';
 import 'package:ssen_user/screens/setting.dart';
 import 'package:ssen_user/screens/share_detail.dart';
+import 'package:ssen_user/screens/state%20pages/process.dart';
 import 'package:ssen_user/screens/terms%20and%20condition.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants.dart';
@@ -69,7 +70,7 @@ class _HomeState extends State<Home> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Subscribers()));
+                              builder: (context) => ProcessPage()));
                     },
                     icon: Icon(Icons.notification_important),
                   ),

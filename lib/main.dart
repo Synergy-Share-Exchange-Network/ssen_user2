@@ -14,10 +14,13 @@ import 'package:ssen_user/screens/components/subscribers.dart';
 
 import 'package:ssen_user/screens/login.dart';
 import 'package:ssen_user/screens/partial%20screen/purchase.dart';
+import 'package:ssen_user/screens/payment_preview.dart';
 import 'package:ssen_user/screens/profile.dart';
+import 'package:ssen_user/screens/secondary_post_detail.dart';
 
 import 'package:ssen_user/services/app_routes.dart';
 import 'package:ssen_user/services/theme/app_theme.dart';
+import 'package:ssen_user/widget/analytics/graph_bar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,6 +80,8 @@ class MyApp extends StatelessWidget {
         // home: Subscribers(),
         // home: CompanyProfileWidget(),
         // home: LogOutScreen()
+        // home: Payment_preview(),
+        // home: SecondaryPostDetail(),
         home: StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {

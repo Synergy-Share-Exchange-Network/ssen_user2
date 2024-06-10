@@ -38,12 +38,12 @@ class FirebaseSecondryPostShareMethods
       UserModel user, CompanyProfileModel company) async {
     String res = "Some error has occured";
     try {
-      secondryPostShare.identification = const Uuid().v1();
+      // secondryPostShare.identification = const Uuid().v1();
 // secondryPostShare.shareID= shareId;
-      secondryPostShare.sellerID = user.identification;
-      secondryPostShare.companyID = company.identification;
+      // secondryPostShare.sellerID = user.identification;
+      // secondryPostShare.companyID = company.identification;
 // secondryPostShare.purchaseID=purchaseId;
-      secondryPostShare.date = await DateMethod().getCurrentDateAndTime();
+      // secondryPostShare.date = await DateMethod().getCurrentDateAndTime();
 
       //creating announcement
       await FirebaseFirestore.instance

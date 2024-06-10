@@ -179,18 +179,20 @@ class FirebasePurchaseServiceMethod {
     try {
       print("insideddd");
       String date = await DateMethod().getCurrentDateAndTime();
-      purchase.acceptedPayment = [
-        'true',
-        date,
-      ];
-      purchase.acceptedPayment = ['false', date, reason];
+      if (acceptOrDecline) {
+        purchase.acceptedPayment = ['true', date, transaction];
+      } else {
+        purchase.acceptedPayment = ['false', date, reason];
+      }
+      FirebasePurchaseMethods().update(
+          purchase.identification, 'acceptedPayment', purchase.acceptedPayment);
+
       res = "Success";
     } catch (e) {
       // TODO
       res = e.toString();
     }
-    FirebasePurchaseMethods().update(
-        purchase.identification, 'requestAccepted', purchase.acceptedPayment);
+
 //generatePurchasePdf
     return res;
   }

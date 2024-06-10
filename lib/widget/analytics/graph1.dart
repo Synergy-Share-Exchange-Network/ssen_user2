@@ -584,38 +584,46 @@ class _LineChartgraphState extends State<LineChartgraph> {
       List<double> targetData = MLPredictionPreProcceingMethods().getTargetData(
           MLPredictionPreProcceingMethods()
               .preProcess(primary.seles, 6, primary.date, mldata.data));
-      List<double> newData = trainingData.last;
-      print(newData);
-      newData.removeAt(0);
-      for (var i = 0; i < 8; i++) {
-        newData.removeLast();
-      }
-      newData.add(double.parse(primary.seles.last));
-      newData.add(genAttr.GDP);
-      newData.add(genAttr.famines);
-      newData.add(genAttr.globalEconomy);
-      newData.add(genAttr.inflation);
-      newData.add(genAttr.naturalDisaster);
-      newData.add(genAttr.politicalStablity);
-      newData.add(genAttr.rumoursOnShareMarket);
-      newData.add(genAttr.unemploymentRate);
-      print(newData);
+      print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      print(trainingData);
+      print("bbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+      print(targetData);
+      print("ccccccccccccccccccccccccccccc");
+      // List<double> newData = trainingData.last;
+      // // print("6 data here!");
+      // newData.removeAt(0);
+      // for (var i = 0; i < 8; i++) {
+      //   newData.removeLast();
+      // }
+      // print("ddddddddddddddddddddddddd");
+      // print(newData);
+      double a = trainingData.last[1];
+      double b = trainingData.last[2];
+      double c = trainingData.last[3];
+      double d = trainingData.last[4];
+      double e = double.parse(primary.seles.last);
+      double f = genAttr.GDP;
+      double g = genAttr.famines;
+      double h = genAttr.globalEconomy;
+      double i = genAttr.inflation;
+      double j = genAttr.naturalDisaster;
+      double k = genAttr.politicalStablity;
+      double l = genAttr.rumoursOnShareMarket;
+      double m = genAttr.unemploymentRate;
 
-      // List<double> newData = [
-      //   25.0,
-      //   27.0,
-      //   29.0,
-      //   31.0,
-      //   33.0,
-      //   2.5,
-      //   3.0,
-      //   4.5,
-      //   2.2,
-      //   3.5,
-      //   1.0,
-      //   1.7,
-      //   3.5
-      // ];
+      // newData.add(double.parse(primary.seles.last));
+      // newData.add(genAttr.GDP);
+      // newData.add(genAttr.famines);
+      // newData.add(genAttr.globalEconomy);
+      // newData.add(genAttr.inflation);
+      // newData.add(genAttr.naturalDisaster);
+      // newData.add(genAttr.politicalStablity);
+      // newData.add(genAttr.rumoursOnShareMarket);
+      // newData.add(genAttr.unemploymentRate);
+      // // // print("must be 6 data here!");
+      // print(newData);
+
+      // List<double> newData = [400, 500, 600, 700, 800, 2, 2, 3, 4, 5, 4, 5, 2];
       // List<double> newerData = [
       //   27.0,
       //   29.0,
@@ -631,10 +639,32 @@ class _LineChartgraphState extends State<LineChartgraph> {
       //   1.7,
       //   3.5
       // ];
+      List<double> newData = [a, b, c, d, e, f, g, h, i, j, k, l, m];
+      // List<double> newData = [400, 500, 600, 700, 800, 2, 2, 3, 4, 5, 4, 5, 2];
 
       String predictedTomorrowSales = await ApiCallPrediction()
           .getPrediction(trainingData, targetData, newData);
+      print("yesssssssssssssssssssssssssss");
       print('Day 1 predict Success: $predictedTomorrowSales');
+      print("yesssssssssssssssssssssssssss");
+      List<double> newData2 = [
+        b,
+        c,
+        d,
+        e,
+        double.parse(predictedTomorrowSales),
+        f,
+        g,
+        h,
+        i,
+        j,
+        k,
+        l,
+        m,
+      ];
+      print("99999999999999999999999999999999999999999999");
+      print(newData2);
+      print("99999999999999999999999999999999999999999999");
 
       List<String> newdates = primary.date.toList();
       DateTime lastDate = DateTime.parse(primary.date.last);
@@ -650,26 +680,30 @@ class _LineChartgraphState extends State<LineChartgraph> {
       List<double> newTargetData = MLPredictionPreProcceingMethods()
           .getTargetData(MLPredictionPreProcceingMethods()
               .preProcess(newsales, 6, newdates, mldata.data));
-      List<double> newerData = newTrainingData.last;
-      newerData.removeAt(0);
-      for (var i = 0; i < 8; i++) {
-        newerData.removeLast();
-      }
-      // print(genAttr);
-      newerData.add(double.parse(predictedTomorrowSales));
-      newerData.add(genAttr.GDP);
-      newerData.add(genAttr.famines);
-      newerData.add(genAttr.globalEconomy);
-      newerData.add(genAttr.inflation);
-      newerData.add(genAttr.naturalDisaster);
-      newerData.add(genAttr.politicalStablity);
-      newerData.add(genAttr.rumoursOnShareMarket);
-      newerData.add(genAttr.unemploymentRate);
-      print(newerData);
+      // List<double> newerData = newTrainingData.last;
+      // newerData.removeAt(0);
+      // for (var i = 0; i < 8; i++) {
+      //   newerData.removeLast();
+      // }
+      // // print(genAttr);
+      // newerData.add(double.parse(predictedTomorrowSales));
+      // newerData.add(genAttr.GDP);
+      // newerData.add(genAttr.famines);
+      // newerData.add(genAttr.globalEconomy);
+      // newerData.add(genAttr.inflation);
+      // newerData.add(genAttr.naturalDisaster);
+      // newerData.add(genAttr.politicalStablity);
+      // newerData.add(genAttr.rumoursOnShareMarket);
+      // newerData.add(genAttr.unemploymentRate);
+      // print("aaaaaaaaaaaaaaaaa");
+      // print(newerData);
+      // print("aaaaaaaaaaaaaaaaa");
 
       String afterTomorrowSales = await ApiCallPrediction()
-          .getPrediction(newTrainingData, newTargetData, newerData);
+          .getPrediction(newTrainingData, newTargetData, newData2);
+      print('and sheeeeeeeeeeeeeeeeeeeeeeeeeeeee');
       print('Day 2 predict Success: $afterTomorrowSales');
+      print('and sheeeeeeeeeeeeeeeeeeeeeeeeeeeee');
 
       // _monthIndexes = calculateMonthIndexes(primary.date);
       // List<FlSpot> monthValues =
@@ -679,19 +713,44 @@ class _LineChartgraphState extends State<LineChartgraph> {
       if (primary.date.length == primary.seles.length) {
         List<FlSpot> spotsDay = [];
         int ini = 0;
-        for (int i = primary.date.length - (limit - 2);
-            i < primary.date.length;
-            i++, ini++) {
-          spotsDay.add(FlSpot(ini.toDouble(), double.parse(primary.seles[i])));
-        }
-        spotsDay.add(FlSpot(
-            spotsDay.length.toDouble(), double.parse(predictedTomorrowSales)));
-        spotsDay.add(FlSpot(
-            spotsDay.length.toDouble(), double.parse(afterTomorrowSales)));
+        if (primary.date.length > 10) {
+          for (int i = primary.date.length - (limit - 2);
+              i < primary.date.length;
+              i++, ini++) {
+            spotsDay
+                .add(FlSpot(ini.toDouble(), double.parse(primary.seles[i])));
+          }
+          spotsDay.add(FlSpot(spotsDay.length.toDouble(),
+              double.parse(predictedTomorrowSales)));
+          spotsDay.add(FlSpot(
+              spotsDay.length.toDouble(), double.parse(afterTomorrowSales)));
 
-        setState(() {
-          _dailySpots = spotsDay;
-        });
+          setState(() {
+            _dailySpots = spotsDay;
+          });
+        } else if (primary.date.length < 10) {
+          // Add initial zeros until we reach the length of 10 - primary.date.length
+          int zerosToAdd = 8 - primary.date.length;
+          for (int i = 0; i < zerosToAdd; i++, ini++) {
+            spotsDay.add(FlSpot(ini.toDouble(), 0.0));
+          }
+
+          // Add existing sales values
+          for (int i = 0; i < primary.date.length; i++, ini++) {
+            spotsDay
+                .add(FlSpot(ini.toDouble(), double.parse(primary.seles[i])));
+          }
+
+          // Add predicted sales values
+          spotsDay.add(FlSpot(spotsDay.length.toDouble(),
+              double.parse(predictedTomorrowSales)));
+          spotsDay.add(FlSpot(
+              spotsDay.length.toDouble(), double.parse(afterTomorrowSales)));
+
+          setState(() {
+            _dailySpots = spotsDay;
+          });
+        }
       } else {
         print('Mismatch in length between dates and seles');
       }

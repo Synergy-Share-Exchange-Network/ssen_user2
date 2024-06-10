@@ -2,147 +2,174 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:ssen_user/Repository/firebase/service%20methods/firebase_purchase_service_method.dart';
 
 import '../../services/theme/text_theme.dart';
 
 import '../Models/purchase_model.dart';
 
+import '../screens/request_detail.dart';
 import '../utils/constants/colors.dart';
 import '../utils/helper_function.dart';
 
 class PaymentVerifiedWidget extends StatelessWidget {
-  const PaymentVerifiedWidget({Key? key}) : super(key: key);
+  const PaymentVerifiedWidget({Key? key, required this.purchase})
+      : super(key: key);
+  final PurchaseModel purchase;
 
   @override
   Widget build(BuildContext context) {
-    PurchaseModel purchase = PurchaseModel(
-      identification: "13",
-      firstName: "Wubet ",
-      lastName: "Ayalew",
-      email: "WubetAyalew@gmail.com",
-      nationality: "ethiopian",
-      region: "oromia",
-      subCity: "bishoftu",
-      phoneNumber: "0967547632",
-      sharePerPrice: 500.0,
-      numberOfShare: 40.0,
-      bankAccount: "1000006474537",
-      savingAccountAmount: "566",
-      signature: "13",
-      shareID: "14",
-      userID: "55",
-      companyID: "66",
-      payedamount: 300.0,
-      date: '2023/12/10',
-    );
-
     bool dark = SHelperFunction.isDarkMode(context);
 
-    void showDeclineDialog() {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          String reason = "";
-          String additionalInfo = "";
-          return AlertDialog(
-            title: Text('Decline Reason'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
+    return InkWell(
+      onTap: (() {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => RequestDetail(
+                  purchase: purchase,
+                )));
+      }),
+      child: Container(
+        height: 110,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: dark ? SColors.darkContainer : SColors.lightContainer,
+          border: Border.all(
+            width: 1,
+            color: dark ? Colors.black : Colors.white,
+          ),
+        ),
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 15,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("${purchase.firstName} ${purchase.lastName}",
+                        style: dark
+                            ? STextTheme.darkTextTheme.headlineSmall
+                            : STextTheme.lightTextTheme.headlineSmall),
+                    Row(
+                      children: [
+                        Text(
+                          'Total Amount :${purchase.numberOfShare * purchase.sharePerPrice + 5 / 100 * purchase.numberOfShare * purchase.sharePerPrice} Birr',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextField(
-                  onChanged: (value) {
-                    reason = value;
+                ElevatedButton(
+                  onPressed: () {
+                    TextEditingController transactionNumberController =
+                        TextEditingController();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Verify Payment'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextField(
+                                controller: transactionNumberController,
+                                decoration: InputDecoration(
+                                    hintText: "Enter Trasaction number"),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                FirebasePurchaseServiceMethod()
+                                    .finshPurchasePayment(
+                                        purchase,
+                                        transactionNumberController.text.trim(),
+                                        true,
+                                        'reason');
+                                Navigator.of(context).pop(); // Close the dialog
+                                // Close the dialog
+                              },
+                              child: Text('Submit'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
-                  decoration: InputDecoration(hintText: "Enter Creditor name"),
+                  child: Text('Accept'),
                 ),
                 SizedBox(height: 10),
-                TextField(
-                  onChanged: (value) {
-                    additionalInfo = value;
+                ElevatedButton(
+                  onPressed: () {
+                    TextEditingController reasonController =
+                        TextEditingController();
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Decline Reason'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextField(
+                                controller: reasonController,
+                                decoration:
+                                    InputDecoration(hintText: "Enter Reason"),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                FirebasePurchaseServiceMethod()
+                                    .finshPurchasePayment(
+                                        purchase,
+                                        '',
+                                        false,
+                                        reasonController.text
+                                            .trim()); // Close the dialog
+                              },
+                              child: Text('Submit'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
-                  decoration:
-                      InputDecoration(hintText: "Enter Trasaction number"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                  ),
+                  child: Text('Decline'),
                 ),
               ],
             ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Handle the decline action here with the reason
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text('Submit'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-
-    return Container(
-      height: 110,
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: dark ? SColors.darkContainer : SColors.lightContainer,
-        border: Border.all(
-          width: 1,
-          color: dark ? Colors.black : Colors.white,
+          ],
         ),
-      ),
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 15,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("${purchase.firstName} ${purchase.lastName}",
-                      style: dark
-                          ? STextTheme.darkTextTheme.headlineSmall
-                          : STextTheme.lightTextTheme.headlineSmall),
-                  Row(
-                    children: [
-                      Text(
-                        'Payed Amount :2000 Birr',
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: showDeclineDialog,
-                child: Text('Accept'),
-              ),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                ),
-                child: Text('Decline'),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

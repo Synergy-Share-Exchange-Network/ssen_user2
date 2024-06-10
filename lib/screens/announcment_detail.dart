@@ -1,35 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Models/user_model.dart';
+import 'package:ssen_user/Repository/firebase/service%20methods/firebase_company_service_method.dart';
+import 'package:ssen_user/provider/user_provider.dart';
 import 'package:ssen_user/utils/constants.dart';
 import 'package:ssen_user/utils/utils.dart';
 
 import '../Models/announcement_model.dart';
 
 class AnnouncementDetail extends StatelessWidget {
-  const AnnouncementDetail({Key? key, required this.announcement})
+  const AnnouncementDetail(
+      {Key? key, required this.announcement, required this.company})
       : super(key: key);
   final AnnouncementModel announcement;
+  final CompanyProfileModel company;
   @override
   Widget build(BuildContext context) {
+    UserModel user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(
-              Icons.arrow_back_ios_new_outlined,
-              color: Colors.blue,
-              size: 20,
-            )),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Announcement Detail',
-          style: TextStyle(
-            decoration: TextDecoration.none,
-            color: Colors.blue,
-            // fontSize: 27,
-            // fontWeight: FontWeight.bold
-          ),
-        ),
+        title: Text(company.name),
       ),
       body: (MediaQuery.of(context).size.width > phoneSize)
           ? Container(
@@ -40,6 +31,118 @@ class AnnouncementDetail extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                color: const Color.fromARGB(17, 0, 0, 0),
+                                width: 1),
+                          ),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          child: InkWell(
+                            // onTap: () =>
+                            //     Navigator.pushNamed(context, ChannelShop.route),
+                            child: Container(
+                              margin: const EdgeInsets.all(5),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 45,
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(company
+                                                .logoImage.isNotEmpty
+                                            ? company.logoImage[0]
+                                            : 'https://via.placeholder.com/45'),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          company.name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          company.lineOfBusiness ??
+                                              'No description available',
+                                          style: const TextStyle(
+                                            color: Color.fromARGB(120, 0, 0, 0),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  (!company.subscribersID
+                                          .contains(user.identification))
+                                      ? Container(
+                                          width: 150,
+                                          height: 30,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.blueAccent,
+                                            ),
+                                            onPressed: () async {
+                                              await FirebaseCompanyServiceMethod()
+                                                  .subscribeUser(company, user);
+                                              await Provider.of<UserProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .refreshUser();
+                                            },
+                                            child: const Text(
+                                              "Subscribe",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : Container(
+                                          width: 150,
+                                          height: 30,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.blueAccent,
+                                            ),
+                                            onPressed: () async {
+                                              await FirebaseCompanyServiceMethod()
+                                                  .unSubscribeUser(
+                                                      company, user);
+                                              await Provider.of<UserProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .refreshUser();
+                                            },
+                                            child: const Text(
+                                              "UnSubscribe",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                         Text(
                           announcement.title,
                           style: TextStyle(
@@ -114,10 +217,117 @@ class AnnouncementDetail extends StatelessWidget {
           : SingleChildScrollView(
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.all(15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            color: const Color.fromARGB(17, 0, 0, 0), width: 1),
+                      ),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: InkWell(
+                        // onTap: () =>
+                        //     Navigator.pushNamed(context, ChannelShop.route),
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 45,
+                                height: 45,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                        company.logoImage.isNotEmpty
+                                            ? company.logoImage[0]
+                                            : 'https://via.placeholder.com/45'),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      company.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      company.lineOfBusiness ??
+                                          'No description available',
+                                      style: const TextStyle(
+                                        color: Color.fromARGB(120, 0, 0, 0),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              (!company.subscribersID
+                                      .contains(user.identification))
+                                  ? Container(
+                                      width: 150,
+                                      height: 30,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colors.blueAccent,
+                                        ),
+                                        onPressed: () async {
+                                          await FirebaseCompanyServiceMethod()
+                                              .subscribeUser(company, user);
+                                          await Provider.of<UserProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .refreshUser();
+                                        },
+                                        child: const Text(
+                                          "Subscribe",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 150,
+                                      height: 30,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colors.blueAccent,
+                                        ),
+                                        onPressed: () async {
+                                          await FirebaseCompanyServiceMethod()
+                                              .unSubscribeUser(company, user);
+                                          await Provider.of<UserProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .refreshUser();
+                                        },
+                                        child: const Text(
+                                          "UnSubscribe",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                     Text(
                       announcement.title,
                       style:

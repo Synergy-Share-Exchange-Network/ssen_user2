@@ -5,11 +5,15 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:ssen_user/Models/user_model.dart';
 import 'package:ssen_user/provider/user_provider.dart';
+import 'package:ssen_user/screens/edit_profile.dart';
 import 'package:ssen_user/screens/login.dart';
+import 'package:ssen_user/screens/terms%20and%20condition.dart';
 import 'package:ssen_user/utils/utils.dart';
 
 import '../../screens/desktop_responsive.dart';
 
+import '../../screens/setting.dart';
+import '../../screens/state pages/process.dart';
 import 'image_Strings.dart';
 
 class NavBar extends StatelessWidget {
@@ -95,20 +99,16 @@ class NavBar extends StatelessWidget {
                 icon: Icons.person,
                 title: "Edit Profile",
                 callback: () {
-                  // setState(() {
-                  //   index = 5;
-                  // });
-                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => EditProfile()));
                 },
               ),
               DrawerItem(
                 icon: Icons.location_on,
-                title: "My Address",
+                title: "Process",
                 callback: () {
-                  // setState(() {
-                  //   index = 6;
-                  // });
-                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ProcessPage()));
                 },
               ),
               DrawerItem(
@@ -179,8 +179,8 @@ class NavBar extends StatelessWidget {
                 icon: Icons.settings,
                 title: "Settings",
                 callback: () {
-                  // Navigator.pop(context);
-                  // Navigator.pushNamed(context, Setting.route);
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, Setting.route);
                 },
               ),
 
@@ -193,7 +193,7 @@ class NavBar extends StatelessWidget {
                   // });
 
                   // Navigator.pop(context);
-                  // Navigator.pushNamed(context, TermAndCondition.route);
+                  Navigator.pushNamed(context, TermsAndConditionsPage.route);
                 },
               ),
             ],

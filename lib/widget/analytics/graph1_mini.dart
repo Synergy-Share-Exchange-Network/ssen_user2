@@ -582,22 +582,36 @@ class _graph1miniState extends State<graph1mini> {
       List<double> targetData = MLPredictionPreProcceingMethods().getTargetData(
           MLPredictionPreProcceingMethods()
               .preProcess(primary.seles, 6, primary.date, mldata.data));
-      List<double> newData = trainingData.last;
-      print(newData);
-      newData.removeAt(0);
-      for (var i = 0; i < 8; i++) {
-        newData.removeLast();
-      }
-      newData.add(double.parse(primary.seles.last));
-      newData.add(genAttr.GDP);
-      newData.add(genAttr.famines);
-      newData.add(genAttr.globalEconomy);
-      newData.add(genAttr.inflation);
-      newData.add(genAttr.naturalDisaster);
-      newData.add(genAttr.politicalStablity);
-      newData.add(genAttr.rumoursOnShareMarket);
-      newData.add(genAttr.unemploymentRate);
-      print(newData);
+      double a = trainingData.last[1];
+      double b = trainingData.last[2];
+      double c = trainingData.last[3];
+      double d = trainingData.last[4];
+      double e = double.parse(primary.seles.last);
+      double f = genAttr.GDP;
+      double g = genAttr.famines;
+      double h = genAttr.globalEconomy;
+      double i = genAttr.inflation;
+      double j = genAttr.naturalDisaster;
+      double k = genAttr.politicalStablity;
+      double l = genAttr.rumoursOnShareMarket;
+      double m = genAttr.unemploymentRate;
+      List<double> newData = [a, b, c, d, e, f, g, h, i, j, k, l, m];
+      // List<double> newData = trainingData.last;
+      // print(newData);
+      // newData.removeAt(0);
+      // for (var i = 0; i < 8; i++) {
+      //   newData.removeLast();
+      // }
+      // newData.add(double.parse(primary.seles.last));
+      // newData.add(genAttr.GDP);
+      // newData.add(genAttr.famines);
+      // newData.add(genAttr.globalEconomy);
+      // newData.add(genAttr.inflation);
+      // newData.add(genAttr.naturalDisaster);
+      // newData.add(genAttr.politicalStablity);
+      // newData.add(genAttr.rumoursOnShareMarket);
+      // newData.add(genAttr.unemploymentRate);
+      // print(newData);
 
       // List<double> newData = [
       //   25.0,
@@ -633,7 +647,21 @@ class _graph1miniState extends State<graph1mini> {
       String predictedTomorrowSales = await ApiCallPrediction()
           .getPrediction(trainingData, targetData, newData);
       print('Day 1 predict Success: $predictedTomorrowSales');
-
+      List<double> newData2 = [
+        b,
+        c,
+        d,
+        e,
+        double.parse(predictedTomorrowSales),
+        f,
+        g,
+        h,
+        i,
+        j,
+        k,
+        l,
+        m,
+      ];
       List<String> newdates = primary.date.toList();
       DateTime lastDate = DateTime.parse(primary.date.last);
       DateTime nextDate = lastDate.add(const Duration(days: 1));
@@ -648,25 +676,9 @@ class _graph1miniState extends State<graph1mini> {
       List<double> newTargetData = MLPredictionPreProcceingMethods()
           .getTargetData(MLPredictionPreProcceingMethods()
               .preProcess(newsales, 6, newdates, mldata.data));
-      List<double> newerData = newTrainingData.last;
-      newerData.removeAt(0);
-      for (var i = 0; i < 8; i++) {
-        newerData.removeLast();
-      }
-      // print(genAttr);
-      newerData.add(double.parse(predictedTomorrowSales));
-      newerData.add(genAttr.GDP);
-      newerData.add(genAttr.famines);
-      newerData.add(genAttr.globalEconomy);
-      newerData.add(genAttr.inflation);
-      newerData.add(genAttr.naturalDisaster);
-      newerData.add(genAttr.politicalStablity);
-      newerData.add(genAttr.rumoursOnShareMarket);
-      newerData.add(genAttr.unemploymentRate);
-      print(newerData);
 
       String afterTomorrowSales = await ApiCallPrediction()
-          .getPrediction(newTrainingData, newTargetData, newerData);
+          .getPrediction(newTrainingData, newTargetData, newData2);
       print('Day 2 predict Success: $afterTomorrowSales');
 
       // _monthIndexes = calculateMonthIndexes(primary.date);
@@ -677,19 +689,44 @@ class _graph1miniState extends State<graph1mini> {
       if (primary.date.length == primary.seles.length) {
         List<FlSpot> spotsDay = [];
         int ini = 0;
-        for (int i = primary.date.length - (limit - 2);
-            i < primary.date.length;
-            i++, ini++) {
-          spotsDay.add(FlSpot(ini.toDouble(), double.parse(primary.seles[i])));
-        }
-        spotsDay.add(FlSpot(
-            spotsDay.length.toDouble(), double.parse(predictedTomorrowSales)));
-        spotsDay.add(FlSpot(
-            spotsDay.length.toDouble(), double.parse(afterTomorrowSales)));
+        if (primary.date.length > 10) {
+          for (int i = primary.date.length - (limit - 2);
+              i < primary.date.length;
+              i++, ini++) {
+            spotsDay
+                .add(FlSpot(ini.toDouble(), double.parse(primary.seles[i])));
+          }
+          spotsDay.add(FlSpot(spotsDay.length.toDouble(),
+              double.parse(predictedTomorrowSales)));
+          spotsDay.add(FlSpot(
+              spotsDay.length.toDouble(), double.parse(afterTomorrowSales)));
 
-        setState(() {
-          _dailySpots = spotsDay;
-        });
+          setState(() {
+            _dailySpots = spotsDay;
+          });
+        } else if (primary.date.length < 10) {
+          // Add initial zeros until we reach the length of 10 - primary.date.length
+          int zerosToAdd = 8 - primary.date.length;
+          for (int i = 0; i < zerosToAdd; i++, ini++) {
+            spotsDay.add(FlSpot(ini.toDouble(), 0.0));
+          }
+
+          // Add existing sales values
+          for (int i = 0; i < primary.date.length; i++, ini++) {
+            spotsDay
+                .add(FlSpot(ini.toDouble(), double.parse(primary.seles[i])));
+          }
+
+          // Add predicted sales values
+          spotsDay.add(FlSpot(spotsDay.length.toDouble(),
+              double.parse(predictedTomorrowSales)));
+          spotsDay.add(FlSpot(
+              spotsDay.length.toDouble(), double.parse(afterTomorrowSales)));
+
+          setState(() {
+            _dailySpots = spotsDay;
+          });
+        }
       } else {
         print('Mismatch in length between dates and seles');
       }

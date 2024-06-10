@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ssen_user/intermediate.dart';
 import 'package:ssen_user/responsive.dart';
+import 'package:ssen_user/screens/assets.dart';
 import 'package:ssen_user/screens/change%20email/confirm_account_change_email.dart';
 import 'package:ssen_user/screens/change%20email/enter_new_password.dart';
 import 'package:ssen_user/screens/change%20password/confirm_account.dart';
@@ -43,6 +44,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const Signup());
       case Login.route:
         return MaterialPageRoute(builder: (_) => const Login());
+      case Assets.route:
+        return MaterialPageRoute(builder: (_) => const Assets());
       case MainPage.route:
         return MaterialPageRoute(builder: (_) => const MainPage());
       default:

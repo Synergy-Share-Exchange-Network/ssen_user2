@@ -1,194 +1,208 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:ssen_user/Models/log_model.dart';
-import 'package:ssen_user/Models/user_model.dart';
-import 'package:ssen_user/provider/user_provider.dart';
-import 'package:ssen_user/utils/constants.dart';
+import '../Models/user_model.dart';
+import '../provider/user_provider.dart';
 
-import '../utils/constants/colors.dart';
-import '../utils/constants/size.dart';
-import '../utils/constants/text_string.dart';
-
-class EditProfile extends StatelessWidget {
+class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // UserModel user = UserModel(
-    //   identification: "99",
-    //   firstName: "dawit",
-    //   lastName: "nigus",
-    //   phoneNumber: "0942378653",
-    //   email: "dawitnigus55@gmail.com",
-    //   region: "oromia",
-    //   woreda: "02",
-    //   profilePicture: ["asset/demo_image/demo1.JPG"],
-    //   address: ["bishoftu"],
-    //   role: UserRole.user,
-    // );
-    UserModel user = Provider.of<UserProvider>(context).getUser;
+  State<EditProfile> createState() => _EditProfileState();
+}
 
+class _EditProfileState extends State<EditProfile> {
+  final _formKey = GlobalKey<FormState>();
+  final ImagePicker _picker = ImagePicker();
+  XFile? _image;
+
+  // Create controllers for the text fields
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the text controllers with existing data
+    UserModel user = Provider.of<UserProvider>(context, listen: false).getUser;
+    _emailController.text = user.email;
+    // Password field should typically be empty for security reasons
+    _passwordController.text = '';
+    _phoneController.text = user.phoneNumber;
+    _addressController.text = user.address[0];
+  }
+
+  @override
+  void dispose() {
+    // Dispose controllers when not needed
+    _emailController.dispose();
+    _passwordController.dispose();
+    _phoneController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = pickedFile;
+    });
+  }
+
+  Future<void> _saveProfile() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      _formKey.currentState?.save();
+      try {
+        // Update Firestore with new data
+        String uid = FirebaseAuth.instance.currentUser!.uid;
+        await FirebaseFirestore.instance.collection('users').doc(uid).update({
+          'email': _emailController.text,
+          // 'password': _passwordController.text,
+          'phoneNumber': _phoneController.text,
+          'nationality': _addressController.text,
+          // 'profilePicture': _image?.path,
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Profile updated successfully')),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error updating profile: $e')),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    UserModel user = Provider.of<UserProvider>(context).getUser;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: (MediaQuery.of(context).size.width < phoneSize)
-            ? AppBar(
-                leading: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.arrow_back_ios_sharp),
-                ),
-                title: Text(
-                  SText.Editprofile,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                centerTitle: true,
-              )
-            : AppBar(),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: SSizes.defaultSpace,
-                  vertical: SSizes.defaultSpace),
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          constraints:
+              BoxConstraints(maxWidth: width > 800 ? 800 : width * 0.9),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(children: [
-                        SizedBox(
-                          width: 120,
-                          height: 120,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: Image(
-                                image: AssetImage(user.profilePicture[0])),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
+                  SizedBox(height: 16),
+                  Center(
+                    child: GestureDetector(
+                      onTap: _pickImage,
+                      child: SizedBox(
+                        width: 120,
+                        height: 120,
+                        child: (user.profilePicture[0] != "")
+                            ? ClipRRect(
                                 borderRadius: BorderRadius.circular(100),
-                                color: SColors.primaryColor),
-                            child: const Icon(
-                              Icons.camera_alt_sharp,
-                              color: Colors.black,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ]),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: SSizes.spaceBtwInputField,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: SSizes.spaceBtwItems / 2,
+                                child: Image(
+                                    image:
+                                        NetworkImage(user.profilePicture[0])),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: const Image(
+                                    image:
+                                        AssetImage('asset/default avatar.jpg')),
+                              ),
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Iconsax.call),
-                            labelText: user.firstName),
-                      ),
-                    ],
+                    ),
                   ),
-                  //// e
-                  const SizedBox(
-                    height: SSizes.spaceBtwInputField,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: SSizes.spaceBtwItems / 2,
+                  SizedBox(height: 16),
+                  Center(
+                    child: TextButton(
+                      onPressed: _pickImage,
+                      child: Text(
+                        'Change Profile Picture',
+                        style: TextStyle(color: Colors.blue),
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Iconsax.call),
-                            labelText: user.lastName),
-                      ),
-                    ],
+                    ),
                   ),
-                  //// end
-                  const SizedBox(
-                    height: SSizes.spaceBtwInputField,
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an email';
+                      }
+                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: SSizes.spaceBtwItems / 2,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Iconsax.call),
-                            labelText: user.email),
-                      ),
-                    ],
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a password';
+                      }
+                      return null;
+                    },
                   ),
-                  //// end
-                  const SizedBox(
-                    height: SSizes.spaceBtwInputField,
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _phoneController,
+                    decoration: InputDecoration(
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a phone number';
+                      }
+                      if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                        return 'Please enter a valid phone number';
+                      }
+                      return null;
+                    },
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: SSizes.spaceBtwItems / 2,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Iconsax.call),
-                            labelText: user.region),
-                      ),
-                    ],
+                  SizedBox(height: 16),
+                  TextFormField(
+                    controller: _addressController,
+                    decoration: InputDecoration(
+                      labelText: 'Address',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter an address';
+                      }
+                      return null;
+                    },
                   ),
-                  //// end
-                  const SizedBox(
-                    height: SSizes.spaceBtwInputField,
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: _saveProfile,
+                    style: ElevatedButton.styleFrom(primary: Colors.blue),
+                    child: Text('Save Profile'),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: SSizes.spaceBtwItems / 2,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Iconsax.call),
-                            labelText: user.woreda),
-                      ),
-                    ],
-                  ),
-                  //// end
-                  const SizedBox(
-                    height: SSizes.spaceBtwInputField,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: SSizes.spaceBtwItems / 2,
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Iconsax.call),
-                            labelText: user.address[0]),
-                      ),
-                    ],
-                  ),
-                  //// end
                 ],
               ),
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ssen_user/services/theme/text_theme.dart';
-import 'package:ssen_user/utils/constants/size.dart';
 
+import '../../services/theme/text_theme.dart';
 import '../../utils/constants/colors.dart';
+import '../../utils/constants/size.dart';
 import '../../utils/helper_function.dart';
 
 class ExpandableAboutUsText extends StatefulWidget {

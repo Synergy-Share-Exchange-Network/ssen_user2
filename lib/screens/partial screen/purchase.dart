@@ -144,22 +144,22 @@ class _PurchaseState extends State<Purchase> {
       ),
     );
     PurchaseModel purchase = PurchaseModel(
-      firstName: firstNameController.text.trim(),
-      lastName: lastNameController.text.trim(),
-      email: emailController.text.trim(),
-      kebele: kebeleController.text.trim(),
-      subCity: subCityController.text.trim(),
-      houseNumber: houseNumberController.text.trim(),
-      phoneNumber: phoneNumberController.text.trim(),
-      region: regionController.text.trim(),
-      woreda: woredaController.text.trim(),
-      nationality: nationalityController.text.trim(),
-      numberOfShare:
-          double.tryParse(numberOfShareController.text.trim()) ?? 0.0,
-      sharePerPrice:
-          double.tryParse(sharePerPriceController.text.trim()) ?? 0.0,
-      payedamount: double.tryParse(payedamountController.text.trim()) ?? 0.0,
-    );
+        firstName: firstNameController.text.trim(),
+        lastName: lastNameController.text.trim(),
+        email: emailController.text.trim(),
+        kebele: kebeleController.text.trim(),
+        subCity: subCityController.text.trim(),
+        houseNumber: houseNumberController.text.trim(),
+        phoneNumber: phoneNumberController.text.trim(),
+        region: regionController.text.trim(),
+        woreda: woredaController.text.trim(),
+        nationality: nationalityController.text.trim(),
+        numberOfShare:
+            double.tryParse(numberOfShareController.text.trim()) ?? 0.0,
+        sharePerPrice:
+            double.tryParse(sharePerPriceController.text.trim()) ?? 0.0,
+        payedamount: double.tryParse(payedamountController.text.trim()) ?? 0.0,
+        date: DateTime.now().toString());
     // print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     // print(purchase);
     // print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -183,7 +183,7 @@ class _PurchaseState extends State<Purchase> {
         builder: (ctx) => AlertDialog(
           content: Container(
             padding: EdgeInsets.all(20),
-            height: 100,
+            height: 120,
             child: Column(
               children: [
                 const Text("Succesfully Request Sent."),
@@ -197,7 +197,7 @@ class _PurchaseState extends State<Purchase> {
                       // Navigator.pop(context);
                       Navigator.pop(context);
                       Navigator.pop(context);
-                      // Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(primary: Colors.green),
                     child: const Text("   Okay   "))
@@ -263,9 +263,9 @@ class _PurchaseState extends State<Purchase> {
     sharePerPriceController.text = widget.share.unitSharePrice.toString();
 
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back_ios),
-      ),
+      // appBar: AppBar(
+      //   leading: Icon(Icons.arrow_back_ios),
+      // ),
       body: Center(
         child: Container(
           width: (MediaQuery.of(context).size.width < phoneSize)
@@ -323,7 +323,7 @@ class _PurchaseState extends State<Purchase> {
                                           TextFormField(
                                             controller: firstNameController,
                                             decoration: InputDecoration(
-                                                prefixIcon: Icon(Iconsax.user),
+                                                prefixIcon: Icon(Icons.person),
                                                 labelText: "First Name"),
                                           ),
                                         ],
@@ -345,7 +345,7 @@ class _PurchaseState extends State<Purchase> {
                                           TextFormField(
                                             controller: lastNameController,
                                             decoration: InputDecoration(
-                                                prefixIcon: Icon(Iconsax.user),
+                                                prefixIcon: Icon(Icons.person),
                                                 labelText: 'Last Name'),
                                           ),
                                         ],
@@ -371,8 +371,8 @@ class _PurchaseState extends State<Purchase> {
                                           TextFormField(
                                             controller: nationalityController,
                                             decoration: InputDecoration(
-                                                prefixIcon: Icon(
-                                                    Iconsax.location_minus),
+                                                prefixIcon:
+                                                    Icon(Icons.location_city),
                                                 labelText: 'Nationality'),
                                           ),
                                         ],
@@ -394,7 +394,7 @@ class _PurchaseState extends State<Purchase> {
                                             controller: regionController,
                                             decoration: InputDecoration(
                                                 prefixIcon:
-                                                    Icon(Iconsax.location),
+                                                    Icon(Icons.location_city),
                                                 labelText: 'Region'),
                                           ),
                                         ],
@@ -420,7 +420,7 @@ class _PurchaseState extends State<Purchase> {
                                             controller: subCityController,
                                             decoration: InputDecoration(
                                                 prefixIcon:
-                                                    Icon(Iconsax.location_add5),
+                                                    Icon(Icons.location_city),
                                                 labelText: "SubCity"),
                                           ),
                                         ],
@@ -442,7 +442,7 @@ class _PurchaseState extends State<Purchase> {
                                             controller: woredaController,
                                             decoration: InputDecoration(
                                                 prefixIcon:
-                                                    Icon(Iconsax.location_tick),
+                                                    Icon(Icons.location_on),
                                                 labelText: 'Woreda'),
                                           ),
                                         ],
@@ -840,7 +840,7 @@ class _PurchaseState extends State<Purchase> {
                                 builder: (ctx) => AlertDialog(
                                   content: Container(
                                     padding: EdgeInsets.all(20),
-                                    height: 125,
+                                    height: 150,
                                     child: Column(
                                       children: [
                                         Text(

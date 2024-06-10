@@ -4,16 +4,17 @@ import 'dart:convert';
 class ShareModel {
   final double savingAccountPercentage;
   final String proclamationNumber;
-  final int minimumNumberOfBuyer;
-  final int maximumNumberOfBuyer;
-  final List<String> bankInformation;
-  final List<String> shareImage;
-  final double unitSharePrice;
-  final double noOfShares;
-  final double divident;
-  final double minimumPaymentInPercent;
-  final double minimumNumberOfSharesToBuy;
-  final double maximumNumberOfSharesToBuy;
+  int minimumNumberOfBuyer;
+  int maximumNumberOfBuyer;
+  List<String> bankInformation;
+  List<String> shareImage;
+  double unitSharePrice;
+  double noOfShares;
+  double totalNumberOfShares;
+  double divident;
+  double minimumPaymentInPercent;
+  double minimumNumberOfSharesToBuy;
+  double maximumNumberOfSharesToBuy;
   String requirement;
   String identification;
   String companyID;
@@ -23,22 +24,22 @@ class ShareModel {
   int timeToReturnRemainPayment;
   String currency;
   String dateAdded;
-  double totalSoldShares;
   bool isDeleted;
   bool isHidden;
   ShareModel({
     required this.savingAccountPercentage,
     required this.proclamationNumber,
-    required this.minimumNumberOfBuyer,
-    required this.maximumNumberOfBuyer,
-    required this.bankInformation,
-    required this.shareImage,
-    required this.unitSharePrice,
-    required this.noOfShares,
-    required this.divident,
-    required this.minimumPaymentInPercent,
-    required this.minimumNumberOfSharesToBuy,
-    required this.maximumNumberOfSharesToBuy,
+    minimumNumberOfBuyer,
+    maximumNumberOfBuyer,
+    bankInformation,
+    shareImage,
+    unitSharePrice,
+    noOfShares,
+    totalNumberOfShares,
+    divident,
+    minimumPaymentInPercent,
+    minimumNumberOfSharesToBuy,
+    maximumNumberOfSharesToBuy,
     requirement,
     identification,
     companyID,
@@ -48,10 +49,20 @@ class ShareModel {
     timeToReturnRemainPayment,
     currency,
     dateAdded,
-    totalSoldShares,
     isDeleted,
     isHidden,
-  })  : requirement = requirement ?? '',
+  })  : minimumNumberOfBuyer = minimumNumberOfBuyer ?? 0,
+        maximumNumberOfBuyer = maximumNumberOfBuyer ?? 0,
+        bankInformation = bankInformation ?? [''],
+        shareImage = shareImage ?? [''],
+        unitSharePrice = unitSharePrice ?? 0.0,
+        noOfShares = noOfShares ?? 0.0,
+        totalNumberOfShares = noOfShares ?? 0.0,
+        divident = divident ?? 0.0,
+        minimumPaymentInPercent = minimumPaymentInPercent ?? 0.0,
+        minimumNumberOfSharesToBuy = minimumNumberOfSharesToBuy ?? 0.0,
+        maximumNumberOfSharesToBuy = maximumNumberOfSharesToBuy ?? 0.0,
+        requirement = requirement ?? '',
         identification = identification ?? '',
         companyID = companyID ?? '',
         description = description ?? '',
@@ -60,7 +71,6 @@ class ShareModel {
         timeToReturnRemainPayment = timeToReturnRemainPayment ?? 0,
         currency = currency ?? '',
         dateAdded = dateAdded ?? '',
-        totalSoldShares = totalSoldShares ?? 0.0,
         isDeleted = isDeleted ?? false,
         isHidden = isHidden ?? false;
 
@@ -73,6 +83,7 @@ class ShareModel {
     List<String>? shareImage,
     double? unitSharePrice,
     double? noOfShares,
+    double? totalNumberOfShares,
     double? divident,
     double? minimumPaymentInPercent,
     double? minimumNumberOfSharesToBuy,
@@ -86,7 +97,6 @@ class ShareModel {
     int? timeToReturnRemainPayment,
     String? currency,
     String? dateAdded,
-    double? totalSoldShares,
     bool? isDeleted,
     bool? isHidden,
   }) {
@@ -100,6 +110,7 @@ class ShareModel {
       shareImage: shareImage ?? this.shareImage,
       unitSharePrice: unitSharePrice ?? this.unitSharePrice,
       noOfShares: noOfShares ?? this.noOfShares,
+      totalNumberOfShares: totalNumberOfShares ?? this.totalNumberOfShares,
       divident: divident ?? this.divident,
       minimumPaymentInPercent:
           minimumPaymentInPercent ?? this.minimumPaymentInPercent,
@@ -118,7 +129,6 @@ class ShareModel {
           timeToReturnRemainPayment ?? this.timeToReturnRemainPayment,
       currency: currency ?? this.currency,
       dateAdded: dateAdded ?? this.dateAdded,
-      totalSoldShares: totalSoldShares ?? this.totalSoldShares,
       isDeleted: isDeleted ?? this.isDeleted,
       isHidden: isHidden ?? this.isHidden,
     );
@@ -134,6 +144,7 @@ class ShareModel {
       'shareImage': shareImage,
       'unitSharePrice': unitSharePrice,
       'noOfShares': noOfShares,
+      'totalNumberOfShares': totalNumberOfShares,
       'divident': divident,
       'minimumPaymentInPercent': minimumPaymentInPercent,
       'minimumNumberOfSharesToBuy': minimumNumberOfSharesToBuy,
@@ -147,46 +158,15 @@ class ShareModel {
       'timeToReturnRemainPayment': timeToReturnRemainPayment,
       'currency': currency,
       'dateAdded': dateAdded,
-      'totalSoldShares': totalSoldShares,
       'isDeleted': isDeleted,
       'isHidden': isHidden,
     };
   }
 
-  // factory ShareModel.fromMap(Map<String, dynamic> map) {
-  //   return ShareModel(
-  //     savingAccountPercentage: map['savingAccountPercentage'] as double,
-  //     proclamationNumber: map['proclamationNumber'] as String,
-  //     minimumNumberOfBuyer: map['minimumNumberOfBuyer'] as int,
-  //     maximumNumberOfBuyer: map['maximumNumberOfBuyer'] as int,
-  //     bankInformation:
-  //         List<String>.from(map['bankInformation'] as List<dynamic>),
-  //     shareImage: List<String>.from(map['shareImage'] as List<dynamic>),
-  //     unitSharePrice: map['unitSharePrice'] as double,
-  //     noOfShares: map['noOfShares'] as double,
-  //     divident: map['divident'] as double,
-  //     minimumPaymentInPercent: map['minimumPaymentInPercent'] as double,
-  //     minimumNumberOfSharesToBuy: map['minimumNumberOfSharesToBuy'] as double,
-  //     maximumNumberOfSharesToBuy: map['maximumNumberOfSharesToBuy'] as double,
-  //     requirement: map['requirement'] as String,
-  //     identification: map['identification'] as String,
-  //     companyID: map['companyID'] as String,
-  //     description: map['description'] as String,
-  //     searchKeyWords: List<String>.from(map['searchKeyWords'] as List<dynamic>),
-  //     returnDividentDescription:
-  //         List<String>.from(map['returnDividentDescription'] as List<dynamic>),
-  //     timeToReturnRemainPayment: map['timeToReturnRemainPayment'] as int,
-  //     currency: map['currency'] as String,
-  //     dateAdded: map['dateAdded'] as String,
-  //     isDeleted: map['isDeleted'] ?? false,
-  //     isHidden: map['isHidden'] ?? false,
-  //   );
-  // }
   factory ShareModel.fromMap(Map<String, dynamic> map) {
     return ShareModel(
-      savingAccountPercentage: (map['savingAccountPercentage'] is int)
-          ? (map['savingAccountPercentage'] as int).toDouble()
-          : map['savingAccountPercentage'] as double,
+      savingAccountPercentage:
+          (map['savingAccountPercentage'] as num).toDouble(),
       proclamationNumber: map['proclamationNumber'] as String,
       minimumNumberOfBuyer: map['minimumNumberOfBuyer'] as int,
       maximumNumberOfBuyer: map['maximumNumberOfBuyer'] as int,
@@ -194,24 +174,16 @@ class ShareModel {
           map['bankInformation'].map((item) => item as String)),
       shareImage:
           List<String>.from(map['shareImage'].map((item) => item as String)),
-      unitSharePrice: (map['unitSharePrice'] is int)
-          ? (map['unitSharePrice'] as int).toDouble()
-          : map['unitSharePrice'] as double,
-      noOfShares: (map['noOfShares'] is int)
-          ? (map['noOfShares'] as int).toDouble()
-          : map['noOfShares'] as double,
-      divident: (map['divident'] is int)
-          ? (map['divident'] as int).toDouble()
-          : map['divident'] as double,
-      minimumPaymentInPercent: (map['minimumPaymentInPercent'] is int)
-          ? (map['minimumPaymentInPercent'] as int).toDouble()
-          : map['minimumPaymentInPercent'] as double,
-      minimumNumberOfSharesToBuy: (map['minimumNumberOfSharesToBuy'] is int)
-          ? (map['minimumNumberOfSharesToBuy'] as int).toDouble()
-          : map['minimumNumberOfSharesToBuy'] as double,
-      maximumNumberOfSharesToBuy: (map['maximumNumberOfSharesToBuy'] is int)
-          ? (map['maximumNumberOfSharesToBuy'] as int).toDouble()
-          : map['maximumNumberOfSharesToBuy'] as double,
+      unitSharePrice: (map['unitSharePrice'] as num).toDouble(),
+      noOfShares: (map['noOfShares'] as num).toDouble(),
+      totalNumberOfShares: (map['totalNumberOfShares'] as num).toDouble(),
+      divident: (map['divident'] as num).toDouble(),
+      minimumPaymentInPercent:
+          (map['minimumPaymentInPercent'] as num).toDouble(),
+      minimumNumberOfSharesToBuy:
+          (map['minimumNumberOfSharesToBuy'] as num).toDouble(),
+      maximumNumberOfSharesToBuy:
+          (map['maximumNumberOfSharesToBuy'] as num).toDouble(),
       requirement: map['requirement'] as String,
       identification: map['identification'] as String,
       companyID: map['companyID'] as String,
@@ -223,9 +195,6 @@ class ShareModel {
       timeToReturnRemainPayment: map['timeToReturnRemainPayment'] as int,
       currency: map['currency'] as String,
       dateAdded: map['dateAdded'] as String,
-      totalSoldShares: (map['totalSoldShares'] is int)
-          ? (map['totalSoldShares'] as int).toDouble()
-          : map['totalSoldShares'] as double,
       isDeleted: map['isDeleted'] ?? false,
       isHidden: map['isHidden'] ?? false,
     );
@@ -238,10 +207,9 @@ class ShareModel {
 
   @override
   String toString() {
-    return 'ShareModel(savingAccountPercentage: $savingAccountPercentage, proclamationNumber: $proclamationNumber, minimumNumberOfBuyer: $minimumNumberOfBuyer, maximumNumberOfBuyer: $maximumNumberOfBuyer, bankInformation: $bankInformation, shareImage: $shareImage, unitSharePrice: $unitSharePrice, noOfShares: $noOfShares, divident: $divident, minimumPaymentInPercent: $minimumPaymentInPercent, minimumNumberOfSharesToBuy: $minimumNumberOfSharesToBuy, maximumNumberOfSharesToBuy: $maximumNumberOfSharesToBuy, requirement: $requirement, identification: $identification, companyID: $companyID, description: $description, searchKeyWords: $searchKeyWords, returnDividentDescription: $returnDividentDescription, timeToReturnRemainPayment: $timeToReturnRemainPayment, currency: $currency, dateAdded: $dateAdded, totalSoldShares: $totalSoldShares, isDeleted: $isDeleted,isHidden: $isHidden)';
+    return 'ShareModel(savingAccountPercentage: $savingAccountPercentage, proclamationNumber: $proclamationNumber, minimumNumberOfBuyer: $minimumNumberOfBuyer, maximumNumberOfBuyer: $maximumNumberOfBuyer, bankInformation: $bankInformation, shareImage: $shareImage, unitSharePrice: $unitSharePrice, noOfShares: $noOfShares, totalNumberOfShares: $totalNumberOfShares,divident: $divident, minimumPaymentInPercent: $minimumPaymentInPercent, minimumNumberOfSharesToBuy: $minimumNumberOfSharesToBuy, maximumNumberOfSharesToBuy: $maximumNumberOfSharesToBuy, requirement: $requirement, identification: $identification, companyID: $companyID, description: $description, searchKeyWords: $searchKeyWords, returnDividentDescription: $returnDividentDescription, timeToReturnRemainPayment: $timeToReturnRemainPayment, currency: $currency, dateAdded: $dateAdded, isDeleted: $isDeleted,isHidden: $isHidden)';
   }
 }
-
 
 // void main(List<String> args) {
 //   ShareModel M = ShareModel(

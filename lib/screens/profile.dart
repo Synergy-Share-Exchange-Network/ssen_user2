@@ -6,6 +6,7 @@ import 'package:ssen_user/Models/user_model.dart';
 import 'package:ssen_user/Screens/edit_profile.dart';
 import 'package:ssen_user/provider/user_provider.dart';
 import 'package:ssen_user/screens/assets.dart';
+import 'package:ssen_user/screens/components/owen_secondary.dart';
 import 'package:ssen_user/screens/history.dart';
 import 'package:ssen_user/screens/login.dart';
 import 'package:ssen_user/screens/setting.dart';
@@ -116,7 +117,10 @@ class UserProfile extends StatelessWidget {
                 ProfileMenuWidget(
                     endicon: true,
                     icon: Icons.remove_red_eye_outlined,
-                    onpress: () {},
+                    onpress: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const EditProfile()));
+                    },
                     textcolor: Colors.blue,
                     title: 'Preview'),
                 const SizedBox(
@@ -125,7 +129,12 @@ class UserProfile extends StatelessWidget {
                 ProfileMenuWidget(
                     endicon: true,
                     icon: Icons.post_add,
-                    onpress: () {},
+                    onpress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => OwenSecondary())));
+                    },
                     textcolor: Colors.blue,
                     title: 'Posts'),
                 const SizedBox(

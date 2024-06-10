@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,8 @@ import 'package:ssen_user/Models/company_profile_model.dart';
 import 'package:ssen_user/Repository/firebase/model%20methods/firebase_company_profile_methods.dart';
 import 'package:ssen_user/Repository/firebase/service%20methods/firebase_company_service_method.dart';
 import 'package:ssen_user/screens/partial%20screen/purchase.dart';
+import 'package:ssen_user/screens/state%20pages/company_profile.dart';
+import 'package:ssen_user/widget/analytics/graph_circular.dart';
 
 import '../Models/share_model.dart';
 import '../Models/user_model.dart';
@@ -85,7 +88,9 @@ class _ShareDetailState extends State<ShareDetail> {
     UserModel user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.company.name),
+      ),
       body: (MediaQuery.of(context).size.width < phoneSize)
           ? Stack(
               children: [
@@ -155,8 +160,8 @@ class _ShareDetailState extends State<ShareDetail> {
                                     (!widget.company.subscribersID
                                             .contains(user.identification))
                                         ? Container(
-                                            width: 160,
-                                            height: 40,
+                                            width: 150,
+                                            height: 30,
                                             child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 primary: Colors.blueAccent,
@@ -174,15 +179,15 @@ class _ShareDetailState extends State<ShareDetail> {
                                                 "Subscribe",
                                                 style: TextStyle(
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
                                                 ),
                                               ),
                                             ),
                                           )
                                         : Container(
-                                            width: 160,
-                                            height: 40,
+                                            width: 150,
+                                            height: 30,
                                             child: ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 primary: Colors.blueAccent,
@@ -200,8 +205,8 @@ class _ShareDetailState extends State<ShareDetail> {
                                                 "UnSubscribe",
                                                 style: TextStyle(
                                                   color: Colors.white,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
                                                 ),
                                               ),
                                             ),
@@ -340,16 +345,18 @@ class _ShareDetailState extends State<ShareDetail> {
                           Column(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width - 10,
-                                child: LinearPercentIndicator(
-                                  animation: true,
-                                  animationDuration: 2000,
-                                  lineHeight: 6,
-                                  percent: 0.8,
-                                  progressColor: Colors.green,
-                                  backgroundColor: Colors.green.shade200,
-                                ),
-                              ),
+                                  width: MediaQuery.of(context).size.width - 10,
+                                  child: PercentIndicator(
+                                      company: widget.company, lineheight: 6)
+                                  // LinearPercentIndicator(
+                                  //   animation: true,
+                                  //   animationDuration: 2000,
+                                  //   lineHeight: 6,
+                                  //   percent: 0.8,
+                                  //   progressColor: Colors.green,
+                                  //   backgroundColor: Colors.green.shade200,
+                                  // ),
+                                  ),
                               SizedBox(
                                 height: 20,
                               ),
@@ -358,6 +365,10 @@ class _ShareDetailState extends State<ShareDetail> {
                                   child: LineChartgraph(
                                     id: widget.company.identification,
                                   )),
+                              CircularIndicator(
+                                company: widget.company,
+                                radius: 10,
+                              )
                             ],
                           ),
                           Row(
@@ -500,15 +511,26 @@ class _ShareDetailState extends State<ShareDetail> {
                             margin: const EdgeInsets.all(5),
                             child: Row(
                               children: [
-                                Container(
-                                  width: 45,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: NetworkImage(
-                                              widget.company.logoImage.last))),
+                                GestureDetector(
+                                  onTap: (() {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Companyprofile(
+                                                  company: widget.company,
+                                                )));
+                                  }),
+                                  child: Container(
+                                    width: 45,
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: NetworkImage(widget
+                                                .company.logoImage.last))),
+                                  ),
                                 ),
                                 // const Expanded(flex: 1, child: SizedBox()),
                                 const SizedBox(
@@ -721,16 +743,19 @@ class _ShareDetailState extends State<ShareDetail> {
                           Column(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width * .45,
-                                child: LinearPercentIndicator(
-                                  animation: true,
-                                  animationDuration: 2000,
-                                  lineHeight: 6,
-                                  percent: 0.8,
-                                  progressColor: Colors.green,
-                                  backgroundColor: Colors.green.shade200,
-                                ),
-                              ),
+                                  width:
+                                      MediaQuery.of(context).size.width * .45,
+                                  child: PercentIndicator(
+                                      company: widget.company, lineheight: 6)
+                                  // LinearPercentIndicator(
+                                  //   animation: true,
+                                  //   animationDuration: 2000,
+                                  //   lineHeight: 6,
+                                  //   percent: 0.8,
+                                  //   progressColor: Colors.green,
+                                  //   backgroundColor: Colors.green.shade200,
+                                  // ),
+                                  ),
                               SizedBox(
                                 height: 20,
                               ),
@@ -740,6 +765,14 @@ class _ShareDetailState extends State<ShareDetail> {
                                   child: LineChartgraph(
                                     id: widget.company.identification,
                                   )),
+                              Row(
+                                children: [
+                                  CircularIndicator(
+                                    company: widget.company,
+                                    radius: 10,
+                                  )
+                                ],
+                              )
                             ],
                           )
                         ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ssen_user/utils/constants.dart';
+import 'package:ssen_user/widget/analytics/graph_bar.dart';
 
 import '../../services/theme/text_theme.dart';
 import '../../utils/constants/colors.dart';
@@ -16,33 +17,25 @@ class Anlaytics extends StatelessWidget {
   Widget build(BuildContext context) {
     bool dark = SHelperFunction.isDarkMode(context);
     return Scaffold(
-      drawer: NavBar(),
-      appBar: (MediaQuery.of(context).size.width > phoneSize)
-          ? PreferredSize(preferredSize: Size.zero, child: AppBar())
-          : AppBar(
-              actions: const [
-                  Icon(Iconsax.notification),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(Iconsax.search_normal),
-                  SizedBox(
-                    width: 20,
-                  )
-                ],
-              backgroundColor:
-                  dark ? SColors.darkContainer : SColors.lightContainer
+        drawer: NavBar(),
+        appBar: (MediaQuery.of(context).size.width > phoneSize)
+            ? PreferredSize(preferredSize: Size.zero, child: AppBar())
+            : AppBar(
+                actions: const [
+                    Icon(Iconsax.notification),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(Iconsax.search_normal),
+                    SizedBox(
+                      width: 20,
+                    )
+                  ],
+                backgroundColor:
+                    dark ? SColors.darkContainer : SColors.lightContainer
 
-              // elevation: 1,
-              ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // LineChartgraph(),
-            Text("data")
-          ],
-        ),
-      ),
-    );
+                // elevation: 1,
+                ),
+        body: Bar());
   }
 }

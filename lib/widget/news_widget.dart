@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:ssen_user/Models/announcement_model.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
 import 'package:ssen_user/screens/announcment_detail.dart';
 
 class NewsWidget extends StatelessWidget {
   const NewsWidget({
     Key? key,
     required this.announcement,
+    required this.company,
   }) : super(key: key);
   final AnnouncementModel announcement;
+  final CompanyProfileModel company;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +31,7 @@ class NewsWidget extends StatelessWidget {
                   MaterialPageRoute(
                       builder: ((context) => AnnouncementDetail(
                             announcement: announcement,
+                            company: company,
                           ))));
             },
             child: Container(

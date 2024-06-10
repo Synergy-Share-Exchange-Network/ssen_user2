@@ -43,9 +43,11 @@ class Public extends StatelessWidget {
       stream: FirebaseFirestore.instance
           .collection(CollectionName.organization)
           .orderBy('createdDay', descending: true)
+          .where('isPublic', isEqualTo: true)
           .snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
+          print(snapshot.error);
           return Text('Error: ${snapshot.error}');
         }
 

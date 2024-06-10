@@ -2,6 +2,7 @@ import 'package:ssen_user/Models/purchase_model.dart';
 import 'package:ssen_user/Models/secondry_post_share.dart';
 import 'package:ssen_user/Repository/firebase/model%20methods/firebase_secondry_post_share_methods.dart';
 import 'package:ssen_user/utils/date_method.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../Models/company_profile_model.dart';
 import '../../../../Models/company_requirement_on_secondry_market_model.dart';
@@ -17,12 +18,12 @@ class FirebaseSecondaryPurchaseSellServiceMethod {
     String date = await DateMethod().getCurrentDateAndTime();
 
     String res = "some error has occured";
-    // secondaryPost.date = date;
-    // secondaryPost.identification = Uuid().v1();
-    // secondaryPost.companyID = company.identification;
+    secondaryPost.date = date;
+    secondaryPost.identification = Uuid().v1();
+    secondaryPost.companyID = company.identification;
     secondaryPost.purchaseID = purchase.identification;
     secondaryPost.shareID = purchase.shareID;
-    // secondaryPost.sellerID = user.identification;
+    secondaryPost.sellerID = user.identification;
 
     res = await verifySecondaryMarketSell(
         purchase, secondaryPost, user, companyRequirement);
