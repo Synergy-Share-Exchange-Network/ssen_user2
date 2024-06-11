@@ -12,6 +12,7 @@ import 'package:ssen_user/Repository/firebase/service%20methods/secondary%20purc
 import 'package:ssen_user/provider/user_provider.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
+import 'package:ssen_user/utils/pdf/app.dart';
 import 'package:ssen_user/utils/utils.dart';
 
 class ShareInfoWidget extends StatelessWidget {
@@ -113,154 +114,185 @@ class ShareInfoWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              child: ElevatedButton(
-                onPressed: () {
-                  TextEditingController numberOfShareController =
-                      TextEditingController();
-                  TextEditingController pricePerShareContoller =
-                      TextEditingController();
+            Column(
+              children: [
+                SizedBox(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      TextEditingController numberOfShareController =
+                          TextEditingController();
+                      TextEditingController pricePerShareContoller =
+                          TextEditingController();
 
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Secondary Post'),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextField(
-                              controller: numberOfShareController,
-                              decoration:
-                                  InputDecoration(hintText: "Number of Share "),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            TextField(
-                              controller: pricePerShareContoller,
-                              decoration:
-                                  InputDecoration(hintText: "Share Per Price"),
-                            ),
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // Close the dialog
-                            },
-                            child: Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              showDialog(
-                                context: context,
-                                builder: (ctx) => AlertDialog(
-                                  content: Container(
-                                    padding: EdgeInsets.all(20),
-                                    height: 125,
-                                    child: Column(
-                                      children: const [
-                                        CircularProgressIndicator(),
-                                        SizedBox(
-                                          height: 20,
-                                        ),
-                                        Text("Posting ..."),
-                                      ],
-                                    ),
-                                  ),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Secondary Post'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  controller: numberOfShareController,
+                                  decoration: InputDecoration(
+                                      hintText: "Number of Share "),
                                 ),
-                              );
-                              SecondryPostShareModel secondaryPost =
-                                  SecondryPostShareModel(
-                                      numberOfShare: int.parse(
-                                          numberOfShareController.text.trim()),
-                                      pricePerShare: double.parse(
-                                          pricePerShareContoller.text.trim()));
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                TextField(
+                                  controller: pricePerShareContoller,
+                                  decoration: InputDecoration(
+                                      hintText: "Share Per Price"),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                child: Text('Cancel'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                      content: Container(
+                                        padding: EdgeInsets.all(20),
+                                        height: 125,
+                                        child: Column(
+                                          children: const [
+                                            CircularProgressIndicator(),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text("Posting ..."),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                  SecondryPostShareModel secondaryPost =
+                                      SecondryPostShareModel(
+                                          numberOfShare: int.parse(
+                                              numberOfShareController.text
+                                                  .trim()),
+                                          pricePerShare: double.parse(
+                                              pricePerShareContoller.text
+                                                  .trim()));
 
-                              String res =
-                                  await FirebaseSecondaryPurchaseSellServiceMethod()
-                                      .createSecondaryMarketSell(purchase,
-                                          secondaryPost, user, req, company);
-                              // print("ooooooooooooooooooooooooooooooooooooooo");
-                              // print(res);
-                              // .createSecondaryMarketBuy(
-                              //     secondary, share, user, purchase);
-                              Navigator.pop(context);
-                              if (res == "success") {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    content: Container(
-                                      padding: EdgeInsets.all(20),
-                                      height: 105,
-                                      child: Column(
-                                        children: [
-                                          const Text(
-                                              "Succesfully Posted Share."),
-                                          const SizedBox(
-                                            height: 10,
+                                  String res =
+                                      await FirebaseSecondaryPurchaseSellServiceMethod()
+                                          .createSecondaryMarketSell(
+                                              purchase,
+                                              secondaryPost,
+                                              user,
+                                              req,
+                                              company);
+                                  // print("ooooooooooooooooooooooooooooooooooooooo");
+                                  // print(res);
+                                  // .createSecondaryMarketBuy(
+                                  //     secondary, share, user, purchase);
+                                  Navigator.pop(context);
+                                  if (res == "success") {
+                                    showDialog(
+                                      context: context,
+                                      builder: (ctx) => AlertDialog(
+                                        content: Container(
+                                          padding: EdgeInsets.all(20),
+                                          height: 105,
+                                          child: Column(
+                                            children: [
+                                              const Text(
+                                                  "Succesfully Posted Share."),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              ElevatedButton(
+                                                  onPressed: () async {
+                                                    // await FlutterSecureStorageEmailAndPasswordMethod()
+                                                    //     .signInUsingLocalData();
+                                                    // Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    // Navigator.pop(context);
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary:
+                                                              Colors.green),
+                                                  child:
+                                                      const Text("   Okay   "))
+                                            ],
                                           ),
-                                          ElevatedButton(
-                                              onPressed: () async {
-                                                // await FlutterSecureStorageEmailAndPasswordMethod()
-                                                //     .signInUsingLocalData();
-                                                // Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                // Navigator.pop(context);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.green),
-                                              child: const Text("   Okay   "))
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (ctx) => AlertDialog(
-                                    content: Container(
-                                      padding: EdgeInsets.all(20),
-                                      height: 125,
-                                      child: Column(
-                                        children: [
-                                          Text("Error: $res",
-                                              style:
-                                                  TextStyle(color: Colors.red)),
-                                          const SizedBox(
-                                            height: 10,
+                                    );
+                                  } else {
+                                    showDialog(
+                                      context: context,
+                                      builder: (ctx) => AlertDialog(
+                                        content: Container(
+                                          padding: EdgeInsets.all(20),
+                                          height: 125,
+                                          child: Column(
+                                            children: [
+                                              Text("Error: $res",
+                                                  style: TextStyle(
+                                                      color: Colors.red)),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              ElevatedButton(
+                                                  onPressed: () async {
+                                                    // await FlutterSecureStorageEmailAndPasswordMethod()
+                                                    //     .signInUsingLocalData();
+                                                    // Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.red),
+                                                  child:
+                                                      const Text("   Okay   "))
+                                            ],
                                           ),
-                                          ElevatedButton(
-                                              onPressed: () async {
-                                                // await FlutterSecureStorageEmailAndPasswordMethod()
-                                                //     .signInUsingLocalData();
-                                                // Navigator.pop(context);
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.red),
-                                              child: const Text("   Okay   "))
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                            child: Text('Sell'),
-                          ),
-                        ],
+                                    );
+                                  }
+                                },
+                                child: Text('Sell'),
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                child: Text('      Sell      '),
-              ),
-            ),
+                    child: Text('      Sell      '),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                    onPressed: (() {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Pdf1(
+                                    purchase: purchase,
+                                  )));
+                    }),
+                    child: Text(
+                      'View validation',
+                    ))
+              ],
+            )
           ],
         ),
       ),

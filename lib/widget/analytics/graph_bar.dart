@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:intl/intl.dart';
+import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Repository/firebase/model%20methods/firebase_company_profile_methods.dart';
 import 'dart:math'; // Import for random number generation
 import '../../Models/todaySales.dart';
 import '../../Repository/firebase/model methods/dailySalesFetcher.dart';
@@ -86,7 +88,7 @@ class Bar extends StatelessWidget {
         final List<BarChartModel> data = salesData.map((sale) {
           var parts = sale.split(', ');
           String companyName =
-              parts[0]; // Assuming the company name is in the first part
+              parts[1]; // Assuming the company name is in the first part
           double primary = double.parse(parts[1]);
           double secondary = double.parse(parts[2]);
 

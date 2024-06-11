@@ -3,16 +3,28 @@ import 'package:ssen_user/Models/share_model.dart';
 import 'package:ssen_user/Models/user_model.dart';
 import 'package:ssen_user/Repository/firebase/model%20methods/firebase_purchase_methods.dart';
 import 'package:ssen_user/utils/date_method.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../Models/purchase_model.dart';
 
 class FirebaseSecondaryPurchaseBuyServiceMethod {
   Future<String> createSecondaryMarketBuy(SecondryPostShareModel secondary,
-      ShareModel share, UserModel user, PurchaseModel purchase) async {
+      ShareModel share, UserModel user) async {
+    print('inside');
     String res = "some error has occured";
     try {
-      //Creates secondary buy request
+      PurchaseModel purchase = PurchaseModel();
       String date = await DateMethod().getCurrentDateAndTime();
+      purchase.identification = Uuid().v1();
+      purchase.firstName = user.firstName;
+      purchase.lastName = user.lastName;
+      purchase.companyID = share.companyID;
+      purchase.phoneNumber = user.phoneNumber;
+      purchase.date = date;
+      purchase.userID = user.identification;
+      purchase.secondaryId = secondary.identification;
+
+      //Creates secondary buy request
       purchase.shareID = share.identification;
       purchase.secondaryId = secondary.identification;
       purchase.isSecondary = true;
@@ -31,6 +43,9 @@ class FirebaseSecondaryPurchaseBuyServiceMethod {
       //     purchase.identification, 'acceptedPayment', purchase.acceptedPayment);
       // FirebasePurchaseMethods()
       //     .update(purchase.identification, 'isSecondary', purchase.isSecondary);
+      print("7777777777777777777777777777777777777777");
+      print(purchase);
+      print("7777777777777777777777777777777777777777");
       FirebasePurchaseMethods().create(purchase, share, user);
 
       //Asks verification by calling verifyCompany()

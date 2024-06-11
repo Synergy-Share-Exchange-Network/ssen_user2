@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Models/share_model.dart';
 import 'package:ssen_user/screens/donation_detail.dart';
 import 'package:ssen_user/services/theme/text_theme.dart';
 import 'package:ssen_user/utils/constants.dart';
@@ -19,15 +20,16 @@ class DonationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool dark = SHelperFunction.isDarkMode(context);
+
     return (MediaQuery.of(context).size.width < phoneSize)
         ? InkWell(
             onTap: () {
-              // Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => DonationDetail(
-              //               company: company,
-              //             )));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DonationDetail(
+                            company: company,
+                          )));
             },
             child: Container(
               height: 110,

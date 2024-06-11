@@ -121,7 +121,7 @@ class _PercentIndicatorState extends State<PercentIndicator> {
           animation: true,
           animationDuration: 1000,
           lineHeight: widget.lineheight,
-          percent: 0.8,
+          percent: parsedTotal,
           progressColor: Colors.green,
           backgroundColor: Colors.green.shade100,
         )

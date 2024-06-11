@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'package:ssen_user/Models/company_profile_model.dart';
+import 'package:ssen_user/Models/user_model.dart';
 import 'package:ssen_user/Repository/firebase/key%20words/collection_name.dart';
+import 'package:ssen_user/provider/user_provider.dart';
 import 'package:ssen_user/utils/constants.dart';
 import 'package:ssen_user/utils/constants/colors.dart';
 import 'package:ssen_user/utils/constants/image_Strings.dart';
@@ -28,6 +31,7 @@ class _SubscribersState extends State<Subscribers> {
   @override
   Widget build(BuildContext context) {
     bool dark = SHelperFunction.isDarkMode(context);
+    UserModel user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       drawer: (MediaQuery.of(context).size.width > phoneSize) ? null : NavBar(),
@@ -69,12 +73,22 @@ class _SubscribersState extends State<Subscribers> {
                     document.data() as Map<String, dynamic>;
                 return CompanyProfileModel.fromMap(data);
               }).toList();
+              List<CompanyProfileModel> subcribed = [];
+              for (var company in companies) {
+                if (user.companiesId.contains(company.identification)) {
+                  subcribed.add(company);
+                }
+                // if (user..contains(announcement.companyID)) {
+                //   subcribed.add(announcement);
+                // }
+
+              }
 
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ...companies.map((company) {
+                    ...subcribed.map((company) {
                       return MiniCompanySub(company: company);
                     }).toList(),
                     TextButton(
@@ -157,19 +171,33 @@ class _SubscribersState extends State<Subscribers> {
                     document.data() as Map<String, dynamic>;
                 return CompanyProfileModel.fromMap(data);
               }).toList();
-
+              List<CompanyProfileModel> subcribed = [];
+              List<CompanyProfileModel> public = [];
+              List<CompanyProfileModel> donation = [];
+              for (var company in companies) {
+                if (user.companiesId.contains(company.identification)) {
+                  subcribed.add(company);
+                }
+              }
+              for (var company in subcribed) {
+                if (company.isPublic) {
+                  public.add(company);
+                } else {
+                  donation.add(company);
+                }
+              }
               // Apply filter based on selection
               List<CompanyProfileModel> filteredCompanies;
               if (isAllSelected) {
-                filteredCompanies = companies;
+                filteredCompanies = subcribed;
               } else if (isPublicSelected) {
                 // filteredCompanies = companies.where((company) => company.isPublic).toList();
-                filteredCompanies = companies;
+                filteredCompanies = public;
               } else if (isDonationSelected) {
                 // filteredCompanies = companies.where((company) => company.isDonation).toList();
-                filteredCompanies = companies;
+                filteredCompanies = donation;
               } else {
-                filteredCompanies = companies;
+                filteredCompanies = subcribed;
               }
 
               return ListView.builder(

@@ -14,17 +14,17 @@ class FirebasePurchaseMethods implements FirebasePurchaseAbstract {
     String res = "";
     try {
       print("in");
-      purchase.companyID = share.companyID;
-      purchase.userID = user.identification;
+      // purchase.companyID = share.companyID;
+      // purchase.userID = user.identification;
       // purchase.firstName = user.firstName;
       // purchase.lastName = user.lastName;
-      purchase.bankAccount = share.bankInformation[0];
+      // purchase.bankAccount = share.bankInformation[0];
       // purchase.houseNumber = user.houseNumber;
       // purchase.kebeleIDPhoto = user.kebeleIDPhoto;
       // purchase.kebele = user.kebele;
       // purchase.nationality = user.nationality;
       // purchase.email = user.email;
-      purchase.shareID = share.identification;
+      // purchase.shareID = share.identification;
       // purchase.subCity = user.subCity;
       // purchase.woreda = user.woreda;
       // purchase.phoneNumber = user.phoneNumber;
@@ -61,9 +61,14 @@ class FirebasePurchaseMethods implements FirebasePurchaseAbstract {
   }
 
   @override
-  Future<PurchaseModel> read(String id) {
-    // TODO: implement read
-    throw UnimplementedError();
+  Future<PurchaseModel> read(String id) async {
+    final snap = await FirebaseFirestore.instance
+        .collection(CollectionName.purchase)
+        .doc(id)
+        .get();
+
+    Map<String, dynamic>? shareData = snap.data();
+    return PurchaseModel.fromMap(shareData!);
   }
 
   @override
